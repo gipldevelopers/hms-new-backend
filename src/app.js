@@ -37,7 +37,7 @@ app.use("/api", require("./modules"));
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "OK",
-    message: "Project API Running ✅",
+    message: "HMS Platform API Online ✅",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });

@@ -11,7 +11,31 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String?
+  password  String
+  role      Role     @default(SUPERADMIN)
   files     File[]
+  branchId  String?
+  branch    Branch?  @relation(fields: [branchId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  SUPERADMIN
+  BRANCH_ADMIN
+}
+
+model Branch {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  code      String   @unique
+  email     String   @unique
+  contact   String
+  address   String
+  city      String
+  state     String
+  isActive  Boolean  @default(true)
+  users     User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

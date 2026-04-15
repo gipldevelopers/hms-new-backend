@@ -1,22 +1,35 @@
 const prisma = require('./prisma');
+const bcrypt = require('bcryptjs');
 
 async function main() {
-  const email = 'admin@project.com';
+  const superAdminEmail = 'super.developer@gohilinfotech.com';
+  const superAdminPassword = 'super@123';
+  const hashedPassword = await bcrypt.hash(superAdminPassword, 10);
 
-  const existingUser = await prisma.user.findUnique({
-    where: { email }
+  const existingSuperAdmin = await prisma.user.findUnique({
+    where: { email: superAdminEmail }
   });
 
-  if (!existingUser) {
+  if (!existingSuperAdmin) {
     await prisma.user.create({
       data: {
-        email,
-        name: 'Admin User',
+        email: superAdminEmail,
+        name: 'Super Admin',
+        password: hashedPassword,
+        role: 'SUPERADMIN',
       },
     });
-    console.log(`Admin user ${email} is created.`);
+    console.log(`Super Admin ${superAdminEmail} created.`);
   } else {
-    console.log(`Admin user ${email} already exists. Skipping.`);
+    // Update existing user password and role just in case
+    await prisma.user.update({
+      where: { email: superAdminEmail },
+      data: {
+        password: hashedPassword,
+        role: 'SUPERADMIN',
+      }
+    });
+    console.log(`Super Admin ${superAdminEmail} updated.`);
   }
 }
 
