@@ -36,6 +36,7 @@ model Branch {
   state     String
   isActive  Boolean  @default(true)
   users     User[]
+  assignments BranchAssignment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -53,4 +54,59 @@ model File {
   updatedAt    DateTime @updatedAt
 
   @@map("files")
+}
+model MasterData {
+  id          String             @id @default(uuid())
+  name        String
+  code        String             @unique
+  description String?            @db.Text
+  fields      Json               // Array of field configurations: {id, type, label, required, placeholder}
+  records     MasterDataRecord[]
+  assignments BranchAssignment[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@map("master_data")
+}
+
+model MasterDataRecord {
+  id           String     @id @default(uuid())
+  masterDataId String
+  masterData   MasterData @relation(fields: [masterDataId], references: [id], onDelete: Cascade)
+  data         Json       // Key-value pairs: { "fieldName": "value" }
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("master_data_records")
+}
+
+model Template {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  category    String   @default("prescription")
+  blocks      Json
+  assignments BranchAssignment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("document_templates")
+}
+
+model BranchAssignment {
+  id           String      @id @default(uuid())
+  branchId     String
+  branch       Branch      @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  // Link to either MasterData or Template (one per row or handle both)
+  masterDataId String?
+  masterData   MasterData? @relation(fields: [masterDataId], references: [id], onDelete: Cascade)
+  
+  templateId   String?
+  template     Template?   @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime    @default(now())
+
+  @@index([branchId])
+  @@map("branch_assignments")
 }

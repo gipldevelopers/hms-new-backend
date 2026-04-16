@@ -1,5 +1,5 @@
 {
-  "name": "project-name-backend",
+  "name": "gvoice-hms-backend",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
@@ -10,7 +10,7 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:reset": "prisma db push --force-reset",
-    "db:seed": "node src/database/seed.js",
+    "db:seed": "node prisma/seed.js",
     "db:studio": "prisma studio",
     "db:dev": "prisma db push && prisma generate"
   },

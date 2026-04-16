@@ -2,86 +2,218 @@ const prisma = require('../src/database/prisma');
 const bcrypt = require('bcryptjs');
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  try {
+    console.log('\n🚀 Starting Database Seeding Process...');
+    await prisma.$connect();
+    console.log('✅ Connection to Database Established.');
 
-  // 1. Create Super Admin User
-  const adminPassword = await bcrypt.hash('super@123', 10);
-  const admin = await prisma.user.upsert({
-    where: { email: 'super.developer@gohilinfotech.com' },
-    update: {},
-    create: {
-      email: 'super.developer@gohilinfotech.com',
-      name: 'Super Admin',
-      password: adminPassword,
-      role: 'SUPERADMIN',
-    },
-  });
-  console.log('✅ Super Admin created: super.developer@gohilinfotech.com / super@123');
-
-  // 2. Create Branches
-  const branches = [
-    {
-      name: 'Apollo Hospital Ahmedabad',
-      code: 'AHD001',
-      email: 'ahmedabad@apollo.com',
-      contact: '+91 79 1234 5678',
-      address: 'Plot No. 1A, SG Highway',
-      city: 'Ahmedabad',
-      state: 'Gujarat',
-      isActive: true,
-    },
-    {
-      name: 'Fortis Hospital Bangalore',
-      code: 'BLR001',
-      email: 'bangalore@fortis.com',
-      contact: '+91 80 9876 5432',
-      address: '154/9, Bannerghatta Road',
-      city: 'Bangalore',
-      state: 'Karnataka',
-      isActive: true,
-    },
-    {
-      name: 'Max Healthcare Delhi',
-      code: 'DEL001',
-      email: 'delhi@max.com',
-      contact: '+91 11 2345 6789',
-      address: '1-2, Press Enclave Road, Saket',
-      city: 'New Delhi',
-      state: 'Delhi',
-      isActive: true,
-    },
-    {
-      name: 'Manipal Hospital Mumbai',
-      code: 'MUM001',
-      email: 'mumbai@manipal.com',
-      contact: '+91 22 8765 4321',
-      address: 'Parel East, Lal Baug',
-      city: 'Mumbai',
-      state: 'Maharashtra',
-      isActive: true,
-    },
-    {
-      name: 'Medanta Hospital Gurugram',
-      code: 'GUR001',
-      email: 'gurugram@medanta.com',
-      contact: '+91 124 456 7890',
-      address: 'Sector 38, CH Baktawar Singh Rd',
-      city: 'Gurugram',
-      state: 'Haryana',
-      isActive: true,
-    },
-  ];
-
-  for (const branch of branches) {
-    await prisma.branch.upsert({
-      where: { code: branch.code },
-      update: branch,
-      create: branch,
+    // 1. Create Super Admin User
+    const adminEmail = 'super.developer@gohilinfotech.com';
+    console.log(`\n🔹 Processing Super Admin: ${adminEmail}...`);
+    
+    const existingAdmin = await prisma.user.findUnique({
+      where: { email: adminEmail }
     });
-  }
 
-  console.log('✅ Branches seeded successfully!');
-  console.log('✅ Seeding complete!');
+    if (!existingAdmin) {
+      const adminPassword = await bcrypt.hash('super@123', 10);
+      await prisma.user.create({
+        data: {
+          email: adminEmail,
+          name: 'Super Admin',
+          password: adminPassword,
+          role: 'SUPERADMIN',
+        },
+      });
+      console.log(`✅ Added: Super Admin (${adminEmail})`);
+    } else {
+      console.log(`ℹ️ Skipped: Super Admin (${adminEmail}) (Already exists)`);
+    }
+
+    // 2. Create Branches
+    const branches = [
+      {
+        name: 'Apollo Hospital Ahmedabad',
+        code: 'AHD001',
+        email: 'ahmedabad@apollo.com',
+        contact: '+91 79 1234 5678',
+        address: 'Plot No. 1A, SG Highway',
+        city: 'Ahmedabad',
+        state: 'Gujarat',
+        isActive: true,
+      },
+      {
+        name: 'Fortis Hospital Bangalore',
+        code: 'BLR001',
+        email: 'bangalore@fortis.com',
+        contact: '+91 80 9876 5432',
+        address: '154/9, Bannerghatta Road',
+        city: 'Bangalore',
+        state: 'Karnataka',
+        isActive: true,
+      },
+      {
+        name: 'Max Healthcare Delhi',
+        code: 'DEL001',
+        email: 'delhi@max.com',
+        contact: '+91 11 2345 6789',
+        address: '1-2, Press Enclave Road, Saket',
+        city: 'New Delhi',
+        state: 'Delhi',
+        isActive: true,
+      },
+      {
+        name: 'Manipal Hospital Mumbai',
+        code: 'MUM001',
+        email: 'mumbai@manipal.com',
+        contact: '+91 22 8765 4321',
+        address: 'Parel East, Lal Baug',
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        isActive: true,
+      },
+      {
+        name: 'Medanta Hospital Gurugram',
+        code: 'GUR001',
+        email: 'gurugram@medanta.com',
+        contact: '+91 124 456 7890',
+        address: 'Sector 38, CH Baktawar Singh Rd',
+        city: 'Gurugram',
+        state: 'Haryana',
+        isActive: true,
+      },
+    ];
+
+    console.log('\n🏢 Processing Hospital Branches...');
+
+    for (const branch of branches) {
+      try {
+        const existingBranch = await prisma.branch.findUnique({
+          where: { code: branch.code }
+        });
+
+        if (!existingBranch) {
+          await prisma.branch.create({ data: branch });
+          console.log(`✅ Added: Branch - ${branch.name} (${branch.code})`);
+        } else {
+          console.log(`ℹ️ Skipped: Branch - ${branch.name} (${branch.code}) (Already exists)`);
+        }
+      } catch (branchError) {
+        console.error(`❌ Failed to process branch ${branch.name}:`, branchError.message);
+      }
+    }
+
+    // 3. Create Master Data Configurations
+    const masterDataConfigs = [
+      {
+        name: 'Doctors Directory',
+        code: 'DOC_DIR',
+        description: 'Primary registry for all hospital consultants and specialists.',
+        fields: [
+          { id: 'f1', type: 'text', label: 'Doctor Name', required: true, placeholder: 'Dr. John Doe' },
+          { id: 'f2', type: 'text', label: 'Specialization', required: true, placeholder: 'Cardiology' },
+          { id: 'f3', type: 'text', label: 'License Number', required: true, placeholder: 'MD-99823' },
+          { id: 'f4', type: 'email', label: 'Contact Email', required: false, placeholder: 'john@hospital.com' },
+          { id: 'f5', type: 'text', label: 'OPD Timing', required: false, placeholder: '10:00 AM - 04:00 PM' }
+        ]
+      },
+      {
+        name: 'Clinical Services',
+        code: 'SRV_LST',
+        description: 'Comprehensive list of billable clinical and surgical services.',
+        fields: [
+          { id: 's1', type: 'text', label: 'Service Name', required: true, placeholder: 'Consultation Fee' },
+          { id: 's2', type: 'text', label: 'Department', required: true, placeholder: 'General Medicine' },
+          { id: 's3', type: 'number', label: 'Base Price (INR)', required: true, placeholder: '500' }
+        ]
+      },
+      {
+        name: 'Laboratory Profiles',
+        code: 'LAB_PRF',
+        description: 'Standard diagnostic test packages and individual tests.',
+        fields: [
+          { id: 'l1', type: 'text', label: 'Test Code', required: true, placeholder: 'CBC-01' },
+          { id: 'l2', type: 'text', label: 'Test Name', required: true, placeholder: 'Complete Blood Count' },
+          { id: 'l3', type: 'text', label: 'Normal Range', required: false, placeholder: '13.5 - 17.5 g/dL' }
+        ]
+      }
+    ];
+
+    console.log('\n📊 Processing Master Data Configurations...');
+    for (const config of masterDataConfigs) {
+      try {
+        const existing = await prisma.masterData.findUnique({ where: { code: config.code } });
+        if (!existing) {
+          await prisma.masterData.create({ data: config });
+          console.log(`✅ Added: Master Data - ${config.name} (${config.code})`);
+        } else {
+          console.log(`ℹ️ Skipped: Master Data - ${config.name} (${config.code}) (Already exists)`);
+        }
+      } catch (err) {
+        console.error(`❌ Failed to seed Master Data ${config.name}:`, err.message);
+      }
+    }
+
+    // 4. Create Document Templates
+    const documentTemplates = [
+      {
+        name: 'Standard Digital Prescription',
+        code: 'STD_RX_01',
+        category: 'prescription',
+        blocks: [
+          { id: 'b1', type: 'header', label: 'GVoice Digital Header' },
+          { id: 'b2', type: 'patient', label: 'Primary Patient Info' },
+          { id: 'b3', type: 'diagnosis', label: 'Clinical Findings' },
+          { id: 'b4', type: 'medicine', label: 'Rx Medications' },
+          { id: 'b5', type: 'signature', label: 'Doctor Authentication' }
+        ]
+      },
+      {
+        name: 'Patient Discharge Summary',
+        code: 'DISCH_SUMM_A1',
+        category: 'discharge',
+        blocks: [
+          { id: 'd1', type: 'header', label: 'Hospital Identity' },
+          { id: 'd2', type: 'patient', label: 'Patient Demographics' },
+          { id: 'd3', type: 'vitals', label: 'Final Vital Signs' },
+          { id: 'd4', type: 'diagnosis', label: 'Final Diagnosis & Summary' },
+          { id: 'd5', type: 'text', label: 'Follow-up Advice' },
+          { id: 'd6', type: 'signature', label: 'Approved By' }
+        ]
+      },
+      {
+        name: 'Pathology Lab Report',
+        code: 'LAB_REP_002',
+        category: 'lab',
+        blocks: [
+          { id: 'l1', type: 'header', label: 'Clinical Laboratory Header' },
+          { id: 'l2', type: 'patient', label: 'Sample Information' },
+          { id: 'l3', type: 'lab', label: 'Test Values & Results' },
+          { id: 'l5', type: 'signature', label: 'Pathologist Signature' }
+        ]
+      }
+    ];
+
+    console.log('\n📄 Processing Document Templates...');
+    for (const temp of documentTemplates) {
+      try {
+        const existing = await prisma.template.findUnique({ where: { code: temp.code } });
+        if (!existing) {
+          await prisma.template.create({ data: temp });
+          console.log(`✅ Added: Template - ${temp.name} (${temp.code})`);
+        } else {
+          console.log(`ℹ️ Skipped: Template - ${temp.name} (${temp.code}) (Already exists)`);
+        }
+      } catch (err) {
+        console.error(`❌ Failed to seed Template ${temp.name}:`, err.message);
+      }
+    }
+
+    console.log('\n✨ Database Seeding Processed Successfully!');
+  } catch (globalError) {
+    console.error('\n💥 Critical Error during seeding:', globalError.message);
+    throw globalError;
+  }
 }
 
 main()
