@@ -30,6 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 // Static Uploads
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
+// Multi-tenant Middleware
+const tenantResolver = require("./middleware/tenant-resolver");
+app.use(tenantResolver);
+
 // Routes
 app.use("/api", require("./modules"));
 

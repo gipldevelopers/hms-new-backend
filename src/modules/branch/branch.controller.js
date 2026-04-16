@@ -57,6 +57,33 @@ const getStats = async (req, res) => {
   }
 };
 
+const initTables = async (req, res) => {
+  try {
+    await branchService.initTables(req.params.id);
+    res.status(200).json({ success: true, message: "Tables push successful" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const syncAllBranches = async (req, res) => {
+  try {
+    const results = await branchService.syncAll();
+    res.status(200).json({ success: true, data: results });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getSchemaInfo = async (req, res) => {
+  try {
+    const info = await branchService.getSchemaInfo();
+    res.status(200).json({ success: true, data: info });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createBranch,
   getAllBranches,
@@ -64,4 +91,7 @@ module.exports = {
   updateBranch,
   deleteBranch,
   getStats,
+  initTables,
+  syncAllBranches,
+  getSchemaInfo
 };

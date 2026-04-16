@@ -26,19 +26,28 @@ enum Role {
 }
 
 model Branch {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  code      String   @unique
-  email     String   @unique
-  contact   String
-  address   String
-  city      String
-  state     String
-  isActive  Boolean  @default(true)
-  users     User[]
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  email       String   @unique
+  contact     String
+  address     String
+  city        String
+  state       String
+  active      Boolean  @default(true)
+  
+  // Multi-tenant configuration
+  dbName      String?  @unique // unique database name for this tenant
+  dbUser      String?
+  dbPassword  String?
+  
+  isDbInitialized Boolean @default(false)
+  schemaVersion   String?
+  
+  users       User[]
   assignments BranchAssignment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model File {

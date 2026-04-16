@@ -1,0 +1,97 @@
+// prisma/tenant.prisma
+generator tenant {
+  provider = "prisma-client-js"
+  output   = "../src/generated/tenant-client"
+}
+
+datasource tenant_db {
+  provider = "postgresql"
+}
+
+model TenantUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("STAFF")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Patient {
+  id          String    @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String?
+  phone       String?
+  dateOfBirth DateTime?
+  gender      String?
+  bloodGroup  String?
+  address     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  appointments Appointment[]
+
+  @@map("patients")
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  dateTime  DateTime
+  status    String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
+  reason    String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("appointments")
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  specialists Staff[]
+
+  @@map("departments")
+}
+
+model Staff {
+  id             String      @id @default(uuid())
+  firstName      String
+  lastName       String
+  designation    String
+  specialization String?
+  departmentId   String?
+  department     Department? @relation(fields: [departmentId], references: [id])
+  email          String      @unique
+  phone          String?
+  active         Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("staff")
+}
+
+model Bed {
+  id        String   @id @default(uuid())
+  bedNumber String   @unique
+  wardName  String
+  type      String // GENERAL, ICU, PRIVATE
+  status    String   @default("AVAILABLE") // AVAILABLE, OCCUPIED, MAINTENANCE
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("beds")
+}
