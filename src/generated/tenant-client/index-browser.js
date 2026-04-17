@@ -126,7 +126,7 @@ exports.Prisma.TenantUserScalarFieldEnum = {
   name: 'name',
   password: 'password',
   role: 'role',
-  active: 'active',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -151,7 +151,6 @@ exports.Prisma.AppointmentScalarFieldEnum = {
   dateTime: 'dateTime',
   status: 'status',
   reason: 'reason',
-  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

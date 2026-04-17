@@ -134,9 +134,27 @@ const deleteBranchDatabase = async (dbName) => {
 };
 
 /**
+ * Invalidate a tenant client from cache and close its pool
+ * Necessary when schema changes to avoid "cached plan must not change result type"
+ */
+const invalidateTenantClient = async (branchId) => {
+  if (tenantClients.has(branchId)) {
+    tenantClients.delete(branchId);
+  }
+  if (tenantPools.has(branchId)) {
+    const pool = tenantPools.get(branchId);
+    await pool.end().catch(() => {});
+    tenantPools.delete(branchId);
+  }
+};
+
+/**
  * Initialize Tenant Schema using Prisma Migrate
  */
 const initializeTenantSchema = async (branchId) => {
+  // Clear existing connections to avoid stale "cached plan" errors
+  await invalidateTenantClient(branchId);
+
   const branch = await mainDb.branch.findUnique({ where: { id: branchId } });
   if (!branch) throw new Error('Branch not found');
 
@@ -167,6 +185,39 @@ const initializeTenantSchema = async (branchId) => {
         schemaVersion: currentVersion
       }
     });
+
+    // --- NEW: Sync Branch Users to Tenant DB after push (All roles EXCEPT SUPERADMIN) ---
+    const branchUsers = await mainDb.user.findMany({
+      where: { 
+        branchId: branchId,
+        role: { not: 'SUPERADMIN' }
+      }
+    });
+
+    if (branchUsers.length > 0) {
+      console.log(`📡 Seeding ${branchUsers.length} Users into tenant DB...`);
+      const tenantDb = await module.exports.getTenantClient(branchId);
+      
+      for (const user of branchUsers) {
+        await tenantDb.tenantUser.upsert({
+          where: { email: user.email },
+          update: {
+            name: user.name,
+            password: user.password,
+            role: user.role,
+            status: user.status
+          },
+          create: {
+            id: user.id, // Ensure matching ID
+            email: user.email,
+            name: user.name,
+            password: user.password,
+            role: user.role,
+            status: user.status
+          }
+        });
+      }
+    }
 
     return true;
   } catch (error) {
@@ -208,6 +259,7 @@ const syncAllTenants = async () => {
 module.exports = {
   mainDb,
   getTenantClient,
+  invalidateTenantClient,
   createBranchDatabase,
   deleteBranchDatabase,
   initializeTenantSchema,

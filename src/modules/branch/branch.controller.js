@@ -11,7 +11,7 @@ const createBranch = async (req, res) => {
 
 const getAllBranches = async (req, res) => {
   try {
-    const branches = await branchService.getAllBranches();
+    const branches = await branchService.getAllBranches(req.query);
     res.status(200).json({ success: true, data: branches });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

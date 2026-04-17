@@ -4,7 +4,8 @@ generator tenant {
   output   = "../src/generated/tenant-client"
 }
 
-datasource tenant_db {
+
+datasource db {
   provider = "postgresql"
 }
 
@@ -14,7 +15,7 @@ model TenantUser {
   name      String?
   password  String
   role      String   @default("STAFF")
-  active    Boolean  @default(true)
+  status    String   @default("Active")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

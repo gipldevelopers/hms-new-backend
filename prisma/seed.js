@@ -30,7 +30,44 @@ async function main() {
       console.log(`ℹ️ Skipped: Super Admin (${adminEmail}) (Already exists)`);
     }
 
-    // 2. Create Branches
+    // 2. Create Demo Users for All Roles
+    const roles = [
+      { name: 'Branch Admin', role: 'BRANCH_ADMIN', slug: 'branchadmin' },
+      { name: 'Doctor', role: 'DOCTOR', slug: 'doctor' },
+      { name: 'Staff', role: 'STAFF', slug: 'staff' },
+      { name: 'Receptionist', role: 'RECEPTION', slug: 'reception' },
+      { name: 'Pharmacist', role: 'PHARMACY', slug: 'pharmacy' },
+      { name: 'Laboratory Tech', role: 'LABORATORY', slug: 'laboratory' },
+      { name: 'Radiologist', role: 'RADIOLOGY', slug: 'radiology' },
+      { name: 'Finance head', role: 'FINANCE', slug: 'finance' },
+      { name: 'Reports Manager', role: 'REPORTS', slug: 'reports' }
+    ];
+
+    console.log('\n👥 Processing Demo Users...');
+    for (const r of roles) {
+      const email = `${r.slug}.developer@gohilinfotech.com`;
+      try {
+        const existing = await prisma.user.findUnique({ where: { email } });
+        if (!existing) {
+          const password = await bcrypt.hash(`${r.slug}@123`, 10);
+          await prisma.user.create({
+            data: {
+              email,
+              name: r.name,
+              password,
+              role: r.role,
+            }
+          });
+          console.log(`✅ Added: ${r.name} (${email})`);
+        } else {
+          console.log(`ℹ️ Skipped: ${r.name} (Already exists)`);
+        }
+      } catch (err) {
+        console.error(`❌ Failed to seed ${r.role}:`, err.message);
+      }
+    }
+
+    // 3. Create Branches
     const branches = [
       {
         name: 'Apollo Hospital Ahmedabad',

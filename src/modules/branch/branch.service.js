@@ -6,6 +6,7 @@ const {
   syncAllTenants,
   getCurrentSchemaVersion
 } = require("../../database/tenant-manager");
+const userService = require("../users/users.service");
 
 const createBranch = async (data) => {
   // Check for email collision
@@ -15,7 +16,8 @@ const createBranch = async (data) => {
   }
 
   const dbName = await createBranchDatabase(data.name, data.dbName, data.dbUser, data.dbPassword);
-  return await mainDb.branch.create({
+  
+  const branch = await mainDb.branch.create({
     data: {
       ...data,
       dbName,
@@ -23,10 +25,40 @@ const createBranch = async (data) => {
       dbPassword: data.dbPassword || '',
     },
   });
+
+  // Automatically create a Branch Admin user for this branch
+  try {
+      await userService.createUser({
+          name: `${branch.name} Admin`,
+          email: branch.email,
+          role: 'BRANCH_ADMIN',
+          branchId: branch.id,
+          status: 'Active'
+      });
+      console.log(`👤 Branch Admin automatically created for ${branch.name}`);
+  } catch (err) {
+      console.error(`⚠️ Failed to auto-create Branch Admin: ${err.message}`);
+  }
+
+  return branch;
 };
 
-const getAllBranches = async () => {
+const getAllBranches = async (filters = {}) => {
+  const { search } = filters;
+  const where = {};
+
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { code: { contains: search, mode: 'insensitive' } },
+      { address: { contains: search, mode: 'insensitive' } },
+      { city: { contains: search, mode: 'insensitive' } },
+      { state: { contains: search, mode: 'insensitive' } },
+    ];
+  }
+
   return await mainDb.branch.findMany({
+    where,
     orderBy: { createdAt: "desc" },
   });
 };
@@ -46,9 +78,18 @@ const updateBranch = async (id, data) => {
 
 const deleteBranch = async (id) => {
   const branch = await mainDb.branch.findUnique({ where: { id } });
+  
+  // 1. Terminate Tenant Database and Connections
   if (branch && branch.dbName) {
     await deleteBranchDatabase(branch.dbName);
   }
+
+  // 2. Forensic Purge of associated accounts in Global Registry
+  console.log(`🧹 Forcefully purging all personnel and assignments for branch: ${branch?.name || id}`);
+  await mainDb.user.deleteMany({ where: { branchId: id } });
+  await mainDb.branchAssignment.deleteMany({ where: { branchId: id } });
+
+  // 3. Remove Institutional Identity
   return await mainDb.branch.delete({
     where: { id },
   });

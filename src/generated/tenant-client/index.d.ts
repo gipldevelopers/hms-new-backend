@@ -1398,7 +1398,7 @@ export namespace Prisma {
     name: string | null
     password: string | null
     role: string | null
-    active: boolean | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1409,7 +1409,7 @@ export namespace Prisma {
     name: string | null
     password: string | null
     role: string | null
-    active: boolean | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1420,7 +1420,7 @@ export namespace Prisma {
     name: number
     password: number
     role: number
-    active: number
+    status: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1433,7 +1433,7 @@ export namespace Prisma {
     name?: true
     password?: true
     role?: true
-    active?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1444,7 +1444,7 @@ export namespace Prisma {
     name?: true
     password?: true
     role?: true
-    active?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1455,7 +1455,7 @@ export namespace Prisma {
     name?: true
     password?: true
     role?: true
-    active?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1539,7 +1539,7 @@ export namespace Prisma {
     name: string | null
     password: string
     role: string
-    active: boolean
+    status: string
     createdAt: Date
     updatedAt: Date
     _count: TenantUserCountAggregateOutputType | null
@@ -1567,7 +1567,7 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     role?: boolean
-    active?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1578,7 +1578,7 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     role?: boolean
-    active?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1589,7 +1589,7 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     role?: boolean
-    active?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1600,12 +1600,12 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     role?: boolean
-    active?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantUser"]>
+  export type TenantUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantUser"]>
 
   export type $TenantUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantUser"
@@ -1616,7 +1616,7 @@ export namespace Prisma {
       name: string | null
       password: string
       role: string
-      active: boolean
+      status: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantUser"]>
@@ -2047,7 +2047,7 @@ export namespace Prisma {
     readonly name: FieldRef<"TenantUser", 'String'>
     readonly password: FieldRef<"TenantUser", 'String'>
     readonly role: FieldRef<"TenantUser", 'String'>
-    readonly active: FieldRef<"TenantUser", 'Boolean'>
+    readonly status: FieldRef<"TenantUser", 'String'>
     readonly createdAt: FieldRef<"TenantUser", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantUser", 'DateTime'>
   }
@@ -3590,7 +3590,6 @@ export namespace Prisma {
     dateTime: Date | null
     status: string | null
     reason: string | null
-    notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3601,7 +3600,6 @@ export namespace Prisma {
     dateTime: Date | null
     status: string | null
     reason: string | null
-    notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3612,7 +3610,6 @@ export namespace Prisma {
     dateTime: number
     status: number
     reason: number
-    notes: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3625,7 +3622,6 @@ export namespace Prisma {
     dateTime?: true
     status?: true
     reason?: true
-    notes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3636,7 +3632,6 @@ export namespace Prisma {
     dateTime?: true
     status?: true
     reason?: true
-    notes?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3647,7 +3642,6 @@ export namespace Prisma {
     dateTime?: true
     status?: true
     reason?: true
-    notes?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3731,7 +3725,6 @@ export namespace Prisma {
     dateTime: Date
     status: string
     reason: string | null
-    notes: string | null
     createdAt: Date
     updatedAt: Date
     _count: AppointmentCountAggregateOutputType | null
@@ -3759,7 +3752,6 @@ export namespace Prisma {
     dateTime?: boolean
     status?: boolean
     reason?: boolean
-    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -3771,7 +3763,6 @@ export namespace Prisma {
     dateTime?: boolean
     status?: boolean
     reason?: boolean
-    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -3783,7 +3774,6 @@ export namespace Prisma {
     dateTime?: boolean
     status?: boolean
     reason?: boolean
-    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -3795,12 +3785,11 @@ export namespace Prisma {
     dateTime?: boolean
     status?: boolean
     reason?: boolean
-    notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "patientId" | "dateTime" | "status" | "reason" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
+  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "patientId" | "dateTime" | "status" | "reason" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
   export type AppointmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     patient?: boolean | PatientDefaultArgs<ExtArgs>
   }
@@ -3822,7 +3811,6 @@ export namespace Prisma {
       dateTime: Date
       status: string
       reason: string | null
-      notes: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["appointment"]>
@@ -4254,7 +4242,6 @@ export namespace Prisma {
     readonly dateTime: FieldRef<"Appointment", 'DateTime'>
     readonly status: FieldRef<"Appointment", 'String'>
     readonly reason: FieldRef<"Appointment", 'String'>
-    readonly notes: FieldRef<"Appointment", 'String'>
     readonly createdAt: FieldRef<"Appointment", 'DateTime'>
     readonly updatedAt: FieldRef<"Appointment", 'DateTime'>
   }
@@ -7983,7 +7970,7 @@ export namespace Prisma {
     name: 'name',
     password: 'password',
     role: 'role',
-    active: 'active',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8014,7 +8001,6 @@ export namespace Prisma {
     dateTime: 'dateTime',
     status: 'status',
     reason: 'reason',
-    notes: 'notes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8109,13 +8095,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -8126,6 +8105,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8155,7 +8141,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"TenantUser"> | string | null
     password?: StringFilter<"TenantUser"> | string
     role?: StringFilter<"TenantUser"> | string
-    active?: BoolFilter<"TenantUser"> | boolean
+    status?: StringFilter<"TenantUser"> | string
     createdAt?: DateTimeFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeFilter<"TenantUser"> | Date | string
   }
@@ -8166,7 +8152,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     password?: SortOrder
     role?: SortOrder
-    active?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8180,7 +8166,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"TenantUser"> | string | null
     password?: StringFilter<"TenantUser"> | string
     role?: StringFilter<"TenantUser"> | string
-    active?: BoolFilter<"TenantUser"> | boolean
+    status?: StringFilter<"TenantUser"> | string
     createdAt?: DateTimeFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeFilter<"TenantUser"> | Date | string
   }, "id" | "email">
@@ -8191,7 +8177,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     password?: SortOrder
     role?: SortOrder
-    active?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantUserCountOrderByAggregateInput
@@ -8208,7 +8194,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"TenantUser"> | string | null
     password?: StringWithAggregatesFilter<"TenantUser"> | string
     role?: StringWithAggregatesFilter<"TenantUser"> | string
-    active?: BoolWithAggregatesFilter<"TenantUser"> | boolean
+    status?: StringWithAggregatesFilter<"TenantUser"> | string
     createdAt?: DateTimeWithAggregatesFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantUser"> | Date | string
   }
@@ -8307,7 +8293,6 @@ export namespace Prisma {
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
     status?: StringFilter<"Appointment"> | string
     reason?: StringNullableFilter<"Appointment"> | string | null
-    notes?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
     patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
@@ -8319,7 +8304,6 @@ export namespace Prisma {
     dateTime?: SortOrder
     status?: SortOrder
     reason?: SortOrderInput | SortOrder
-    notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patient?: PatientOrderByWithRelationInput
@@ -8334,7 +8318,6 @@ export namespace Prisma {
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
     status?: StringFilter<"Appointment"> | string
     reason?: StringNullableFilter<"Appointment"> | string | null
-    notes?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
     patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
@@ -8346,7 +8329,6 @@ export namespace Prisma {
     dateTime?: SortOrder
     status?: SortOrder
     reason?: SortOrderInput | SortOrder
-    notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AppointmentCountOrderByAggregateInput
@@ -8363,7 +8345,6 @@ export namespace Prisma {
     dateTime?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
     status?: StringWithAggregatesFilter<"Appointment"> | string
     reason?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
-    notes?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
   }
@@ -8586,7 +8567,7 @@ export namespace Prisma {
     name?: string | null
     password: string
     role?: string
-    active?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8597,7 +8578,7 @@ export namespace Prisma {
     name?: string | null
     password: string
     role?: string
-    active?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8608,7 +8589,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8619,7 +8600,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8630,7 +8611,7 @@ export namespace Prisma {
     name?: string | null
     password: string
     role?: string
-    active?: boolean
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8641,7 +8622,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8652,7 +8633,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8764,7 +8745,6 @@ export namespace Prisma {
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     patient: PatientCreateNestedOneWithoutAppointmentsInput
@@ -8776,7 +8756,6 @@ export namespace Prisma {
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8786,7 +8765,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patient?: PatientUpdateOneRequiredWithoutAppointmentsNestedInput
@@ -8798,7 +8776,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8809,7 +8786,6 @@ export namespace Prisma {
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8819,7 +8795,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8830,7 +8805,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9106,11 +9080,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9133,7 +9102,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    active?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9144,7 +9113,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    active?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9155,7 +9124,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    active?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9194,14 +9163,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -9306,7 +9267,6 @@ export namespace Prisma {
     dateTime?: SortOrder
     status?: SortOrder
     reason?: SortOrder
-    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9317,7 +9277,6 @@ export namespace Prisma {
     dateTime?: SortOrder
     status?: SortOrder
     reason?: SortOrder
-    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9328,9 +9287,13 @@ export namespace Prisma {
     dateTime?: SortOrder
     status?: SortOrder
     reason?: SortOrder
-    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type StaffListRelationFilter = {
@@ -9371,6 +9334,14 @@ export namespace Prisma {
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DepartmentNullableScalarRelationFilter = {
@@ -9458,10 +9429,6 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -9540,6 +9507,10 @@ export namespace Prisma {
     connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type StaffUpdateManyWithoutDepartmentNestedInput = {
     create?: XOR<StaffCreateWithoutDepartmentInput, StaffUncheckedCreateWithoutDepartmentInput> | StaffCreateWithoutDepartmentInput[] | StaffUncheckedCreateWithoutDepartmentInput[]
     connectOrCreate?: StaffCreateOrConnectWithoutDepartmentInput | StaffCreateOrConnectWithoutDepartmentInput[]
@@ -9612,11 +9583,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9684,14 +9650,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9731,12 +9689,24 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type AppointmentCreateWithoutPatientInput = {
     id?: string
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9746,7 +9716,6 @@ export namespace Prisma {
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9786,7 +9755,6 @@ export namespace Prisma {
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
     status?: StringFilter<"Appointment"> | string
     reason?: StringNullableFilter<"Appointment"> | string | null
-    notes?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
   }
@@ -9993,7 +9961,6 @@ export namespace Prisma {
     dateTime: Date | string
     status?: string
     reason?: string | null
-    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10003,7 +9970,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10013,7 +9979,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10023,7 +9988,6 @@ export namespace Prisma {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
