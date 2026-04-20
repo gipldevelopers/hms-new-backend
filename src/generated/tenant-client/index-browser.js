@@ -120,6 +120,103 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  password: 'password',
+  role: 'role',
+  branchId: 'branchId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BranchScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  email: 'email',
+  contact: 'contact',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  active: 'active',
+  contactPersonName: 'contactPersonName',
+  contactPersonEmail: 'contactPersonEmail',
+  contactPersonPhone: 'contactPersonPhone',
+  dbName: 'dbName',
+  dbUser: 'dbUser',
+  dbPassword: 'dbPassword',
+  isDbInitialized: 'isDbInitialized',
+  schemaVersion: 'schemaVersion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FileScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  originalName: 'originalName',
+  path: 'path',
+  size: 'size',
+  mimetype: 'mimetype',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MasterDataScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  fields: 'fields',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MasterDataRecordScalarFieldEnum = {
+  id: 'id',
+  masterDataId: 'masterDataId',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  category: 'category',
+  blocks: 'blocks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BranchAssignmentScalarFieldEnum = {
+  id: 'id',
+  branchId: 'branchId',
+  masterDataId: 'masterDataId',
+  templateId: 'templateId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  userEmail: 'userEmail',
+  userName: 'userName',
+  userRole: 'userRole',
+  action: 'action',
+  module: 'module',
+  status: 'status',
+  details: 'details',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TenantUserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -194,6 +291,15 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -204,8 +310,33 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.Role = exports.$Enums.Role = {
+  SUPERADMIN: 'SUPERADMIN',
+  BRANCH_ADMIN: 'BRANCH_ADMIN',
+  DOCTOR: 'DOCTOR',
+  STAFF: 'STAFF',
+  RECEPTION: 'RECEPTION',
+  PHARMACY: 'PHARMACY',
+  LABORATORY: 'LABORATORY',
+  RADIOLOGY: 'RADIOLOGY',
+  FINANCE: 'FINANCE',
+  REPORTS: 'REPORTS'
+};
 
 exports.Prisma.ModelName = {
+  User: 'User',
+  Branch: 'Branch',
+  File: 'File',
+  MasterData: 'MasterData',
+  MasterDataRecord: 'MasterDataRecord',
+  Template: 'Template',
+  BranchAssignment: 'BranchAssignment',
+  AuditLog: 'AuditLog',
   TenantUser: 'TenantUser',
   Patient: 'Patient',
   Appointment: 'Appointment',

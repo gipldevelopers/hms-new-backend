@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:reset": "prisma db push --force-reset",
+    "build": "prisma generate",
+    "db:reset": "prisma db push --force-reset && prisma generate",
     "db:seed": "node prisma/seed.js",
     "db:studio": "prisma studio",
     "db:dev": "prisma db push && prisma generate"

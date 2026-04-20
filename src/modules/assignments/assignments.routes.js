@@ -5,6 +5,8 @@ const { auth, authorize } = require('../../middleware/auth');
 
 router.use(auth);
 router.use(authorize('SUPERADMIN'));
+const auditLogger = require('../../middleware/audit-logger');
+router.use(auditLogger('ASSIGNMENTS'));
 
 router.get('/', assignmentController.getBranchAssignments);
 router.post('/', assignmentController.saveAssignments);

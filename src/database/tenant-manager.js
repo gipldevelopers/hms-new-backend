@@ -94,8 +94,23 @@ const createBranchDatabase = async (branchName, customDbName, dbUser, dbPassword
     const dbExists = await pool.query("SELECT 1 FROM pg_database WHERE datname=$1", [dbName]);
     if (dbExists.rows.length === 0) {
       await pool.query(`CREATE DATABASE "${dbName}"`);
-      if (dbUser) {
+      
+      if (dbUser && dbUser !== 'postgres') {
         await pool.query(`GRANT ALL PRIVILEGES ON DATABASE "${dbName}" TO "${dbUser}"`);
+        
+        // --- PG15+ FIX: Grant permissions on the public schema ---
+        // We need to connect specifically to the new DB to grant schema rights
+        const tenantPool = new Pool({
+          connectionString: mainUrl.replace(/\/[^\/]+$/, `/${dbName}`)
+        });
+        try {
+          await tenantPool.query(`GRANT ALL ON SCHEMA public TO "${dbUser}"`);
+          console.log(`🔓 Public schema access granted to ${dbUser} on ${dbName}`);
+        } catch (grantError) {
+          console.warn(`⚠️ Failed to grant public schema access (might be PG version < 15): ${grantError.message}`);
+        } finally {
+          await tenantPool.end();
+        }
       }
     }
 

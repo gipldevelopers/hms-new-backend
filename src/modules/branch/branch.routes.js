@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const branchController = require("./branch.controller");
 const { auth, authorize } = require("../../middleware/auth");
+const auditLogger = require("../../middleware/audit-logger");
 
 // All branch routes require authentication and SUPERADMIN role
 router.use(auth);
 router.use(authorize("SUPERADMIN"));
+router.use(auditLogger("BRANCH_MANAGEMENT"));
 
 router.get("/stats", branchController.getStats);
 router.get("/", branchController.getAllBranches);

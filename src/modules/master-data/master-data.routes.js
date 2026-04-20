@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const masterDataController = require('./master-data.controller');
-// Assuming there's a protect middleware for superadmin
-// const { protect, authorize } = require('../../middleware/auth');
+const { auth, authorize } = require('../../middleware/auth');
+const auditLogger = require('../../middleware/audit-logger');
+
+router.use(auth);
+router.use(authorize('SUPERADMIN'));
+router.use(auditLogger('MASTER_DATA'));
 
 router.get('/', masterDataController.getAll);
 router.get('/:id', masterDataController.getById);

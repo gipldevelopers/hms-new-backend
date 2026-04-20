@@ -45,6 +45,11 @@ model Branch {
   state   String
   active  Boolean @default(true)
 
+  // Contact Person Information
+  contactPersonName  String?
+  contactPersonEmail String?
+  contactPersonPhone String?
+
   // Multi-tenant configuration
   dbName     String? @unique // unique database name for this tenant
   dbUser     String?
@@ -128,4 +133,21 @@ model BranchAssignment {
 
   @@index([branchId])
   @@map("branch_assignments")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  userEmail String?
+  userName  String?
+  userRole  String?
+  action    String
+  module    String
+  status    String   @default("SUCCESS")
+  details   Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
 }

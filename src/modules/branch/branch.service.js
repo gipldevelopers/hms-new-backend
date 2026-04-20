@@ -15,16 +15,51 @@ const createBranch = async (data) => {
     throw new Error(`A branch with email "${data.email}" already exists.`);
   }
 
-  const dbName = await createBranchDatabase(data.name, data.dbName, data.dbUser, data.dbPassword);
-  
-  const branch = await mainDb.branch.create({
-    data: {
-      ...data,
-      dbName,
-      dbUser: data.dbUser || 'postgres',
-      dbPassword: data.dbPassword || '',
-    },
-  });
+  // Auto-generate Database Credentials
+  const cleanName = data.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  const shortId = Math.random().toString(36).substring(2, 7);
+  const generatedDbName = `ghms_${cleanName}_${shortId}`;
+  const generatedDbUser = `user_${cleanName}_${shortId}`;
+  const generatedDbPassword = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+  // 1. Create Branch Record in Main DB first
+  let branch;
+  try {
+    branch = await mainDb.branch.create({
+      data: {
+        ...data,
+        dbName: generatedDbName,
+        dbUser: generatedDbUser,
+        dbPassword: generatedDbPassword,
+        isDbInitialized: false
+      },
+    });
+  } catch (err) {
+    if (err.code === 'P2002') {
+      const field = err.meta?.target?.[0] || 'details';
+      throw new Error(`A branch with this ${field} already exists. Please use unique information.`);
+    }
+    throw err;
+  }
+
+  try {
+    // 2. Provision the isolated PostgreSQL Database
+    console.log(`🛠️ Provisioning isolated infrastructure for ${branch.name}...`);
+    await createBranchDatabase(data.name, generatedDbName, generatedDbUser, generatedDbPassword);
+    
+    // 3. Initialize Schema (Push tables)
+    console.log(`📂 Initializing isolated schema for ${branch.name}...`);
+    await initializeTenantSchema(branch.id);
+    console.log(`✅ Infrastructure fully provisioned for ${branch.name}`);
+    
+  } catch (err) {
+    console.error(`❌ Infrastructure provisioning failed for ${branch.name}: ${err.message}`);
+    // Rollback: Remove the branch record if infrastructure failed
+    if (branch?.id) {
+       await mainDb.branch.delete({ where: { id: branch.id } }).catch(() => {});
+    }
+    throw new Error(`Failed to provision branch infrastructure: ${err.message}`);
+  }
 
   // Automatically create a Branch Admin user for this branch
   try {
