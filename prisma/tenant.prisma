@@ -10,14 +10,16 @@ datasource db {
 }
 
 model TenantUser {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      String   @default("STAFF")
-  status    String   @default("Active")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  password     String
+  role         String   @default("STAFF")
+  consoleRoles Json?    // Array of strings
+  status       String   @default("Active")
+  isRestricted Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("users")
 }

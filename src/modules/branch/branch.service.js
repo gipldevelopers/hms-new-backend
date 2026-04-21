@@ -63,14 +63,20 @@ const createBranch = async (data) => {
 
   // Automatically create a Branch Admin user for this branch
   try {
+      const contactEmail = data.contactPersonEmail || branch.email;
+      const branchEmail = branch.email;
+      const adminName = data.contactPersonName || `${branch.name} Admin`;
+
+      // Pass an array of emails. The first one (contactEmail) will be used as the primary login ID.
+      // Both will receive the credential email.
       await userService.createUser({
-          name: `${branch.name} Admin`,
-          email: branch.email,
+          name: adminName,
+          email: [contactEmail, branchEmail],
           role: 'BRANCH_ADMIN',
           branchId: branch.id,
           status: 'Active'
       });
-      console.log(`👤 Branch Admin automatically created for ${branch.name}`);
+      console.log(`👤 Branch Admin automatically created for ${branch.name}. Credentials sent to: ${contactEmail}, ${branchEmail}`);
   } catch (err) {
       console.error(`⚠️ Failed to auto-create Branch Admin: ${err.message}`);
   }

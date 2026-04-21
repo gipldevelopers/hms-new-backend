@@ -8,17 +8,19 @@ datasource tenant_db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      Role     @default(SUPERADMIN)
-  files     File[]
-  branchId  String?
-  branch    Branch?  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  status    String   @default("Active")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  password     String
+  role         Role     @default(SUPERADMIN)
+  consoleRoles Json?    // JSON array of roles e.g. ["PHARMACY", "LABORATORY"]
+  files        File[]
+  branchId     String?
+  branch       Branch?  @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  status       String   @default("Active")
+  isRestricted Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum Role {

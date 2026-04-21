@@ -31,7 +31,13 @@ const auth = async (req, res, next) => {
 
 const authorize = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    const primaryRole = req.user.role;
+    const consoleRoles = req.user.isRestricted ? [] : (req.user.consoleRoles || []);
+
+    const isAuthorized = roles.includes(primaryRole) || 
+                        consoleRoles.some(r => roles.includes(r));
+
+    if (!isAuthorized) {
       return res.status(403).json({
         success: false,
         message: 'Forbidden: Access is denied.'

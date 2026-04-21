@@ -51,6 +51,32 @@ const getAuditLogs = async (query) => {
   };
 };
 
+const getAuditStats = async () => {
+  const [total, success, failed, actors, moduleGroups] = await Promise.all([
+    prisma.auditLog.count(),
+    prisma.auditLog.count({ where: { status: "SUCCESS" } }),
+    prisma.auditLog.count({ where: { status: "FAILED" } }),
+    prisma.auditLog.groupBy({
+      by: ['userEmail'],
+      _count: {
+        userEmail: true
+      }
+    }),
+    prisma.auditLog.groupBy({
+      by: ['module']
+    })
+  ]);
+
+  return {
+    totalTraces: total,
+    successfulOps: success,
+    failedAttempts: failed,
+    uniqueActors: actors.length,
+    modules: moduleGroups.map(m => m.module).filter(Boolean)
+  };
+};
+
 module.exports = {
   getAuditLogs,
+  getAuditStats,
 };

@@ -165,18 +165,19 @@ const getCredentialTemplate = (name, email, password, role) => {
   `;
 };
 
-const sendCredentials = async (email, name, password, role) => {
+const sendCredentials = async (to, name, password, role) => {
   try {
+    const recipients = Array.isArray(to) ? to.join(', ') : to;
     const info = await transporter.sendMail({
       from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
-      to: email,
+      to: recipients,
       subject: `[CORE REGISTRY] Account Provisioned: ${role.replace('_', ' ')} Access`,
-      html: getCredentialTemplate(name, email, password, role),
+      html: getCredentialTemplate(name, Array.isArray(to) ? to[0] : to, password, role),
     });
-    console.log(`📧 Dispatch successful to ${email}: ${info.messageId}`);
+    console.log(`📧 Dispatch successful to ${recipients}: ${info.messageId}`);
     return true;
   } catch (error) {
-    console.error(`❌ Dispatch failure to ${email}:`, error);
+    console.error(`❌ Dispatch failure to ${to}:`, error);
     return false;
   }
 };

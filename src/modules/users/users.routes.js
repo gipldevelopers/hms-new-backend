@@ -6,7 +6,14 @@ const auditLogger = require("../../middleware/audit-logger");
 
 // Protection & Logging
 router.use(auth);
-router.use(authorize("SUPERADMIN"));
+router.get("/me", (req, res) => {
+  const user = JSON.parse(JSON.stringify(req.user));
+  if (user.isRestricted) {
+    user.consoleRoles = [];
+  }
+  res.json({ success: true, data: user });
+});
+router.use(authorize("SUPERADMIN", "BRANCH_ADMIN"));
 router.use(auditLogger("USER_MANAGEMENT"));
 
 router.get("/", userController.getAllUsers);

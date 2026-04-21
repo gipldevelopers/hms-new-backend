@@ -29,10 +29,18 @@ const auditLogger = (moduleName) => {
     if (reqData.body.password) reqData.body.password = "********";
     if (reqData.body.dbPassword) reqData.body.dbPassword = "********";
 
+    // Standard res.json override to capture response body for login
+    const originalJson = res.json;
+    res.json = function (data) {
+      res.locals.body = data;
+      return originalJson.apply(res, arguments);
+    };
+
     // Listen for response finish
     res.on("finish", () => {
       try {
         const statusCode = res.statusCode;
+        const responseData = res.locals.body;
         
         // Determine action name
         let action = `${reqData.method}_${reqData.url.split("/")[2]?.split("?")[0]?.toUpperCase() || "UNKNOWN"}`;
@@ -43,6 +51,21 @@ const auditLogger = (moduleName) => {
         if (path.includes("/users") && reqData.method === "POST") action = "PROVISION_USER";
         if (path.includes("/branches") && reqData.method === "POST") action = "CREATE_BRANCH";
         
+        // Extract user info for login if not present
+        let logUser = reqData.user;
+        if (action === "USER_LOGIN" && !logUser) {
+          if (responseData?.success && responseData.data?.user) {
+            logUser = responseData.data.user;
+          } else {
+            // Failed login - use request email
+            logUser = {
+              email: reqData.body.email || "unknown",
+              name: "Authentication Attempt",
+              role: "GUEST"
+            };
+          }
+        }
+
         // Prepare details
         const details = {
           method: reqData.method,
@@ -56,12 +79,12 @@ const auditLogger = (moduleName) => {
 
         // Async log without blocking
         logActivity({
-          userId: reqData.user?.id || null,
-          userEmail: reqData.user?.email || "system",
-          userName: reqData.user?.name || "System",
-          userRole: reqData.user?.role || "SYSTEM",
+          userId: logUser?.id || null,
+          userEmail: logUser?.email || "system",
+          userName: logUser?.name || "System",
+          userRole: logUser?.role || "SYSTEM",
           action: action,
-          module: moduleName || "GENERAL",
+          module: moduleName || (action === "USER_LOGIN" ? "AUTHENTICATION" : "GENERAL"),
           status: statusCode < 400 ? "SUCCESS" : "FAILED",
           details: details,
           ipAddress: reqData.ip,

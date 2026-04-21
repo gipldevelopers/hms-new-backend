@@ -1,157 +1,3 @@
-// prisma/schema.prisma
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource tenant_db {
-  provider = "postgresql"
-}
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      Role     @default(SUPERADMIN)
-  files     File[]
-  branchId  String?
-  branch    Branch?  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  status    String   @default("Active")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  SUPERADMIN
-  BRANCH_ADMIN
-  DOCTOR
-  STAFF
-  RECEPTION
-  PHARMACY
-  LABORATORY
-  RADIOLOGY
-  FINANCE
-  REPORTS
-}
-
-model Branch {
-  id      String  @id @default(uuid())
-  name    String  @unique
-  code    String  @unique
-  email   String  @unique
-  contact String
-  address String
-  city    String
-  state   String
-  active  Boolean @default(true)
-
-  // Contact Person Information
-  contactPersonName  String?
-  contactPersonEmail String?
-  contactPersonPhone String?
-
-  // Multi-tenant configuration
-  dbName     String? @unique // unique database name for this tenant
-  dbUser     String?
-  dbPassword String?
-
-  isDbInitialized Boolean @default(false)
-  schemaVersion   String?
-
-  users       User[]
-  assignments BranchAssignment[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-}
-
-model File {
-  id           String   @id @default(cuid())
-  filename     String
-  originalName String
-  path         String
-  size         Int
-  mimetype     String
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@map("files")
-}
-
-model MasterData {
-  id          String             @id @default(uuid())
-  name        String
-  code        String             @unique
-  description String?            @tenant_db.Text
-  fields      Json // Array of field configurations: {id, type, label, required, placeholder}
-  records     MasterDataRecord[]
-  assignments BranchAssignment[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-
-  @@map("master_data")
-}
-
-model MasterDataRecord {
-  id           String     @id @default(uuid())
-  masterDataId String
-  masterData   MasterData @relation(fields: [masterDataId], references: [id], onDelete: Cascade)
-  data         Json // Key-value pairs: { "fieldName": "value" }
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
-  @@map("master_data_records")
-}
-
-model Template {
-  id          String             @id @default(uuid())
-  name        String
-  code        String             @unique
-  category    String             @default("prescription")
-  blocks      Json
-  assignments BranchAssignment[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-
-  @@map("document_templates")
-}
-
-model BranchAssignment {
-  id       String @id @default(uuid())
-  branchId String
-  branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
-
-  // Link to either MasterData or Template (one per row or handle both)
-  masterDataId String?
-  masterData   MasterData? @relation(fields: [masterDataId], references: [id], onDelete: Cascade)
-
-  templateId String?
-  template   Template? @relation(fields: [templateId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-
-  @@index([branchId])
-  @@map("branch_assignments")
-}
-
-model AuditLog {
-  id        String   @id @default(uuid())
-  userId    String?
-  userEmail String?
-  userName  String?
-  userRole  String?
-  action    String
-  module    String
-  status    String   @default("SUCCESS")
-  details   Json?
-  ipAddress String?
-  userAgent String?
-  createdAt DateTime @default(now())
-
-  @@map("audit_logs")
-}
-
 // prisma/tenant.prisma
 generator tenant {
   provider = "prisma-client-js"
@@ -163,14 +9,16 @@ datasource db {
 }
 
 model TenantUser {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      String   @default("STAFF")
-  status    String   @default("Active")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  password     String
+  role         String   @default("STAFF")
+  consoleRoles Json? // Array of strings
+  status       String   @default("Active")
+  isRestricted Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("users")
 }

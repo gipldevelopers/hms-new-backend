@@ -37,16 +37,21 @@ const createUser = async (userData) => {
   // Normalize branchId: "" should be null for UUID relations
   const normalizedBranchId = (branchId === "" || !branchId) ? null : branchId;
 
+  // Handle multi-recipient email (array)
+  const isMultiRecipient = Array.isArray(otherData.email);
+  const primaryEmail = isMultiRecipient ? otherData.email[0] : otherData.email;
+
   // Use manual password if provided (e.g. from seed), otherwise generate 13-char one
   const plainPassword = manualPassword || generateRandomPassword();
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
   
-  console.log(`👤 Provisioning User: ${otherData.email} (Role: ${otherData.role}, Branch: ${normalizedBranchId})`);
+  console.log(`👤 Provisioning User: ${primaryEmail} (Role: ${otherData.role}, Branch: ${normalizedBranchId})`);
 
   // 1. Create in Main DB
   const user = await mainDb.user.create({
     data: {
       ...otherData,
+      email: primaryEmail,
       branchId: normalizedBranchId,
       password: hashedPassword
     }
@@ -58,13 +63,14 @@ const createUser = async (userData) => {
       console.log(`📡 Attempting to sync user ${user.email} to branch ${user.branchId}...`);
       const tenantDb = await getTenantClient(user.branchId);
       
-      const syncedUser = await tenantDb.tenantUser.create({
+      await tenantDb.tenantUser.create({
         data: {
           id: user.id, // Syncing the exact ID from Main DB
           email: user.email,
           name: user.name,
           password: hashedPassword,
           role: user.role,
+          consoleRoles: user.consoleRoles,
           status: user.status
         }
       });
@@ -74,8 +80,8 @@ const createUser = async (userData) => {
     }
   }
 
-  // 3. Dispatch Credentials Email
-  await emailService.sendCredentials(user.email, user.name, plainPassword, user.role);
+  // 3. Dispatch Credentials Email (to all recipients if specified)
+  await emailService.sendCredentials(otherData.email, user.name, plainPassword, user.role);
 
   return user;
 };
@@ -108,7 +114,9 @@ const updateUser = async (id, userData) => {
           name: user.name,
           ...(updateData.password && { password: updateData.password }),
           role: user.role,
-          status: user.status
+          consoleRoles: user.consoleRoles,
+          status: user.status,
+          isRestricted: user.isRestricted
         }
       }).catch(() => {}); // ignore if doesn't exist in tenant yet
     } catch (err) {}
@@ -132,11 +140,18 @@ const deleteUser = async (id) => {
   return await mainDb.user.delete({ where: { id } });
 };
 
-const getStats = async () => {
-  const totalUsers = await mainDb.user.count();
-  const doctors = await mainDb.user.count({ where: { role: 'DOCTOR' } });
-  const staff = await mainDb.user.count({ where: { role: 'STAFF' } });
-  const admins = await mainDb.user.count({ where: { role: { in: ['SUPERADMIN', 'BRANCH_ADMIN'] } } });
+const getStats = async (branchId = null) => {
+  const where = branchId ? { branchId } : {};
+  
+  const totalUsers = await mainDb.user.count({ where });
+  const doctors = await mainDb.user.count({ where: { ...where, role: 'DOCTOR' } });
+  const staff = await mainDb.user.count({ where: { ...where, role: 'STAFF' } });
+  const admins = await mainDb.user.count({ 
+    where: { 
+      ...where, 
+      role: { in: ['SUPERADMIN', 'BRANCH_ADMIN'] } 
+    } 
+  });
 
   return {
     totalUsers,
