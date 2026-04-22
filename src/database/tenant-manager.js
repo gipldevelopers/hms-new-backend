@@ -19,7 +19,7 @@ const tenantPools = new Map();
  * Get the current hash of the tenant schema file
  */
 const getCurrentSchemaVersion = () => {
-  const schemaPath = path.join(__dirname, '../../prisma/tenant.prisma');
+  const schemaPath = path.join(__dirname, '../../prisma/tenant.schema');
   if (!fs.existsSync(schemaPath)) return 'unknown';
   const content = fs.readFileSync(schemaPath, 'utf8');
   return crypto.createHash('sha256').update(content).digest('hex').substring(0, 12);
@@ -185,7 +185,7 @@ const initializeTenantSchema = async (branchId) => {
   const dbUrl = `postgresql://${user}:${password}@${host}/${branch.dbName}`;
 
   try {
-    const command = `npx prisma db push --schema=./prisma/tenant.prisma --accept-data-loss`;
+    const command = `npx prisma db push --schema=./prisma/tenant.schema --accept-data-loss`;
     const env = { ...process.env, DATABASE_URL: dbUrl };
     
     await execPromise(command, { env });

@@ -62,6 +62,9 @@ model Branch {
 
   users       User[]
   assignments BranchAssignment[]
+  shiftTemplates ShiftTemplate[]
+  rosters     ShiftRoster[]
+  attendance  Attendance[]
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 }
@@ -152,4 +155,71 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   @@map("audit_logs")
+}
+
+model ShiftTemplate {
+  id             String   @id @default(uuid())
+  name           String
+  department     String
+  type           String   // Morning, Evening, Night
+  startTime      String
+  endTime        String
+  breakDuration  String
+  rule           String   // Fixed Shift, etc.
+  staffing       Json     // { Doctor: 1, Nurse: 2, etc. }
+  branchId       String
+  branch         Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  rosters        ShiftRoster[]
+
+  @@map("shift_templates")
+}
+
+model ShiftRoster {
+  id             String   @id @default(uuid())
+  staffId        String   // Link to Staff in Tenant DB
+  staffName      String   // Denormalized for Main DB visibility
+  templateId     String?
+  template       ShiftTemplate? @relation(fields: [templateId], references: [id])
+  date           DateTime
+  startTime      String
+  endTime        String
+  department     String
+  status         String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED, ABSENT, LEAVE
+  notes          String?
+  branchId       String
+  branch         Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  attendance     Attendance?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  @@index([branchId])
+  @@index([date])
+  @@map("shift_rosters")
+}
+
+model Attendance {
+  id           String   @id @default(uuid())
+  staffId      String   // Link to Staff in Tenant DB
+  staffName    String
+  branchId     String
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  rosterId     String?  @unique // One-to-one with roster entry
+  roster       ShiftRoster? @relation(fields: [rosterId], references: [id], onDelete: SetNull)
+  date         DateTime
+  checkIn      DateTime?
+  checkOut     DateTime?
+  status       String   @default("PRESENT") // PRESENT, LATE, HALFDAY, OVERTIME, ABSENT
+  latitude     Float?
+  longitude    Float?
+  deviceInfo   String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([branchId])
+  @@index([date])
+  @@map("attendance_logs")
 }

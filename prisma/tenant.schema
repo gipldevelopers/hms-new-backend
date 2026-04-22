@@ -97,3 +97,62 @@ model Bed {
 
   @@map("beds")
 }
+
+model TenantShiftTemplate {
+  id             String   @id @default(uuid())
+  name           String
+  department     String
+  type           String
+  startTime      String
+  endTime        String
+  breakDuration  String
+  rule           String
+  staffing       Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  rosters        TenantShiftRoster[]
+
+  @@map("shift_templates")
+}
+
+model TenantShiftRoster {
+  id             String   @id @default(uuid())
+  staffId        String
+  templateId     String?
+  template       TenantShiftTemplate? @relation(fields: [templateId], references: [id])
+  date           DateTime
+  startTime      String
+  endTime        String
+  department     String
+  status         String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED, ABSENT, LEAVE
+  notes          String?
+  attendance     TenantAttendance?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([date])
+  @@index([staffId])
+  @@map("shift_rosters")
+}
+
+model TenantAttendance {
+  id           String   @id @default(uuid())
+  staffId      String
+  rosterId     String?  @unique
+  roster       TenantShiftRoster? @relation(fields: [rosterId], references: [id], onDelete: SetNull)
+  date         DateTime
+  checkIn      DateTime?
+  checkOut     DateTime?
+  status       String   @default("PRESENT")
+  latitude     Float?
+  longitude    Float?
+  deviceInfo   String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([date])
+  @@index([staffId])
+  @@map("attendance")
+}

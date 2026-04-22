@@ -191,6 +191,50 @@ exports.Prisma.BedScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TenantShiftTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  department: 'department',
+  type: 'type',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  breakDuration: 'breakDuration',
+  rule: 'rule',
+  staffing: 'staffing',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TenantShiftRosterScalarFieldEnum = {
+  id: 'id',
+  staffId: 'staffId',
+  templateId: 'templateId',
+  date: 'date',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  department: 'department',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TenantAttendanceScalarFieldEnum = {
+  id: 'id',
+  staffId: 'staffId',
+  rosterId: 'rosterId',
+  date: 'date',
+  checkIn: 'checkIn',
+  checkOut: 'checkOut',
+  status: 'status',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  deviceInfo: 'deviceInfo',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -198,6 +242,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -224,7 +272,10 @@ exports.Prisma.ModelName = {
   Appointment: 'Appointment',
   Department: 'Department',
   Staff: 'Staff',
-  Bed: 'Bed'
+  Bed: 'Bed',
+  TenantShiftTemplate: 'TenantShiftTemplate',
+  TenantShiftRoster: 'TenantShiftRoster',
+  TenantAttendance: 'TenantAttendance'
 };
 
 /**
