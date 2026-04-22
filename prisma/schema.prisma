@@ -17,10 +17,12 @@ model User {
   files        File[]
   branchId     String?
   branch       Branch?  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  status       String   @default("Active")
-  isRestricted Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  status           String   @default("Active")
+  isRestricted     Boolean  @default(false)
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 enum Role {

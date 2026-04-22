@@ -165,6 +165,55 @@ const getCredentialTemplate = (name, email, password, role) => {
   `;
 };
 
+const getResetTemplate = (name, resetLink) => {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset Passcode</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+            body { font-family: 'Outfit', sans-serif; line-height: 1.6; color: #1e293b; margin: 0; padding: 0; background-color: #f8fafc; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+            .header { background: #2E37A4; padding: 40px 20px; text-align: center; color: white; }
+            .header h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.025em; text-transform: uppercase; }
+            .content { padding: 40px; }
+            .welcome-text { font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 20px; }
+            .footer { background: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+            .button { display: inline-block; padding: 14px 32px; background: #2E37A4; color: white !important; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; margin-top: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>RECOVER ACCESS TOKEN</h1>
+                <p style="margin-top: 10px; opacity: 0.9; font-size: 14px;">Identity Verification Protocol</p>
+            </div>
+            <div class="content">
+                <p class="welcome-text">Hello, ${name}</p>
+                <p>A request was initiated to reset your institutional access passcode. If you did not initiate this request, please contact your system administrator immediately.</p>
+                
+                <p>To establish new security credentials, please engage the secure reconfiguration link below:</p>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="${resetLink}" class="button">Reconfigure Passcode</a>
+                </div>
+
+                <p style="margin-top: 40px; font-size: 12px; color: #94a3b8;">
+                    This link will expire in 60 minutes for infrastructure security.
+                </p>
+            </div>
+            <div class="footer">
+                &copy; ${new Date().getFullYear()} @gohilinfotech. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>
+  `;
+};
+
 const sendCredentials = async (to, name, password, role) => {
   try {
     const recipients = Array.isArray(to) ? to.join(', ') : to;
@@ -182,6 +231,23 @@ const sendCredentials = async (to, name, password, role) => {
   }
 };
 
+const sendResetLink = async (to, name, resetLink) => {
+  try {
+    const info = await transporter.sendMail({
+      from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
+      to: to,
+      subject: `[SECURITY] Passcode Reconfiguration Requested`,
+      html: getResetTemplate(name, resetLink),
+    });
+    console.log(`📧 Reset link dispatched to ${to}: ${info.messageId}`);
+    return true;
+  } catch (error) {
+    console.error(`❌ Reset link dispatch failure to ${to}:`, error);
+    return false;
+  }
+};
+
 module.exports = {
-  sendCredentials
+  sendCredentials,
+  sendResetLink
 };
