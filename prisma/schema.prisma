@@ -8,21 +8,24 @@ datasource tenant_db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  name         String?
-  password     String
-  role         Role     @default(SUPERADMIN)
-  consoleRoles Json?    // JSON array of roles e.g. ["PHARMACY", "LABORATORY"]
-  files        File[]
-  branchId     String?
-  branch       Branch?  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  status           String   @default("Active")
-  isRestricted     Boolean  @default(false)
+  id               String    @id @default(uuid())
+  email            String    @unique
+  name             String?
+  password         String
+  role             Role      @default(SUPERADMIN)
+  consoleRoles     Json? // JSON array of roles e.g. ["PHARMACY", "LABORATORY"]
+  files            File[]
+  branchId         String?
+  branch           Branch?   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  status           String    @default("Active")
+  isRestricted     Boolean   @default(false)
+  shiftType        String? // Day, Night, Emergency
+  shiftStartTime   String?
+  shiftEndTime     String?
   resetToken       String?
   resetTokenExpiry DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
 
 enum Role {
@@ -62,13 +65,13 @@ model Branch {
   isDbInitialized Boolean @default(false)
   schemaVersion   String?
 
-  users       User[]
-  assignments BranchAssignment[]
+  users          User[]
+  assignments    BranchAssignment[]
   shiftTemplates ShiftTemplate[]
-  rosters     ShiftRoster[]
-  attendance  Attendance[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  rosters        ShiftRoster[]
+  attendance     Attendance[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
 }
 
 model File {
@@ -160,42 +163,42 @@ model AuditLog {
 }
 
 model ShiftTemplate {
-  id             String   @id @default(uuid())
-  name           String
-  department     String
-  type           String   // Morning, Evening, Night
-  startTime      String
-  endTime        String
-  breakDuration  String
-  rule           String   // Fixed Shift, etc.
-  staffing       Json     // { Doctor: 1, Nurse: 2, etc. }
-  branchId       String
-  branch         Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id            String   @id @default(uuid())
+  name          String
+  department    String
+  type          String // Morning, Evening, Night
+  startTime     String
+  endTime       String
+  breakDuration String
+  rule          String // Fixed Shift, etc.
+  staffing      Json // { Doctor: 1, Nurse: 2, etc. }
+  branchId      String
+  branch        Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  rosters        ShiftRoster[]
+  rosters ShiftRoster[]
 
   @@map("shift_templates")
 }
 
 model ShiftRoster {
-  id             String   @id @default(uuid())
-  staffId        String   // Link to Staff in Tenant DB
-  staffName      String   // Denormalized for Main DB visibility
-  templateId     String?
-  template       ShiftTemplate? @relation(fields: [templateId], references: [id])
-  date           DateTime
-  startTime      String
-  endTime        String
-  department     String
-  status         String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED, ABSENT, LEAVE
-  notes          String?
-  branchId       String
-  branch         Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  attendance     Attendance?
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  id         String         @id @default(uuid())
+  staffId    String // Link to Staff in Tenant DB
+  staffName  String // Denormalized for Main DB visibility
+  templateId String?
+  template   ShiftTemplate? @relation(fields: [templateId], references: [id])
+  date       DateTime
+  startTime  String
+  endTime    String
+  department String
+  status     String         @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED, ABSENT, LEAVE
+  notes      String?
+  branchId   String
+  branch     Branch         @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  attendance Attendance?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 
   @@index([branchId])
   @@index([date])
@@ -203,23 +206,23 @@ model ShiftRoster {
 }
 
 model Attendance {
-  id           String   @id @default(uuid())
-  staffId      String   // Link to Staff in Tenant DB
-  staffName    String
-  branchId     String
-  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  rosterId     String?  @unique // One-to-one with roster entry
-  roster       ShiftRoster? @relation(fields: [rosterId], references: [id], onDelete: SetNull)
-  date         DateTime
-  checkIn      DateTime?
-  checkOut     DateTime?
-  status       String   @default("PRESENT") // PRESENT, LATE, HALFDAY, OVERTIME, ABSENT
-  latitude     Float?
-  longitude    Float?
-  deviceInfo   String?
-  notes        String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id         String       @id @default(uuid())
+  staffId    String // Link to Staff in Tenant DB
+  staffName  String
+  branchId   String
+  branch     Branch       @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  rosterId   String?      @unique // One-to-one with roster entry
+  roster     ShiftRoster? @relation(fields: [rosterId], references: [id], onDelete: SetNull)
+  date       DateTime
+  checkIn    DateTime?
+  checkOut   DateTime?
+  status     String       @default("PRESENT") // PRESENT, LATE, HALFDAY, OVERTIME, ABSENT
+  latitude   Float?
+  longitude  Float?
+  deviceInfo String?
+  notes      String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
   @@index([branchId])
   @@index([date])

@@ -1704,6 +1704,9 @@ export namespace Prisma {
     role: string | null
     status: string | null
     isRestricted: boolean | null
+    shiftType: string | null
+    shiftStartTime: string | null
+    shiftEndTime: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1716,6 +1719,9 @@ export namespace Prisma {
     role: string | null
     status: string | null
     isRestricted: boolean | null
+    shiftType: string | null
+    shiftStartTime: string | null
+    shiftEndTime: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1729,6 +1735,9 @@ export namespace Prisma {
     consoleRoles: number
     status: number
     isRestricted: number
+    shiftType: number
+    shiftStartTime: number
+    shiftEndTime: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1743,6 +1752,9 @@ export namespace Prisma {
     role?: true
     status?: true
     isRestricted?: true
+    shiftType?: true
+    shiftStartTime?: true
+    shiftEndTime?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1755,6 +1767,9 @@ export namespace Prisma {
     role?: true
     status?: true
     isRestricted?: true
+    shiftType?: true
+    shiftStartTime?: true
+    shiftEndTime?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1768,6 +1783,9 @@ export namespace Prisma {
     consoleRoles?: true
     status?: true
     isRestricted?: true
+    shiftType?: true
+    shiftStartTime?: true
+    shiftEndTime?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1854,6 +1872,9 @@ export namespace Prisma {
     consoleRoles: JsonValue | null
     status: string
     isRestricted: boolean
+    shiftType: string | null
+    shiftStartTime: string | null
+    shiftEndTime: string | null
     createdAt: Date
     updatedAt: Date
     _count: TenantUserCountAggregateOutputType | null
@@ -1884,6 +1905,9 @@ export namespace Prisma {
     consoleRoles?: boolean
     status?: boolean
     isRestricted?: boolean
+    shiftType?: boolean
+    shiftStartTime?: boolean
+    shiftEndTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1897,6 +1921,9 @@ export namespace Prisma {
     consoleRoles?: boolean
     status?: boolean
     isRestricted?: boolean
+    shiftType?: boolean
+    shiftStartTime?: boolean
+    shiftEndTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1910,6 +1937,9 @@ export namespace Prisma {
     consoleRoles?: boolean
     status?: boolean
     isRestricted?: boolean
+    shiftType?: boolean
+    shiftStartTime?: boolean
+    shiftEndTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantUser"]>
@@ -1923,11 +1953,14 @@ export namespace Prisma {
     consoleRoles?: boolean
     status?: boolean
     isRestricted?: boolean
+    shiftType?: boolean
+    shiftStartTime?: boolean
+    shiftEndTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "consoleRoles" | "status" | "isRestricted" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantUser"]>
+  export type TenantUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "consoleRoles" | "status" | "isRestricted" | "shiftType" | "shiftStartTime" | "shiftEndTime" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantUser"]>
 
   export type $TenantUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantUser"
@@ -1941,6 +1974,9 @@ export namespace Prisma {
       consoleRoles: Prisma.JsonValue | null
       status: string
       isRestricted: boolean
+      shiftType: string | null
+      shiftStartTime: string | null
+      shiftEndTime: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantUser"]>
@@ -2374,6 +2410,9 @@ export namespace Prisma {
     readonly consoleRoles: FieldRef<"TenantUser", 'Json'>
     readonly status: FieldRef<"TenantUser", 'String'>
     readonly isRestricted: FieldRef<"TenantUser", 'Boolean'>
+    readonly shiftType: FieldRef<"TenantUser", 'String'>
+    readonly shiftStartTime: FieldRef<"TenantUser", 'String'>
+    readonly shiftEndTime: FieldRef<"TenantUser", 'String'>
     readonly createdAt: FieldRef<"TenantUser", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantUser", 'DateTime'>
   }
@@ -11855,6 +11894,9 @@ export namespace Prisma {
     consoleRoles: 'consoleRoles',
     status: 'status',
     isRestricted: 'isRestricted',
+    shiftType: 'shiftType',
+    shiftStartTime: 'shiftStartTime',
+    shiftEndTime: 'shiftEndTime',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12133,6 +12175,9 @@ export namespace Prisma {
     consoleRoles?: JsonNullableFilter<"TenantUser">
     status?: StringFilter<"TenantUser"> | string
     isRestricted?: BoolFilter<"TenantUser"> | boolean
+    shiftType?: StringNullableFilter<"TenantUser"> | string | null
+    shiftStartTime?: StringNullableFilter<"TenantUser"> | string | null
+    shiftEndTime?: StringNullableFilter<"TenantUser"> | string | null
     createdAt?: DateTimeFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeFilter<"TenantUser"> | Date | string
   }
@@ -12146,6 +12191,9 @@ export namespace Prisma {
     consoleRoles?: SortOrderInput | SortOrder
     status?: SortOrder
     isRestricted?: SortOrder
+    shiftType?: SortOrderInput | SortOrder
+    shiftStartTime?: SortOrderInput | SortOrder
+    shiftEndTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12162,6 +12210,9 @@ export namespace Prisma {
     consoleRoles?: JsonNullableFilter<"TenantUser">
     status?: StringFilter<"TenantUser"> | string
     isRestricted?: BoolFilter<"TenantUser"> | boolean
+    shiftType?: StringNullableFilter<"TenantUser"> | string | null
+    shiftStartTime?: StringNullableFilter<"TenantUser"> | string | null
+    shiftEndTime?: StringNullableFilter<"TenantUser"> | string | null
     createdAt?: DateTimeFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeFilter<"TenantUser"> | Date | string
   }, "id" | "email">
@@ -12175,6 +12226,9 @@ export namespace Prisma {
     consoleRoles?: SortOrderInput | SortOrder
     status?: SortOrder
     isRestricted?: SortOrder
+    shiftType?: SortOrderInput | SortOrder
+    shiftStartTime?: SortOrderInput | SortOrder
+    shiftEndTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantUserCountOrderByAggregateInput
@@ -12194,6 +12248,9 @@ export namespace Prisma {
     consoleRoles?: JsonNullableWithAggregatesFilter<"TenantUser">
     status?: StringWithAggregatesFilter<"TenantUser"> | string
     isRestricted?: BoolWithAggregatesFilter<"TenantUser"> | boolean
+    shiftType?: StringNullableWithAggregatesFilter<"TenantUser"> | string | null
+    shiftStartTime?: StringNullableWithAggregatesFilter<"TenantUser"> | string | null
+    shiftEndTime?: StringNullableWithAggregatesFilter<"TenantUser"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TenantUser"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantUser"> | Date | string
   }
@@ -12839,6 +12896,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     isRestricted?: boolean
+    shiftType?: string | null
+    shiftStartTime?: string | null
+    shiftEndTime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12852,6 +12912,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     isRestricted?: boolean
+    shiftType?: string | null
+    shiftStartTime?: string | null
+    shiftEndTime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12865,6 +12928,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     isRestricted?: BoolFieldUpdateOperationsInput | boolean
+    shiftType?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftStartTime?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftEndTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12878,6 +12944,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     isRestricted?: BoolFieldUpdateOperationsInput | boolean
+    shiftType?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftStartTime?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftEndTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12891,6 +12960,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: string
     isRestricted?: boolean
+    shiftType?: string | null
+    shiftStartTime?: string | null
+    shiftEndTime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12904,6 +12976,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     isRestricted?: BoolFieldUpdateOperationsInput | boolean
+    shiftType?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftStartTime?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftEndTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12917,6 +12992,9 @@ export namespace Prisma {
     consoleRoles?: NullableJsonNullValueInput | InputJsonValue
     status?: StringFieldUpdateOperationsInput | string
     isRestricted?: BoolFieldUpdateOperationsInput | boolean
+    shiftType?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftStartTime?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftEndTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13730,6 +13808,9 @@ export namespace Prisma {
     consoleRoles?: SortOrder
     status?: SortOrder
     isRestricted?: SortOrder
+    shiftType?: SortOrder
+    shiftStartTime?: SortOrder
+    shiftEndTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13742,6 +13823,9 @@ export namespace Prisma {
     role?: SortOrder
     status?: SortOrder
     isRestricted?: SortOrder
+    shiftType?: SortOrder
+    shiftStartTime?: SortOrder
+    shiftEndTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13754,6 +13838,9 @@ export namespace Prisma {
     role?: SortOrder
     status?: SortOrder
     isRestricted?: SortOrder
+    shiftType?: SortOrder
+    shiftStartTime?: SortOrder
+    shiftEndTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

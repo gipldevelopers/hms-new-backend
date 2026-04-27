@@ -220,7 +220,10 @@ const initializeTenantSchema = async (branchId) => {
             name: user.name,
             password: user.password,
             role: user.role,
-            status: user.status
+            status: user.status,
+            shiftType: user.shiftType,
+            shiftStartTime: user.shiftStartTime,
+            shiftEndTime: user.shiftEndTime
           },
           create: {
             id: user.id, // Ensure matching ID
@@ -228,7 +231,10 @@ const initializeTenantSchema = async (branchId) => {
             name: user.name,
             password: user.password,
             role: user.role,
-            status: user.status
+            status: user.status,
+            shiftType: user.shiftType,
+            shiftStartTime: user.shiftStartTime,
+            shiftEndTime: user.shiftEndTime
           }
         });
       }

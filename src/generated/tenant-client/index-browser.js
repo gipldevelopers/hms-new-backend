@@ -129,6 +129,9 @@ exports.Prisma.TenantUserScalarFieldEnum = {
   consoleRoles: 'consoleRoles',
   status: 'status',
   isRestricted: 'isRestricted',
+  shiftType: 'shiftType',
+  shiftStartTime: 'shiftStartTime',
+  shiftEndTime: 'shiftEndTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

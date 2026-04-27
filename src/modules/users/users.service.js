@@ -1,3 +1,4 @@
+// Prisma schema updated: shiftType added
 const { mainDb, getTenantClient } = require("../../database/tenant-manager");
 const bcrypt = require('bcryptjs');
 const emailService = require('../../services/email.service');
@@ -7,16 +8,16 @@ const crypto = require('crypto');
  * Generate a cryptographically secure 13-character random password
  */
 const generateRandomPassword = () => {
-    return crypto.randomBytes(10).toString('base64').substring(0, 13).replace(/\+/g, '0').replace(/\//g, '1');
+  return crypto.randomBytes(10).toString('base64').substring(0, 13).replace(/\+/g, '0').replace(/\//g, '1');
 };
 
 const getAllUsers = async (filters = {}) => {
   const { role, branchId, search } = filters;
   const where = {};
-  
+
   if (role && role !== 'All') where.role = role.toUpperCase();
   if (branchId) where.branchId = branchId;
-  
+
   if (search) {
     where.OR = [
       { name: { contains: search, mode: 'insensitive' } },
@@ -33,7 +34,7 @@ const getAllUsers = async (filters = {}) => {
 
 const createUser = async (userData) => {
   const { password: manualPassword, branchId, ...otherData } = userData;
-  
+
   // Normalize branchId: "" should be null for UUID relations
   const normalizedBranchId = (branchId === "" || !branchId) ? null : branchId;
 
@@ -44,7 +45,7 @@ const createUser = async (userData) => {
   // Use manual password if provided (e.g. from seed), otherwise generate 13-char one
   const plainPassword = manualPassword || generateRandomPassword();
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
-  
+
   console.log(`👤 Provisioning User: ${primaryEmail} (Role: ${otherData.role}, Branch: ${normalizedBranchId})`);
 
   // 1. Create in Main DB
@@ -62,7 +63,7 @@ const createUser = async (userData) => {
     try {
       console.log(`📡 Attempting to sync user ${user.email} to branch ${user.branchId}...`);
       const tenantDb = await getTenantClient(user.branchId);
-      
+
       await tenantDb.tenantUser.create({
         data: {
           id: user.id, // Syncing the exact ID from Main DB
@@ -71,7 +72,10 @@ const createUser = async (userData) => {
           password: hashedPassword,
           role: user.role,
           consoleRoles: user.consoleRoles,
-          status: user.status
+          status: user.status,
+          shiftType: user.shiftType,
+          shiftStartTime: user.shiftStartTime,
+          shiftEndTime: user.shiftEndTime
         }
       });
       console.log(`✅ Successfully synced ${user.email} to tenant DB (ID Match: ${user.id}).`);
@@ -94,7 +98,7 @@ const updateUser = async (id, userData) => {
   if (branchId !== undefined) {
     updateData.branchId = (branchId === "" || !branchId) ? null : branchId;
   }
-  
+
   if (password) {
     updateData.password = await bcrypt.hash(password, 10);
   }
@@ -116,10 +120,13 @@ const updateUser = async (id, userData) => {
           role: user.role,
           consoleRoles: user.consoleRoles,
           status: user.status,
-          isRestricted: user.isRestricted
+          isRestricted: user.isRestricted,
+          shiftType: user.shiftType,
+          shiftStartTime: user.shiftStartTime,
+          shiftEndTime: user.shiftEndTime
         }
-      }).catch(() => {}); // ignore if doesn't exist in tenant yet
-    } catch (err) {}
+      }).catch(() => { }); // ignore if doesn't exist in tenant yet
+    } catch (err) { }
   }
 
   return user;
@@ -133,8 +140,8 @@ const deleteUser = async (id) => {
   if (user.branchId && user.role !== 'SUPERADMIN') {
     try {
       const tenantDb = await getTenantClient(user.branchId);
-      await tenantDb.tenantUser.delete({ where: { email: user.email } }).catch(() => {});
-    } catch (err) {}
+      await tenantDb.tenantUser.delete({ where: { email: user.email } }).catch(() => { });
+    } catch (err) { }
   }
 
   return await mainDb.user.delete({ where: { id } });
@@ -142,21 +149,21 @@ const deleteUser = async (id) => {
 
 const getStats = async (branchId = null) => {
   const where = branchId ? { branchId } : {};
-  
+
   const totalUsers = await mainDb.user.count({ where });
   const doctors = await mainDb.user.count({ where: { ...where, role: 'DOCTOR' } });
   const staff = await mainDb.user.count({ where: { ...where, role: 'STAFF' } });
-  const admins = await mainDb.user.count({ 
-    where: { 
-      ...where, 
-      role: { in: ['SUPERADMIN', 'BRANCH_ADMIN'] } 
-    } 
+  const admins = await mainDb.user.count({
+    where: {
+      ...where,
+      role: { in: ['SUPERADMIN', 'BRANCH_ADMIN'] }
+    }
   });
 
   return {
     totalUsers,
     activeDoctors: doctors,
-    activeNurses: staff, 
+    activeNurses: staff,
     systemAdmins: admins
   };
 };
