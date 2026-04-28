@@ -24,25 +24,50 @@ model TenantUser {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  doctorAdmissions Admission[] @relation("DoctorAdmissions")
+
   @@map("users")
 }
 
 model Patient {
-  id          String   @id @default(uuid())
-  firstName   String
-  lastName    String
-  email       String?
-  phone       String?
-  dateOfBirth DateTime?
-  gender      String?
-  bloodGroup  String?
-  address     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  age       Int?
+  gender    String?
+  contact   String?
+  email     String?
+  address   String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   
   appointments Appointment[]
+  admissions   Admission[]
 
   @@map("patients")
+}
+
+model Admission {
+  id           String    @id @default(uuid())
+  patientId    String
+  patient      Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+  wardId       String
+  ward         Ward      @relation(fields: [wardId], references: [id])
+  bedId        String
+  bed          Bed       @relation(fields: [bedId], references: [id])
+  doctorId     String?
+  doctor       TenantUser? @relation("DoctorAdmissions", fields: [doctorId], references: [id])
+  admissionDate DateTime  @default(now())
+  dischargeDate DateTime?
+  status       String    @default("In Progress") // In Progress, Completed, Pending
+  reason       String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("admissions")
 }
 
 model Appointment {
@@ -67,34 +92,52 @@ model Department {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  wards       Ward[]
   specialists Staff[]
+  admissions  Admission[]
 
   @@map("departments")
 }
 
 model Staff {
-  id           String     @id @default(uuid())
-  firstName    String
-  lastName     String
-  designation  String
+  id             String      @id @default(uuid())
+  firstName      String
+  lastName       String
+  designation    String
   specialization String?
-  departmentId String?
-  department   Department? @relation(fields: [departmentId], references: [id])
-  email        String     @unique
-  phone        String?
-  active       Boolean    @default(true)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  departmentId   String?
+  department     Department? @relation(fields: [departmentId], references: [id])
+  email          String      @unique
+  phone          String?
+  active         Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
   @@map("staff")
 }
 
+model Ward {
+  id           String     @id @default(uuid())
+  name         String
+  code         String     @unique
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  beds         Bed[]
+  admissions   Admission[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("wards")
+}
+
 model Bed {
   id           String   @id @default(uuid())
-  bedNumber    String   @unique
-  wardName     String
-  type         String   // GENERAL, ICU, PRIVATE
-  status       String   @default("AVAILABLE") // AVAILABLE, OCCUPIED, MAINTENANCE
+  label        String
+  equipmentId  String?
+  wardId       String
+  ward         Ward     @relation(fields: [wardId], references: [id], onDelete: Cascade)
+  status       String   @default("AVAILABLE") // AVAILABLE, OCCUPIED, MAINTENANCE, CLEANING
+  admissions   Admission[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

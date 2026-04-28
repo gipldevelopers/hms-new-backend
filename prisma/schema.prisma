@@ -26,6 +26,8 @@ model User {
   resetTokenExpiry DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+
+  doctorAdmissions Admission[] @relation("DoctorAdmissions")
 }
 
 enum Role {
@@ -70,8 +72,59 @@ model Branch {
   shiftTemplates ShiftTemplate[]
   rosters        ShiftRoster[]
   attendance     Attendance[]
+  
+  departments    Department[]
+  wards          Ward[]
+  beds           Bed[]
+  patients       Patient[]
+  admissions     Admission[]
+
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
+}
+
+model Patient {
+  id        String   @id @default(uuid())
+  name      String
+  age       Int
+  gender    String
+  contact   String?
+  email     String?
+  address   String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  branchId  String
+  branch    Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  admissions Admission[]
+
+  @@map("patients")
+}
+
+model Admission {
+  id           String    @id @default(uuid())
+  patientId    String
+  patient      Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+  wardId       String
+  ward         Ward      @relation(fields: [wardId], references: [id])
+  bedId        String
+  bed          Bed       @relation(fields: [bedId], references: [id])
+  doctorId     String?
+  doctor       User?     @relation("DoctorAdmissions", fields: [doctorId], references: [id])
+  branchId     String
+  branch       Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  admissionDate DateTime  @default(now())
+  dischargeDate DateTime?
+  status       String    @default("In Progress") // In Progress, Completed, Pending
+  reason       String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("admissions")
 }
 
 model File {
@@ -227,4 +280,56 @@ model Attendance {
   @@index([branchId])
   @@index([date])
   @@map("attendance_logs")
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String
+  code        String
+  description String?  @tenant_db.Text
+  active      Boolean  @default(true)
+  branchId    String
+  branch      Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  wards Ward[]
+  admissions Admission[]
+
+  @@unique([branchId, code])
+  @@map("departments")
+}
+
+model Ward {
+  id           String     @id @default(uuid())
+  name         String
+  code         String
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  branchId     String
+  branch       Branch     @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  beds Bed[]
+  admissions Admission[]
+
+  @@unique([branchId, code])
+  @@map("wards")
+}
+
+model Bed {
+  id           String   @id @default(uuid())
+  label        String
+  equipmentId  String?
+  wardId       String
+  ward         Ward     @relation(fields: [wardId], references: [id], onDelete: Cascade)
+  branchId     String
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  status       String   @default("AVAILABLE")
+  admissions   Admission[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("beds")
 }

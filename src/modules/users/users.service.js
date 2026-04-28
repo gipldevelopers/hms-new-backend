@@ -46,7 +46,13 @@ const createUser = async (userData) => {
   const plainPassword = manualPassword || generateRandomPassword();
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-  console.log(`👤 Provisioning User: ${primaryEmail} (Role: ${otherData.role}, Branch: ${normalizedBranchId})`);
+  // 0. Check for existing email in Main DB
+  const existingUser = await mainDb.user.findUnique({
+    where: { email: primaryEmail }
+  });
+  if (existingUser) {
+    throw new Error(`User with email ${primaryEmail} already exists`);
+  }
 
   // 1. Create in Main DB
   const user = await mainDb.user.create({

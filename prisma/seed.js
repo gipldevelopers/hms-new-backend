@@ -30,8 +30,53 @@ async function main() {
       console.log(`ℹ️ Skipped: Super Admin (${adminEmail}) (Already exists)`);
     }
 
-    // 2. Create Demo Users for All Roles
-    const roles = [
+    // 2. Create Branches
+    const branches = [
+      {
+        name: 'Apollo Hospital Ahmedabad',
+        code: 'AHD001',
+        email: 'ahmedabad@apollo.com',
+        contact: '+91 79 1234 5678',
+        address: 'Plot No. 1A, SG Highway',
+        city: 'Ahmedabad',
+        state: 'Gujarat',
+        active: true,
+      },
+      {
+        name: 'Fortis Hospital Bangalore',
+        code: 'BLR001',
+        email: 'bangalore@fortis.com',
+        contact: '+91 80 9876 5432',
+        address: '154/9, Bannerghatta Road',
+        city: 'Bangalore',
+        state: 'Karnataka',
+        active: true,
+      }
+    ];
+
+    console.log('\n🏢 Processing Hospital Branches...');
+    let firstBranchId = null;
+
+    for (const branch of branches) {
+      try {
+        let existingBranch = await prisma.branch.findUnique({
+          where: { code: branch.code }
+        });
+
+        if (!existingBranch) {
+          existingBranch = await prisma.branch.create({ data: branch });
+          console.log(`✅ Added: Branch - ${branch.name} (${branch.code})`);
+        } else {
+          console.log(`ℹ️ Skipped: Branch - ${branch.name} (${branch.code}) (Already exists)`);
+        }
+        if (!firstBranchId) firstBranchId = existingBranch.id;
+      } catch (branchError) {
+        console.error(`❌ Failed to process branch ${branch.name}:`, branchError.message);
+      }
+    }
+
+    // 3. Create Demo Users for All Roles
+    const demoRoles = [
       { name: 'Branch Admin', role: 'BRANCH_ADMIN', slug: 'branchadmin' },
       { name: 'Doctor', role: 'DOCTOR', slug: 'doctor' },
       { name: 'Staff', role: 'STAFF', slug: 'staff' },
@@ -44,7 +89,7 @@ async function main() {
     ];
 
     console.log('\n👥 Processing Demo Users...');
-    for (const r of roles) {
+    for (const r of demoRoles) {
       const email = `${r.slug}.developer@gohilinfotech.com`;
       try {
         const existing = await prisma.user.findUnique({ where: { email } });
@@ -56,87 +101,21 @@ async function main() {
               name: r.name,
               password,
               role: r.role,
+              branchId: firstBranchId // Link to first branch by default
             }
           });
-          console.log(`✅ Added: ${r.name} (${email})`);
+          console.log(`✅ Added: ${r.name} (${email}) - Linked to Branch`);
+        } else if (!existing.branchId && firstBranchId) {
+          await prisma.user.update({
+            where: { id: existing.id },
+            data: { branchId: firstBranchId }
+          });
+          console.log(`✅ Updated: ${r.name} (${email}) - Linked to Branch`);
         } else {
-          console.log(`ℹ️ Skipped: ${r.name} (Already exists)`);
+          console.log(`ℹ️ Skipped: ${r.name} (Already exists and linked)`);
         }
       } catch (err) {
         console.error(`❌ Failed to seed ${r.role}:`, err.message);
-      }
-    }
-
-    // 3. Create Branches
-    const branches = [
-      {
-        name: 'Apollo Hospital Ahmedabad',
-        code: 'AHD001',
-        email: 'ahmedabad@apollo.com',
-        contact: '+91 79 1234 5678',
-        address: 'Plot No. 1A, SG Highway',
-        city: 'Ahmedabad',
-        state: 'Gujarat',
-        isActive: true,
-      },
-      {
-        name: 'Fortis Hospital Bangalore',
-        code: 'BLR001',
-        email: 'bangalore@fortis.com',
-        contact: '+91 80 9876 5432',
-        address: '154/9, Bannerghatta Road',
-        city: 'Bangalore',
-        state: 'Karnataka',
-        isActive: true,
-      },
-      {
-        name: 'Max Healthcare Delhi',
-        code: 'DEL001',
-        email: 'delhi@max.com',
-        contact: '+91 11 2345 6789',
-        address: '1-2, Press Enclave Road, Saket',
-        city: 'New Delhi',
-        state: 'Delhi',
-        isActive: true,
-      },
-      {
-        name: 'Manipal Hospital Mumbai',
-        code: 'MUM001',
-        email: 'mumbai@manipal.com',
-        contact: '+91 22 8765 4321',
-        address: 'Parel East, Lal Baug',
-        city: 'Mumbai',
-        state: 'Maharashtra',
-        isActive: true,
-      },
-      {
-        name: 'Medanta Hospital Gurugram',
-        code: 'GUR001',
-        email: 'gurugram@medanta.com',
-        contact: '+91 124 456 7890',
-        address: 'Sector 38, CH Baktawar Singh Rd',
-        city: 'Gurugram',
-        state: 'Haryana',
-        isActive: true,
-      },
-    ];
-
-    console.log('\n🏢 Processing Hospital Branches...');
-
-    for (const branch of branches) {
-      try {
-        const existingBranch = await prisma.branch.findUnique({
-          where: { code: branch.code }
-        });
-
-        if (!existingBranch) {
-          await prisma.branch.create({ data: branch });
-          console.log(`✅ Added: Branch - ${branch.name} (${branch.code})`);
-        } else {
-          console.log(`ℹ️ Skipped: Branch - ${branch.name} (${branch.code}) (Already exists)`);
-        }
-      } catch (branchError) {
-        console.error(`❌ Failed to process branch ${branch.name}:`, branchError.message);
       }
     }
 

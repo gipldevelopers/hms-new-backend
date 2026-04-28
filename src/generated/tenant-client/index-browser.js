@@ -138,14 +138,29 @@ exports.Prisma.TenantUserScalarFieldEnum = {
 
 exports.Prisma.PatientScalarFieldEnum = {
   id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  email: 'email',
-  phone: 'phone',
-  dateOfBirth: 'dateOfBirth',
+  name: 'name',
+  age: 'age',
   gender: 'gender',
-  bloodGroup: 'bloodGroup',
+  contact: 'contact',
+  email: 'email',
   address: 'address',
+  emergencyContactName: 'emergencyContactName',
+  emergencyContactPhone: 'emergencyContactPhone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdmissionScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  departmentId: 'departmentId',
+  wardId: 'wardId',
+  bedId: 'bedId',
+  doctorId: 'doctorId',
+  admissionDate: 'admissionDate',
+  dischargeDate: 'dischargeDate',
+  status: 'status',
+  reason: 'reason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -184,11 +199,20 @@ exports.Prisma.StaffScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  departmentId: 'departmentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BedScalarFieldEnum = {
   id: 'id',
-  bedNumber: 'bedNumber',
-  wardName: 'wardName',
-  type: 'type',
+  label: 'label',
+  equipmentId: 'equipmentId',
+  wardId: 'wardId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -272,9 +296,11 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   TenantUser: 'TenantUser',
   Patient: 'Patient',
+  Admission: 'Admission',
   Appointment: 'Appointment',
   Department: 'Department',
   Staff: 'Staff',
+  Ward: 'Ward',
   Bed: 'Bed',
   TenantShiftTemplate: 'TenantShiftTemplate',
   TenantShiftRoster: 'TenantShiftRoster',

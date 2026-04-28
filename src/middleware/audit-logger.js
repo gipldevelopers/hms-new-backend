@@ -50,6 +50,11 @@ const auditLogger = (moduleName) => {
         if (path.includes("/auth/logout")) action = "USER_LOGOUT";
         if (path.includes("/users") && reqData.method === "POST") action = "PROVISION_USER";
         if (path.includes("/branches") && reqData.method === "POST") action = "CREATE_BRANCH";
+        if (path.includes("/wards/sync")) action = "SYNC_INFRASTRUCTURE";
+        if (path.includes("/wards/") && path.includes("/status")) action = "TOGGLE_DEPARTMENT_STATUS";
+        if (path.includes("/staff") && reqData.method === "POST") action = "CREATE_STAFF";
+        if (path.includes("/wards") && reqData.method === "DELETE") action = "DELETE_DEPARTMENT";
+        if (path.includes("/admissions") && reqData.method === "POST") action = "PATIENT_ADMISSION";
         
         // Extract user info for login if not present
         let logUser = reqData.user;
