@@ -14,6 +14,8 @@ const staffRoutes = require('./staff/staff.routes');
 const attendanceRoutes = require('./attendance/attendance.routes');
 const wardsRoutes = require('./wards/wards.routes');
 const admissionsRoutes = require('./admissions/admissions.routes');
+const bedMapRoutes = require('./bed-map/bed-map.routes');
+const patientsRoutes = require('./patients/patients.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -28,5 +30,7 @@ router.use('/staff', staffRoutes);
 router.use('/attendance', attendanceRoutes);
 router.use('/wards', wardsRoutes);
 router.use('/admissions', admissionsRoutes);
+router.use('/bed-map', bedMapRoutes);
+router.use('/patients', patientsRoutes);
 
 module.exports = router;

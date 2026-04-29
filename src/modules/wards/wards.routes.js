@@ -6,11 +6,15 @@ const auditLogger = require("../../middleware/audit-logger");
 
 // Applied to all mutation routes in this module
 router.use(auth);
+
+// Overview and Stats accessible by Staff for clinical operations
+router.get("/overview", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), wardsController.getOverview);
+router.get("/stats", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), wardsController.getStats);
+
+// Management routes restricted to Admins
 router.use(authorize("SUPERADMIN", "BRANCH_ADMIN"));
 router.use(auditLogger("INFRASTRUCTURE"));
 
-router.get("/overview", wardsController.getOverview);
-router.get("/stats", wardsController.getStats);
 router.post("/sync", wardsController.syncDepartments);
 router.patch("/:id/status", wardsController.toggleStatus);
 router.delete("/:id", wardsController.deleteDepartment);

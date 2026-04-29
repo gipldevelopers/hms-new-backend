@@ -54,26 +54,10 @@ const syncDepartments = async (branchId, departments) => {
       const incomingWardIds = processedDepts.flatMap(d => d.wards.map(w => w.id));
       const incomingBedIds = processedDepts.flatMap(d => d.wards.flatMap(w => w.beds.map(b => b.id)));
       
-      // 2. Safety Check: Ensure no entities being deleted have active admissions
-      const deptsToDelete = await tx.department.findMany({
-        where: { 
-          id: { notIn: incomingDeptIds },
-          ...(isMain ? { branchId } : {})
-        },
-        include: { _count: { select: { admissions: true } } }
-      });
-
-      const deptsWithAdmissions = deptsToDelete.filter(d => d._count.admissions > 0);
-      const deptIdsWithAdmissions = deptsWithAdmissions.map(d => d.id);
-
-      // Cleanup: Remove departments not in incoming list, EXCEPT those with active admissions
-      await tx.department.deleteMany({
-        where: { 
-          id: { notIn: [...incomingDeptIds, ...deptIdsWithAdmissions] },
-          ...(isMain ? { branchId } : {})
-        }
-      });
-
+      // 2. Pre-Validation: Ensure no entities being deleted have clinical history
+      // We check this in the Tenant DB context (even if isMain is true, we validate against the branch reality)
+      const tenantClient = await getTenantClient(branchId);
+      
       // 3. Process Departments, Wards, and Beds
       for (const dept of processedDepts) {
         const deptData = {
@@ -94,21 +78,26 @@ const syncDepartments = async (branchId, departments) => {
 
         // Cleanup Wards in this department
         const deptWardIds = dept.wards.map(w => w.id);
-        const wardsToDelete = await tx.ward.findMany({
+        
+        // Safety Check for Wards (Tenant DB)
+        const tenantClient = await getTenantClient(branchId);
+        const wardsToDelete = await tenantClient.ward.findMany({
           where: { 
             departmentId: upsertedDept.id,
-            id: { notIn: deptWardIds },
-            ...(isMain ? { branchId } : {})
+            id: { notIn: deptWardIds }
           },
           include: { _count: { select: { admissions: true } } }
         });
 
-        const wardIdsWithAdmissions = wardsToDelete.filter(w => w._count.admissions > 0).map(w => w.id);
+        const blockedWard = wardsToDelete.find(w => w._count.admissions > 0);
+        if (blockedWard) {
+          throw new Error(`Cannot delete ward "${blockedWard.name}" as it has active or past clinical records.`);
+        }
 
         await tx.ward.deleteMany({
           where: { 
             departmentId: upsertedDept.id,
-            id: { notIn: [...deptWardIds, ...wardIdsWithAdmissions] },
+            id: { notIn: deptWardIds },
             ...(isMain ? { branchId } : {})
           }
         });
@@ -128,21 +117,25 @@ const syncDepartments = async (branchId, departments) => {
 
           // Cleanup Beds in this ward
           const wardBedIds = ward.beds.map(b => b.id);
-          const bedsToDelete = await tx.bed.findMany({
+
+          // Safety Check for Beds (Tenant DB)
+          const bedsToDelete = await tenantClient.bed.findMany({
             where: { 
               wardId: upsertedWard.id,
-              id: { notIn: wardBedIds },
-              ...(isMain ? { branchId } : {})
+              id: { notIn: wardBedIds }
             },
             include: { _count: { select: { admissions: true } } }
           });
 
-          const bedIdsWithAdmissions = bedsToDelete.filter(b => b._count.admissions > 0).map(b => b.id);
+          const blockedBed = bedsToDelete.find(b => b._count.admissions > 0);
+          if (blockedBed) {
+            throw new Error(`Cannot delete bed "${blockedBed.label}" as it has clinical history. Please discharge the patient first.`);
+          }
 
           await tx.bed.deleteMany({
             where: { 
               wardId: upsertedWard.id,
-              id: { notIn: [...wardBedIds, ...bedIdsWithAdmissions] },
+              id: { notIn: wardBedIds },
               ...(isMain ? { branchId } : {})
             }
           });

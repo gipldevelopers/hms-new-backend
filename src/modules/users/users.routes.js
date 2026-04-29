@@ -13,10 +13,14 @@ router.get("/me", (req, res) => {
   }
   res.json({ success: true, data: user });
 });
+
+// Staff need to fetch doctor lists for clinical operations
+router.get("/", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), userController.getAllUsers);
+
+// Management routes restricted to Admins
 router.use(authorize("SUPERADMIN", "BRANCH_ADMIN"));
 router.use(auditLogger("USER_MANAGEMENT"));
 
-router.get("/", userController.getAllUsers);
 router.get("/stats", userController.getStats);
 router.post("/", userController.createUser);
 router.put("/:id", userController.updateUser);

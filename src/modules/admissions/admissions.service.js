@@ -63,6 +63,10 @@ const createAdmission = async (branchId, data) => {
     tenantDb.bed.findUnique({ where: { id: data.bedId } })
   ]);
 
+  if (realBed && realBed.status === 'OCCUPIED') {
+    throw new Error(`Bed ${realBed.label} is already occupied by another patient.`);
+  }
+
   const syncFunc = async (db, isMain = false) => {
     return await db.$transaction(async (tx) => {
       // 0. Self-Healing: Ensure Department, Ward, and Bed exist in this DB (Main DB sync safety)
