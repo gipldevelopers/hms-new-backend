@@ -150,8 +150,8 @@ const initTables = async (id) => {
   return await initializeTenantSchema(id);
 };
 
-const syncAll = async () => {
-  return await syncAllTenants();
+const syncAll = async (force = false) => {
+  return await syncAllTenants(force);
 };
 
 const getSchemaInfo = async () => {

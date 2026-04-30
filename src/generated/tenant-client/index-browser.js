@@ -185,20 +185,6 @@ exports.Prisma.DepartmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.StaffScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  designation: 'designation',
-  specialization: 'specialization',
-  departmentId: 'departmentId',
-  email: 'email',
-  phone: 'phone',
-  active: 'active',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.WardScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -299,7 +285,6 @@ exports.Prisma.ModelName = {
   Admission: 'Admission',
   Appointment: 'Appointment',
   Department: 'Department',
-  Staff: 'Staff',
   Ward: 'Ward',
   Bed: 'Bed',
   TenantShiftTemplate: 'TenantShiftTemplate',

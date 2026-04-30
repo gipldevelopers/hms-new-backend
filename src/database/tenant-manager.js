@@ -250,17 +250,18 @@ const initializeTenantSchema = async (branchId) => {
 /**
  * Synchronize schema across all registered tenants
  */
-const syncAllTenants = async () => {
+const syncAllTenants = async (force = false) => {
   const currentVersion = getCurrentSchemaVersion();
-  const branches = await mainDb.branch.findMany({
-    where: { 
-      dbName: { not: null },
-      OR: [
-        { schemaVersion: { not: currentVersion } },
-        { schemaVersion: null }
-      ]
-    }
-  });
+  const where = { dbName: { not: null } };
+  
+  if (!force) {
+    where.OR = [
+      { schemaVersion: { not: currentVersion } },
+      { schemaVersion: null }
+    ];
+  }
+
+  const branches = await mainDb.branch.findMany({ where });
 
   console.log(`Starting global sync for ${branches.length} out-of-sync tenants...`);
   const results = { success: [], failed: [] };

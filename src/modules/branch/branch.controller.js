@@ -68,7 +68,8 @@ const initTables = async (req, res) => {
 
 const syncAllBranches = async (req, res) => {
   try {
-    const results = await branchService.syncAll();
+    const { force } = req.query;
+    const results = await branchService.syncAll(force === 'true');
     res.status(200).json({ success: true, data: results });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

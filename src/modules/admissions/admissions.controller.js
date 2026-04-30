@@ -30,6 +30,17 @@ const getOverview = async (req, res) => {
 const createAdmission = async (req, res) => {
   try {
     let branchId = req.body.branchId || req.query.branchId || req.user.branchId;
+    
+    // Fallback logic
+    if (branchId) {
+      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+      if (!branch || !branch.isDbInitialized) branchId = null;
+    }
+    if (!branchId) {
+      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
+      if (firstBranch) branchId = firstBranch.id;
+    }
+
     if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
     
     const result = await admissionsService.createAdmission(branchId, req.body);
@@ -70,6 +81,17 @@ const updateAdmission = async (req, res) => {
   try {
     const { id } = req.params;
     let branchId = req.body.branchId || req.query.branchId || req.user.branchId;
+    
+    // Fallback logic
+    if (branchId) {
+      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+      if (!branch || !branch.isDbInitialized) branchId = null;
+    }
+    if (!branchId) {
+      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
+      if (firstBranch) branchId = firstBranch.id;
+    }
+
     if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
     
     const result = await admissionsService.updateAdmission(branchId, id, req.body);
@@ -84,6 +106,17 @@ const deleteAdmission = async (req, res) => {
   try {
     const { id } = req.params;
     let branchId = req.query.branchId || req.user.branchId;
+    
+    // Fallback logic
+    if (branchId) {
+      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+      if (!branch || !branch.isDbInitialized) branchId = null;
+    }
+    if (!branchId) {
+      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
+      if (firstBranch) branchId = firstBranch.id;
+    }
+
     if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
     
     const result = await admissionsService.deleteAdmission(branchId, id);

@@ -6,10 +6,17 @@ const auditLogger = require("../../middleware/audit-logger");
 
 // Protection & Logging
 router.use(auth);
-router.use(authorize("SUPERADMIN", "BRANCH_ADMIN"));
 router.use(auditLogger("STAFF_MANAGEMENT"));
 
-router.get("/", staffController.getAllStaff);
-router.post("/", staffController.createStaff);
+// Administrative Routes
+router.get("/", authorize("SUPERADMIN", "BRANCH_ADMIN"), staffController.getAllStaff);
+router.post("/", authorize("SUPERADMIN", "BRANCH_ADMIN"), staffController.createStaff);
+
+// Patient Assignment Management (Admins Only)
+router.get("/:id/patients", authorize("SUPERADMIN", "BRANCH_ADMIN"), staffController.getStaffAssignments);
+router.post("/:id/patients", authorize("SUPERADMIN", "BRANCH_ADMIN"), staffController.assignPatients);
+
+// Staff-Specific Routes (Accessible by clinical staff)
+router.get("/my-patients", authorize("STAFF", "DOCTOR", "NURSE", "SUPERADMIN", "BRANCH_ADMIN"), staffController.getMyPatients);
 
 module.exports = router;

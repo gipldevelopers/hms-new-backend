@@ -6,7 +6,6 @@ const { getTenantClient } = require("../../database/tenant-manager");
 const getBedMapHierarchy = async (branchId) => {
   const tenantDb = await getTenantClient(branchId);
   return await tenantDb.department.findMany({
-    where: { active: true },
     include: {
       wards: {
         include: {

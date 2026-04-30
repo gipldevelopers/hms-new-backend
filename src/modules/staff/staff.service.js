@@ -4,50 +4,67 @@ const { getTenantClient, mainDb } = require("../../database/tenant-manager");
  * Get all staff for a specific branch (Tenant DB)
  */
 const getAllStaff = async (branchId) => {
-  const tenantDb = await getTenantClient(branchId);
-  
-  // 1. Get Clinical Staff from Tenant DB
-  const clinicalStaff = await tenantDb.staff.findMany({
-    orderBy: { firstName: 'asc' }
-  });
-
-  // 2. Get Users from Main DB who are doctors/nurses for this branch
+  // Get Users from Main DB who are doctors/nurses/staff for this branch
   const branchUsers = await mainDb.user.findMany({
     where: { 
-      OR: [
-        { branchId: branchId },
-        { branch: { name: { contains: branchId, mode: 'insensitive' } } }
-      ],
-      role: { in: ['DOCTOR', 'STAFF'] }
+      branchId: branchId,
+      role: { in: ['DOCTOR', 'STAFF', 'NURSE'] } // Include all clinical roles
     }
   });
 
-  // 3. Normalize and Combine (REAL DATA ONLY)
-  return [
-    ...clinicalStaff.map(s => ({ ...s, isClinical: true })),
-    ...branchUsers.map(u => ({ 
-      id: u.id, 
-      firstName: u.name?.split(' ')[0] || "User", 
-      lastName: u.name?.split(' ').slice(1).join(' ') || "",
-      designation: u.role,
-      specialization: 'General',
-      email: u.email,
-      isUser: true
-    }))
-  ];
+  // Normalize and return
+  return branchUsers.map(u => ({ 
+    id: u.id, 
+    firstName: u.name?.split(' ')[0] || "User", 
+    lastName: u.name?.split(' ').slice(1).join(' ') || "",
+    designation: u.role,
+    specialization: u.specialization || 'General',
+    email: u.email,
+    isUser: true,
+    isClinical: ['DOCTOR', 'STAFF', 'NURSE'].includes(u.role)
+  }));
 };
 
 /**
- * Create staff entry (Tenant DB)
+ * Staff creation is now handled through the main user service.
  */
 const createStaff = async (branchId, data) => {
+  throw new Error("Staff creation should be handled through User management");
+};
+
+/**
+ * Get patients assigned to a specific staff
+ */
+const getStaffAssignments = async (branchId, staffId) => {
   const tenantDb = await getTenantClient(branchId);
-  return await tenantDb.staff.create({
-    data
+  const staff = await tenantDb.tenantUser.findUnique({
+    where: { id: staffId },
+    include: { assignedPatients: true }
+  });
+  return staff?.assignedPatients || [];
+};
+
+/**
+ * Assign patients to a specific staff
+ */
+const assignPatientsToStaff = async (branchId, staffId, patientIds) => {
+  const tenantDb = await getTenantClient(branchId);
+  
+  // Update assignments using many-to-many set
+  return await tenantDb.tenantUser.update({
+    where: { id: staffId },
+    data: {
+      assignedPatients: {
+        set: patientIds.map(id => ({ id }))
+      }
+    },
+    include: { assignedPatients: true }
   });
 };
 
 module.exports = {
   getAllStaff,
-  createStaff
+  createStaff,
+  getStaffAssignments,
+  assignPatientsToStaff
 };

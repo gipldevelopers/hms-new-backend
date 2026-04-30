@@ -25,6 +25,7 @@ model TenantUser {
   updatedAt    DateTime @updatedAt
 
   doctorAdmissions Admission[] @relation("DoctorAdmissions")
+  assignedPatients Patient[]    @relation("StaffPatientAssignments")
 
   @@map("users")
 }
@@ -44,6 +45,7 @@ model Patient {
   
   appointments Appointment[]
   admissions   Admission[]
+  assignedStaff TenantUser[] @relation("StaffPatientAssignments")
 
   @@map("patients")
 }
@@ -93,28 +95,11 @@ model Department {
   updatedAt   DateTime @updatedAt
 
   wards       Ward[]
-  specialists Staff[]
   admissions  Admission[]
 
   @@map("departments")
 }
 
-model Staff {
-  id             String      @id @default(uuid())
-  firstName      String
-  lastName       String
-  designation    String
-  specialization String?
-  departmentId   String?
-  department     Department? @relation(fields: [departmentId], references: [id])
-  email          String      @unique
-  phone          String?
-  active         Boolean     @default(true)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  @@map("staff")
-}
 
 model Ward {
   id           String     @id @default(uuid())
