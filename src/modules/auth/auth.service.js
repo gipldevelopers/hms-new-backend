@@ -5,7 +5,7 @@ const crypto = require('crypto');
 
 const login = async (email, password) => {
   const user = await prisma.user.findUnique({
-    where: { email }
+    where: { email: email.trim().toLowerCase() }
   });
 
   if (!user) {

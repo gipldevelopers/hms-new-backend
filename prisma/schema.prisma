@@ -85,16 +85,31 @@ model Branch {
 
 model Patient {
   id        String   @id @default(uuid())
-  name      String
-  age       Int
-  gender    String
+  firstName String?
+  lastName  String?
+  name      String?   // Full name for backward compatibility
+  age       Int?
+  gender    String?
+  dob       DateTime?
   contact   String?
+  alternateMobile String?
   email     String?
+  maritalStatus String?
+  bloodGroup String?
   address   String?
+  city      String?
+  state     String?
+  pincode   String?
+  country   String?
+  aadhaar   String?
+  pan       String?
+  passport  String?
+  idProofUrl String?
   emergencyContactName  String?
   emergencyContactPhone String?
   branchId  String
   branch    Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  status    String   @default("Complete") // Complete, Incomplete, Emergency, Draft
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
