@@ -3163,6 +3163,11 @@ export namespace Prisma {
     emergencyContactName: string | null
     emergencyContactPhone: string | null
     status: string | null
+    arrivalMode: string | null
+    triagePriority: string | null
+    emergencyType: string | null
+    arrivalTime: Date | null
+    isEmergency: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3192,6 +3197,11 @@ export namespace Prisma {
     emergencyContactName: string | null
     emergencyContactPhone: string | null
     status: string | null
+    arrivalMode: string | null
+    triagePriority: string | null
+    emergencyType: string | null
+    arrivalTime: Date | null
+    isEmergency: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3221,6 +3231,11 @@ export namespace Prisma {
     emergencyContactName: number
     emergencyContactPhone: number
     status: number
+    arrivalMode: number
+    triagePriority: number
+    emergencyType: number
+    arrivalTime: number
+    isEmergency: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3260,6 +3275,11 @@ export namespace Prisma {
     emergencyContactName?: true
     emergencyContactPhone?: true
     status?: true
+    arrivalMode?: true
+    triagePriority?: true
+    emergencyType?: true
+    arrivalTime?: true
+    isEmergency?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3289,6 +3309,11 @@ export namespace Prisma {
     emergencyContactName?: true
     emergencyContactPhone?: true
     status?: true
+    arrivalMode?: true
+    triagePriority?: true
+    emergencyType?: true
+    arrivalTime?: true
+    isEmergency?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3318,6 +3343,11 @@ export namespace Prisma {
     emergencyContactName?: true
     emergencyContactPhone?: true
     status?: true
+    arrivalMode?: true
+    triagePriority?: true
+    emergencyType?: true
+    arrivalTime?: true
+    isEmergency?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3434,6 +3464,11 @@ export namespace Prisma {
     emergencyContactName: string | null
     emergencyContactPhone: string | null
     status: string
+    arrivalMode: string | null
+    triagePriority: string | null
+    emergencyType: string | null
+    arrivalTime: Date | null
+    isEmergency: boolean
     createdAt: Date
     updatedAt: Date
     _count: PatientCountAggregateOutputType | null
@@ -3482,6 +3517,11 @@ export namespace Prisma {
     emergencyContactName?: boolean
     emergencyContactPhone?: boolean
     status?: boolean
+    arrivalMode?: boolean
+    triagePriority?: boolean
+    emergencyType?: boolean
+    arrivalTime?: boolean
+    isEmergency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
@@ -3515,6 +3555,11 @@ export namespace Prisma {
     emergencyContactName?: boolean
     emergencyContactPhone?: boolean
     status?: boolean
+    arrivalMode?: boolean
+    triagePriority?: boolean
+    emergencyType?: boolean
+    arrivalTime?: boolean
+    isEmergency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["patient"]>
@@ -3544,6 +3589,11 @@ export namespace Prisma {
     emergencyContactName?: boolean
     emergencyContactPhone?: boolean
     status?: boolean
+    arrivalMode?: boolean
+    triagePriority?: boolean
+    emergencyType?: boolean
+    arrivalTime?: boolean
+    isEmergency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["patient"]>
@@ -3573,11 +3623,16 @@ export namespace Prisma {
     emergencyContactName?: boolean
     emergencyContactPhone?: boolean
     status?: boolean
+    arrivalMode?: boolean
+    triagePriority?: boolean
+    emergencyType?: boolean
+    arrivalTime?: boolean
+    isEmergency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "name" | "age" | "gender" | "dob" | "contact" | "alternateMobile" | "email" | "maritalStatus" | "bloodGroup" | "address" | "city" | "state" | "pincode" | "country" | "aadhaar" | "pan" | "passport" | "idProofUrl" | "emergencyContactName" | "emergencyContactPhone" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
+  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "name" | "age" | "gender" | "dob" | "contact" | "alternateMobile" | "email" | "maritalStatus" | "bloodGroup" | "address" | "city" | "state" | "pincode" | "country" | "aadhaar" | "pan" | "passport" | "idProofUrl" | "emergencyContactName" | "emergencyContactPhone" | "status" | "arrivalMode" | "triagePriority" | "emergencyType" | "arrivalTime" | "isEmergency" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
   export type PatientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
     admissions?: boolean | Patient$admissionsArgs<ExtArgs>
@@ -3619,6 +3674,11 @@ export namespace Prisma {
       emergencyContactName: string | null
       emergencyContactPhone: string | null
       status: string
+      arrivalMode: string | null
+      triagePriority: string | null
+      emergencyType: string | null
+      arrivalTime: Date | null
+      isEmergency: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["patient"]>
@@ -4071,6 +4131,11 @@ export namespace Prisma {
     readonly emergencyContactName: FieldRef<"Patient", 'String'>
     readonly emergencyContactPhone: FieldRef<"Patient", 'String'>
     readonly status: FieldRef<"Patient", 'String'>
+    readonly arrivalMode: FieldRef<"Patient", 'String'>
+    readonly triagePriority: FieldRef<"Patient", 'String'>
+    readonly emergencyType: FieldRef<"Patient", 'String'>
+    readonly arrivalTime: FieldRef<"Patient", 'DateTime'>
+    readonly isEmergency: FieldRef<"Patient", 'Boolean'>
     readonly createdAt: FieldRef<"Patient", 'DateTime'>
     readonly updatedAt: FieldRef<"Patient", 'DateTime'>
   }
@@ -13846,6 +13911,11 @@ export namespace Prisma {
     emergencyContactName: 'emergencyContactName',
     emergencyContactPhone: 'emergencyContactPhone',
     status: 'status',
+    arrivalMode: 'arrivalMode',
+    triagePriority: 'triagePriority',
+    emergencyType: 'emergencyType',
+    arrivalTime: 'arrivalTime',
+    isEmergency: 'isEmergency',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -14234,6 +14304,11 @@ export namespace Prisma {
     emergencyContactName?: StringNullableFilter<"Patient"> | string | null
     emergencyContactPhone?: StringNullableFilter<"Patient"> | string | null
     status?: StringFilter<"Patient"> | string
+    arrivalMode?: StringNullableFilter<"Patient"> | string | null
+    triagePriority?: StringNullableFilter<"Patient"> | string | null
+    emergencyType?: StringNullableFilter<"Patient"> | string | null
+    arrivalTime?: DateTimeNullableFilter<"Patient"> | Date | string | null
+    isEmergency?: BoolFilter<"Patient"> | boolean
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
     appointments?: AppointmentListRelationFilter
@@ -14266,6 +14341,11 @@ export namespace Prisma {
     emergencyContactName?: SortOrderInput | SortOrder
     emergencyContactPhone?: SortOrderInput | SortOrder
     status?: SortOrder
+    arrivalMode?: SortOrderInput | SortOrder
+    triagePriority?: SortOrderInput | SortOrder
+    emergencyType?: SortOrderInput | SortOrder
+    arrivalTime?: SortOrderInput | SortOrder
+    isEmergency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     appointments?: AppointmentOrderByRelationAggregateInput
@@ -14301,6 +14381,11 @@ export namespace Prisma {
     emergencyContactName?: StringNullableFilter<"Patient"> | string | null
     emergencyContactPhone?: StringNullableFilter<"Patient"> | string | null
     status?: StringFilter<"Patient"> | string
+    arrivalMode?: StringNullableFilter<"Patient"> | string | null
+    triagePriority?: StringNullableFilter<"Patient"> | string | null
+    emergencyType?: StringNullableFilter<"Patient"> | string | null
+    arrivalTime?: DateTimeNullableFilter<"Patient"> | Date | string | null
+    isEmergency?: BoolFilter<"Patient"> | boolean
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
     appointments?: AppointmentListRelationFilter
@@ -14333,6 +14418,11 @@ export namespace Prisma {
     emergencyContactName?: SortOrderInput | SortOrder
     emergencyContactPhone?: SortOrderInput | SortOrder
     status?: SortOrder
+    arrivalMode?: SortOrderInput | SortOrder
+    triagePriority?: SortOrderInput | SortOrder
+    emergencyType?: SortOrderInput | SortOrder
+    arrivalTime?: SortOrderInput | SortOrder
+    isEmergency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PatientCountOrderByAggregateInput
@@ -14370,6 +14460,11 @@ export namespace Prisma {
     emergencyContactName?: StringNullableWithAggregatesFilter<"Patient"> | string | null
     emergencyContactPhone?: StringNullableWithAggregatesFilter<"Patient"> | string | null
     status?: StringWithAggregatesFilter<"Patient"> | string
+    arrivalMode?: StringNullableWithAggregatesFilter<"Patient"> | string | null
+    triagePriority?: StringNullableWithAggregatesFilter<"Patient"> | string | null
+    emergencyType?: StringNullableWithAggregatesFilter<"Patient"> | string | null
+    arrivalTime?: DateTimeNullableWithAggregatesFilter<"Patient"> | Date | string | null
+    isEmergency?: BoolWithAggregatesFilter<"Patient"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
   }
@@ -15158,6 +15253,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
@@ -15190,6 +15290,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -15222,6 +15327,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
@@ -15254,6 +15364,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -15286,6 +15401,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15315,6 +15435,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15344,6 +15469,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16343,6 +16473,11 @@ export namespace Prisma {
     emergencyContactName?: SortOrder
     emergencyContactPhone?: SortOrder
     status?: SortOrder
+    arrivalMode?: SortOrder
+    triagePriority?: SortOrder
+    emergencyType?: SortOrder
+    arrivalTime?: SortOrder
+    isEmergency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16376,6 +16511,11 @@ export namespace Prisma {
     emergencyContactName?: SortOrder
     emergencyContactPhone?: SortOrder
     status?: SortOrder
+    arrivalMode?: SortOrder
+    triagePriority?: SortOrder
+    emergencyType?: SortOrder
+    arrivalTime?: SortOrder
+    isEmergency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16405,6 +16545,11 @@ export namespace Prisma {
     emergencyContactName?: SortOrder
     emergencyContactPhone?: SortOrder
     status?: SortOrder
+    arrivalMode?: SortOrder
+    triagePriority?: SortOrder
+    emergencyType?: SortOrder
+    arrivalTime?: SortOrder
+    isEmergency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17858,6 +18003,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
@@ -17889,6 +18039,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -17978,6 +18133,11 @@ export namespace Prisma {
     emergencyContactName?: StringNullableFilter<"Patient"> | string | null
     emergencyContactPhone?: StringNullableFilter<"Patient"> | string | null
     status?: StringFilter<"Patient"> | string
+    arrivalMode?: StringNullableFilter<"Patient"> | string | null
+    triagePriority?: StringNullableFilter<"Patient"> | string | null
+    emergencyType?: StringNullableFilter<"Patient"> | string | null
+    arrivalTime?: DateTimeNullableFilter<"Patient"> | Date | string | null
+    isEmergency?: BoolFilter<"Patient"> | boolean
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
   }
@@ -18192,6 +18352,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
@@ -18223,6 +18388,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -18386,6 +18556,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
@@ -18417,6 +18592,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -18588,6 +18768,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     admissions?: AdmissionCreateNestedManyWithoutPatientInput
@@ -18619,6 +18804,11 @@ export namespace Prisma {
     emergencyContactName?: string | null
     emergencyContactPhone?: string | null
     status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
@@ -18666,6 +18856,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admissions?: AdmissionUpdateManyWithoutPatientNestedInput
@@ -18697,6 +18892,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
@@ -19470,6 +19670,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
@@ -19501,6 +19706,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -19532,6 +19742,11 @@ export namespace Prisma {
     emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -161,6 +161,11 @@ exports.Prisma.PatientScalarFieldEnum = {
   emergencyContactName: 'emergencyContactName',
   emergencyContactPhone: 'emergencyContactPhone',
   status: 'status',
+  arrivalMode: 'arrivalMode',
+  triagePriority: 'triagePriority',
+  emergencyType: 'emergencyType',
+  arrivalTime: 'arrivalTime',
+  isEmergency: 'isEmergency',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

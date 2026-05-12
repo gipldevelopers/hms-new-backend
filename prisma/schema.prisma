@@ -110,6 +110,14 @@ model Patient {
   branchId  String
   branch    Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
   status    String   @default("Complete") // Complete, Incomplete, Emergency, Draft
+
+  // Emergency Registration fields
+  arrivalMode     String?  // Walk-In, Ambulance, Referral
+  triagePriority  String?  // Red, Yellow, Green
+  emergencyType   String?  // e.g. Cardiac Arrest, Severe Trauma
+  arrivalTime     DateTime?
+  isEmergency     Boolean  @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
