@@ -45,18 +45,26 @@ const getPatientDetails = async (req, res) => {
 const createPatient = async (req, res) => {
   try {
     const branchId = req.body.branchId || req.user.branchId;
-    console.log("Create patient request for branch:", branchId, "Body:", req.body);
+    console.log("--- Create Patient Start ---");
+    console.log("Branch ID:", branchId);
+    console.log("Request Body Keys:", Object.keys(req.body));
 
     if (!branchId) {
       console.warn("Create patient failed: Branch ID is missing");
-      return res.status(400).json({ error: "Branch ID is required." });
+      return res.status(400).json({ error: "Branch ID is required. Please check your session or branch selection." });
     }
 
     const patient = await patientsService.createPatient(branchId, req.body);
+    console.log("Patient created successfully:", patient.id);
     res.status(201).json(patient);
   } catch (error) {
-    console.error("Create patient error:", error);
-    res.status(500).json({ error: error.message || "Internal server error" });
+    console.error("CRITICAL: Create patient error:", error);
+    const errorMessage = error.message || "Unknown database error";
+    res.status(500).json({ 
+      error: errorMessage,
+      success: false,
+      timestamp: new Date().toISOString()
+    });
   }
 };
 
@@ -64,18 +72,25 @@ const updatePatient = async (req, res) => {
   try {
     const { id } = req.params;
     const branchId = req.body.branchId || req.user.branchId;
-    console.log("Update patient request for id:", id, "branch:", branchId, "Body:", req.body);
+    console.log("--- Update Patient Start ---");
+    console.log("ID:", id, "Branch ID:", branchId);
 
     if (!branchId) {
       console.warn("Update patient failed: Branch ID is missing");
-      return res.status(400).json({ error: "Branch ID is required." });
+      return res.status(400).json({ error: "Branch ID is required to update a patient." });
     }
 
     const patient = await patientsService.updatePatient(branchId, id, req.body);
+    console.log("Patient updated successfully:", id);
     res.json(patient);
   } catch (error) {
-    console.error("Update patient error:", error);
-    res.status(500).json({ error: error.message || "Internal server error" });
+    console.error("CRITICAL: Update patient error:", error);
+    const errorMessage = error.message || "Unknown database error";
+    res.status(500).json({ 
+      error: errorMessage,
+      success: false,
+      timestamp: new Date().toISOString()
+    });
   }
 };
 

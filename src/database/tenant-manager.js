@@ -42,17 +42,41 @@ const getTenantClient = async (branchId) => {
   }
 
   const mainUrl = process.env.DATABASE_URL;
-  const passMatch = mainUrl.match(/:([^@]+)@/);
-  const masterPassword = passMatch ? passMatch[1] : '';
+  const mainUrlObj = new URL(mainUrl);
+  const masterPassword = mainUrlObj.password;
+  const host = mainUrlObj.host;
 
   const user = branch.dbUser || 'postgres';
   const password = branch.dbPassword || (user === 'postgres' ? masterPassword : '');
-  const hostMatch = mainUrl.match(/@([^/]+)/);
-  const host = hostMatch ? hostMatch[1] : 'localhost:5432';
   
   const dbUrl = `postgresql://${user}:${password}@${host}/${branch.dbName}`;
 
-  // Create a dedicated pool for this tenant
+  console.log(`📡 Provisioning Tenant Client for Branch: ${branchId}`);
+  console.log(`🏠 Host: ${host}`);
+  console.log(`🗄️  DB Name: ${branch.dbName}`);
+  console.log(`🔗 URL: postgresql://${user}:****@${host}/${branch.dbName}`);
+
+  // 1. Proactive Check: Ensure the physical database exists
+  const maintenancePool = new Pool({
+    connectionString: mainUrl.replace(/\/[^\/]+$/, '/postgres')
+  });
+  
+  try {
+    const dbExists = await maintenancePool.query("SELECT 1 FROM pg_database WHERE datname=$1", [branch.dbName]);
+    if (dbExists.rows.length === 0) {
+      console.warn(`⚠️ Database ${branch.dbName} missing for branch ${branchId}. Provisioning now...`);
+      await maintenancePool.end().catch(() => {});
+      await module.exports.initializeTenantSchema(branchId);
+    } else {
+      await maintenancePool.end().catch(() => {});
+    }
+  } catch (err) {
+    console.error("Database existence check failed:", err);
+    await maintenancePool.end().catch(() => {});
+    // Continue anyway, Prisma might still work if the check failed for other reasons
+  }
+
+  // 2. Create the tenant-specific pool and adapter
   const pool = new Pool({ connectionString: dbUrl });
   const adapter = new PrismaPg(pool);
 
@@ -173,14 +197,19 @@ const initializeTenantSchema = async (branchId) => {
   const branch = await mainDb.branch.findUnique({ where: { id: branchId } });
   if (!branch) throw new Error('Branch not found');
 
+  // Ensure the database exists before pushing schema
+  if (branch.dbName) {
+    console.log(`🛠️ Ensuring database ${branch.dbName} exists for ${branch.name}...`);
+    await createBranchDatabase(branch.name, branch.dbName, branch.dbUser, branch.dbPassword);
+  }
+
   const mainUrl = process.env.DATABASE_URL;
-  const passMatch = mainUrl.match(/:([^@]+)@/);
-  const masterPassword = passMatch ? passMatch[1] : '';
+  const mainUrlObj = new URL(mainUrl);
+  const masterPassword = mainUrlObj.password;
+  const host = mainUrlObj.host;
 
   const user = branch.dbUser || 'postgres';
   const password = branch.dbPassword || (user === 'postgres' ? masterPassword : '');
-  const hostMatch = mainUrl.match(/@([^/]+)/);
-  const host = hostMatch ? hostMatch[1] : 'localhost:5432';
   
   const dbUrl = `postgresql://${user}:${password}@${host}/${branch.dbName}`;
 
