@@ -17,6 +17,7 @@ const admissionsRoutes = require('./admissions/admissions.routes');
 const bedMapRoutes = require('./bed-map/bed-map.routes');
 const patientsRoutes = require('./patients/patients.routes');
 const emergencyRoutes = require('./emergency/emergency.routes');
+const tokensRoutes = require('./tokens/tokens.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -34,5 +35,6 @@ router.use('/admissions', admissionsRoutes);
 router.use('/bed-map', bedMapRoutes);
 router.use('/patients', patientsRoutes);
 router.use('/emergency', emergencyRoutes);
+router.use('/tokens', tokensRoutes);
 
 module.exports = router;

@@ -268,6 +268,19 @@ exports.Prisma.TenantAttendanceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  tokenNumber: 'tokenNumber',
+  prefix: 'prefix',
+  displayToken: 'displayToken',
+  patientId: 'patientId',
+  date: 'date',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -309,7 +322,8 @@ exports.Prisma.ModelName = {
   Bed: 'Bed',
   TenantShiftTemplate: 'TenantShiftTemplate',
   TenantShiftRoster: 'TenantShiftRoster',
-  TenantAttendance: 'TenantAttendance'
+  TenantAttendance: 'TenantAttendance',
+  Token: 'Token'
 };
 
 /**

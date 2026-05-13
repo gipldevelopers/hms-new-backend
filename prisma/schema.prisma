@@ -64,6 +64,8 @@ model Branch {
   dbUser     String?
   dbPassword String?
 
+  tokenPrefix    String  @default("OPD") // Branch admin can change: OPD, GEN, etc.
+
   isDbInitialized Boolean @default(false)
   schemaVersion   String?
 
@@ -78,6 +80,7 @@ model Branch {
   beds           Bed[]
   patients       Patient[]
   admissions     Admission[]
+  tokens         Token[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -122,6 +125,7 @@ model Patient {
   updatedAt DateTime @updatedAt
 
   admissions Admission[]
+  tokens     Token[]
 
   @@map("patients")
 }
@@ -355,4 +359,24 @@ model Bed {
   updatedAt    DateTime @updatedAt
 
   @@map("beds")
+}
+
+model Token {
+  id           String   @id @default(uuid())
+  tokenNumber  Int      // Daily sequential number: 1, 2, 3...
+  prefix       String   @default("OPD") // Snapshot of branch prefix at time of generation
+  displayToken String   // e.g. "OPD-001"
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  branchId     String
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  date         DateTime @default(now()) // Used for daily reset grouping
+  status       String   @default("Waiting") // Waiting, Called, Completed, Skipped
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([branchId])
+  @@index([date])
+  @@map("tokens")
 }

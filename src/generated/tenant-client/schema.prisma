@@ -67,6 +67,7 @@ model Patient {
 
   appointments  Appointment[]
   admissions    Admission[]
+  tokens        Token[]
   assignedStaff TenantUser[]  @relation("StaffPatientAssignments")
 
   @@map("patients")
@@ -207,4 +208,21 @@ model TenantAttendance {
   @@index([date])
   @@index([staffId])
   @@map("attendance")
+}
+
+model Token {
+  id           String   @id @default(uuid())
+  tokenNumber  Int // Daily sequential: 1, 2, 3...
+  prefix       String   @default("OPD")
+  displayToken String // e.g. "OPD-001"
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  date         DateTime @default(now())
+  status       String   @default("Waiting") // Waiting, Called, Completed, Skipped
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([date])
+  @@map("tokens")
 }
