@@ -97,14 +97,21 @@ model Admission {
 }
 
 model Appointment {
-  id          String   @id @default(uuid())
-  patientId   String
-  patient     Patient  @relation(fields: [patientId], references: [id])
-  dateTime    DateTime
-  status      String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
-  reason      String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(uuid())
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id])
+  doctorId     String?  // TenantUser id
+  doctorName   String?  // Denormalized for display
+  departmentId String?
+  departmentName String? // Denormalized for display
+  dateTime     DateTime
+  tokenNumber  String?  // e.g. "A-101"
+  fee          Float?
+  notes        String?
+  status       String   @default("SCHEDULED") // SCHEDULED, CHECKED_IN, WAITING, COMPLETED, CANCELLED, NO_SHOW
+  cancelReason String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("appointments")
 }
