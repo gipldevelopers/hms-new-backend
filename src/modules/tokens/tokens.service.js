@@ -71,8 +71,9 @@ const formatDisplay = (prefix, num) =>
 /**
  * Generate a token for a patient.
  * Dual-write: tenant DB + main DB.
+ * Optionally creates a linked appointment if appointmentData is provided.
  */
-const generateToken = async (branchId, patientId, notes) => {
+const generateToken = async (branchId, patientId, notes, appointmentData = null) => {
   const tenantDb = await getTenantClient(branchId);
   const prefix = await getBranchPrefix(branchId);
   const tokenId = crypto.randomUUID();
@@ -116,7 +117,29 @@ const generateToken = async (branchId, patientId, notes) => {
     data: { ...tokenData, branchId },
   });
 
-  return { ...created, patient };
+  // Optionally create linked appointment
+  let appointment = null;
+  if (appointmentData) {
+    const apptId = crypto.randomUUID();
+    appointment = await tenantDb.appointment.create({
+      data: {
+        id: apptId,
+        patientId,
+        doctorId: appointmentData.doctorId || null,
+        doctorName: appointmentData.doctorName || null,
+        departmentId: appointmentData.departmentId || null,
+        departmentName: appointmentData.departmentName || null,
+        dateTime: appointmentData.dateTime || new Date(),
+        tokenNumber: displayToken,
+        fee: appointmentData.fee || null,
+        notes: appointmentData.notes || null,
+        status: "SCHEDULED",
+      },
+      include: { patient: true },
+    });
+  }
+
+  return { ...created, patient, appointment };
 };
 
 /**
@@ -225,9 +248,13 @@ const getTokenHistory = async (branchId, query = {}) => {
 
 /**
  * Update token status (Called, Completed, Skipped).
+ * Also syncs the linked appointment status if one exists for the patient today.
  */
 const updateTokenStatus = async (branchId, tokenId, status) => {
   const tenantDb = await getTenantClient(branchId);
+
+  const token = await tenantDb.token.findUnique({ where: { id: tokenId } });
+  if (!token) throw new Error("Token not found.");
 
   const updated = await tenantDb.token.update({
     where: { id: tokenId },
@@ -238,6 +265,26 @@ const updateTokenStatus = async (branchId, tokenId, status) => {
     where: { id: tokenId },
     data: { status },
   });
+
+  // Sync appointment status for this patient today
+  const { start, end } = todayRange();
+  const apptStatusMap = {
+    Called:    "WAITING",
+    Completed: "COMPLETED",
+    Skipped:   "NO_SHOW",
+    Waiting:   "SCHEDULED",
+  };
+  const apptStatus = apptStatusMap[status];
+  if (apptStatus) {
+    await tenantDb.appointment.updateMany({
+      where: {
+        patientId: token.patientId,
+        dateTime: { gte: start, lte: end },
+        status: { notIn: ["CANCELLED", "COMPLETED"] },
+      },
+      data: { status: apptStatus },
+    });
+  }
 
   return updated;
 };

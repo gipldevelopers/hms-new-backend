@@ -5960,16 +5960,33 @@ export namespace Prisma {
 
   export type AggregateAppointment = {
     _count: AppointmentCountAggregateOutputType | null
+    _avg: AppointmentAvgAggregateOutputType | null
+    _sum: AppointmentSumAggregateOutputType | null
     _min: AppointmentMinAggregateOutputType | null
     _max: AppointmentMaxAggregateOutputType | null
+  }
+
+  export type AppointmentAvgAggregateOutputType = {
+    fee: number | null
+  }
+
+  export type AppointmentSumAggregateOutputType = {
+    fee: number | null
   }
 
   export type AppointmentMinAggregateOutputType = {
     id: string | null
     patientId: string | null
+    doctorId: string | null
+    doctorName: string | null
+    departmentId: string | null
+    departmentName: string | null
     dateTime: Date | null
+    tokenNumber: string | null
+    fee: number | null
+    notes: string | null
     status: string | null
-    reason: string | null
+    cancelReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5977,9 +5994,16 @@ export namespace Prisma {
   export type AppointmentMaxAggregateOutputType = {
     id: string | null
     patientId: string | null
+    doctorId: string | null
+    doctorName: string | null
+    departmentId: string | null
+    departmentName: string | null
     dateTime: Date | null
+    tokenNumber: string | null
+    fee: number | null
+    notes: string | null
     status: string | null
-    reason: string | null
+    cancelReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5987,21 +6011,43 @@ export namespace Prisma {
   export type AppointmentCountAggregateOutputType = {
     id: number
     patientId: number
+    doctorId: number
+    doctorName: number
+    departmentId: number
+    departmentName: number
     dateTime: number
+    tokenNumber: number
+    fee: number
+    notes: number
     status: number
-    reason: number
+    cancelReason: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type AppointmentAvgAggregateInputType = {
+    fee?: true
+  }
+
+  export type AppointmentSumAggregateInputType = {
+    fee?: true
+  }
+
   export type AppointmentMinAggregateInputType = {
     id?: true
     patientId?: true
+    doctorId?: true
+    doctorName?: true
+    departmentId?: true
+    departmentName?: true
     dateTime?: true
+    tokenNumber?: true
+    fee?: true
+    notes?: true
     status?: true
-    reason?: true
+    cancelReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6009,9 +6055,16 @@ export namespace Prisma {
   export type AppointmentMaxAggregateInputType = {
     id?: true
     patientId?: true
+    doctorId?: true
+    doctorName?: true
+    departmentId?: true
+    departmentName?: true
     dateTime?: true
+    tokenNumber?: true
+    fee?: true
+    notes?: true
     status?: true
-    reason?: true
+    cancelReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6019,9 +6072,16 @@ export namespace Prisma {
   export type AppointmentCountAggregateInputType = {
     id?: true
     patientId?: true
+    doctorId?: true
+    doctorName?: true
+    departmentId?: true
+    departmentName?: true
     dateTime?: true
+    tokenNumber?: true
+    fee?: true
+    notes?: true
     status?: true
-    reason?: true
+    cancelReason?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6065,6 +6125,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: AppointmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AppointmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AppointmentMinAggregateInputType
@@ -6095,6 +6167,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AppointmentCountAggregateInputType | true
+    _avg?: AppointmentAvgAggregateInputType
+    _sum?: AppointmentSumAggregateInputType
     _min?: AppointmentMinAggregateInputType
     _max?: AppointmentMaxAggregateInputType
   }
@@ -6102,12 +6176,21 @@ export namespace Prisma {
   export type AppointmentGroupByOutputType = {
     id: string
     patientId: string
+    doctorId: string | null
+    doctorName: string | null
+    departmentId: string | null
+    departmentName: string | null
     dateTime: Date
+    tokenNumber: string | null
+    fee: number | null
+    notes: string | null
     status: string
-    reason: string | null
+    cancelReason: string | null
     createdAt: Date
     updatedAt: Date
     _count: AppointmentCountAggregateOutputType | null
+    _avg: AppointmentAvgAggregateOutputType | null
+    _sum: AppointmentSumAggregateOutputType | null
     _min: AppointmentMinAggregateOutputType | null
     _max: AppointmentMaxAggregateOutputType | null
   }
@@ -6129,9 +6212,16 @@ export namespace Prisma {
   export type AppointmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     patientId?: boolean
+    doctorId?: boolean
+    doctorName?: boolean
+    departmentId?: boolean
+    departmentName?: boolean
     dateTime?: boolean
+    tokenNumber?: boolean
+    fee?: boolean
+    notes?: boolean
     status?: boolean
-    reason?: boolean
+    cancelReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -6140,9 +6230,16 @@ export namespace Prisma {
   export type AppointmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     patientId?: boolean
+    doctorId?: boolean
+    doctorName?: boolean
+    departmentId?: boolean
+    departmentName?: boolean
     dateTime?: boolean
+    tokenNumber?: boolean
+    fee?: boolean
+    notes?: boolean
     status?: boolean
-    reason?: boolean
+    cancelReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -6151,9 +6248,16 @@ export namespace Prisma {
   export type AppointmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     patientId?: boolean
+    doctorId?: boolean
+    doctorName?: boolean
+    departmentId?: boolean
+    departmentName?: boolean
     dateTime?: boolean
+    tokenNumber?: boolean
+    fee?: boolean
+    notes?: boolean
     status?: boolean
-    reason?: boolean
+    cancelReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patient?: boolean | PatientDefaultArgs<ExtArgs>
@@ -6162,14 +6266,21 @@ export namespace Prisma {
   export type AppointmentSelectScalar = {
     id?: boolean
     patientId?: boolean
+    doctorId?: boolean
+    doctorName?: boolean
+    departmentId?: boolean
+    departmentName?: boolean
     dateTime?: boolean
+    tokenNumber?: boolean
+    fee?: boolean
+    notes?: boolean
     status?: boolean
-    reason?: boolean
+    cancelReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "patientId" | "dateTime" | "status" | "reason" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
+  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "patientId" | "doctorId" | "doctorName" | "departmentId" | "departmentName" | "dateTime" | "tokenNumber" | "fee" | "notes" | "status" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
   export type AppointmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     patient?: boolean | PatientDefaultArgs<ExtArgs>
   }
@@ -6188,9 +6299,16 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       patientId: string
+      doctorId: string | null
+      doctorName: string | null
+      departmentId: string | null
+      departmentName: string | null
       dateTime: Date
+      tokenNumber: string | null
+      fee: number | null
+      notes: string | null
       status: string
-      reason: string | null
+      cancelReason: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["appointment"]>
@@ -6619,9 +6737,16 @@ export namespace Prisma {
   interface AppointmentFieldRefs {
     readonly id: FieldRef<"Appointment", 'String'>
     readonly patientId: FieldRef<"Appointment", 'String'>
+    readonly doctorId: FieldRef<"Appointment", 'String'>
+    readonly doctorName: FieldRef<"Appointment", 'String'>
+    readonly departmentId: FieldRef<"Appointment", 'String'>
+    readonly departmentName: FieldRef<"Appointment", 'String'>
     readonly dateTime: FieldRef<"Appointment", 'DateTime'>
+    readonly tokenNumber: FieldRef<"Appointment", 'String'>
+    readonly fee: FieldRef<"Appointment", 'Float'>
+    readonly notes: FieldRef<"Appointment", 'String'>
     readonly status: FieldRef<"Appointment", 'String'>
-    readonly reason: FieldRef<"Appointment", 'String'>
+    readonly cancelReason: FieldRef<"Appointment", 'String'>
     readonly createdAt: FieldRef<"Appointment", 'DateTime'>
     readonly updatedAt: FieldRef<"Appointment", 'DateTime'>
   }
@@ -15234,9 +15359,16 @@ export namespace Prisma {
   export const AppointmentScalarFieldEnum: {
     id: 'id',
     patientId: 'patientId',
+    doctorId: 'doctorId',
+    doctorName: 'doctorName',
+    departmentId: 'departmentId',
+    departmentName: 'departmentName',
     dateTime: 'dateTime',
+    tokenNumber: 'tokenNumber',
+    fee: 'fee',
+    notes: 'notes',
     status: 'status',
-    reason: 'reason',
+    cancelReason: 'cancelReason',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15886,9 +16018,16 @@ export namespace Prisma {
     NOT?: AppointmentWhereInput | AppointmentWhereInput[]
     id?: StringFilter<"Appointment"> | string
     patientId?: StringFilter<"Appointment"> | string
+    doctorId?: StringNullableFilter<"Appointment"> | string | null
+    doctorName?: StringNullableFilter<"Appointment"> | string | null
+    departmentId?: StringNullableFilter<"Appointment"> | string | null
+    departmentName?: StringNullableFilter<"Appointment"> | string | null
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
+    tokenNumber?: StringNullableFilter<"Appointment"> | string | null
+    fee?: FloatNullableFilter<"Appointment"> | number | null
+    notes?: StringNullableFilter<"Appointment"> | string | null
     status?: StringFilter<"Appointment"> | string
-    reason?: StringNullableFilter<"Appointment"> | string | null
+    cancelReason?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
     patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
@@ -15897,9 +16036,16 @@ export namespace Prisma {
   export type AppointmentOrderByWithRelationInput = {
     id?: SortOrder
     patientId?: SortOrder
+    doctorId?: SortOrderInput | SortOrder
+    doctorName?: SortOrderInput | SortOrder
+    departmentId?: SortOrderInput | SortOrder
+    departmentName?: SortOrderInput | SortOrder
     dateTime?: SortOrder
+    tokenNumber?: SortOrderInput | SortOrder
+    fee?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     status?: SortOrder
-    reason?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patient?: PatientOrderByWithRelationInput
@@ -15911,9 +16057,16 @@ export namespace Prisma {
     OR?: AppointmentWhereInput[]
     NOT?: AppointmentWhereInput | AppointmentWhereInput[]
     patientId?: StringFilter<"Appointment"> | string
+    doctorId?: StringNullableFilter<"Appointment"> | string | null
+    doctorName?: StringNullableFilter<"Appointment"> | string | null
+    departmentId?: StringNullableFilter<"Appointment"> | string | null
+    departmentName?: StringNullableFilter<"Appointment"> | string | null
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
+    tokenNumber?: StringNullableFilter<"Appointment"> | string | null
+    fee?: FloatNullableFilter<"Appointment"> | number | null
+    notes?: StringNullableFilter<"Appointment"> | string | null
     status?: StringFilter<"Appointment"> | string
-    reason?: StringNullableFilter<"Appointment"> | string | null
+    cancelReason?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
     patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
@@ -15922,14 +16075,23 @@ export namespace Prisma {
   export type AppointmentOrderByWithAggregationInput = {
     id?: SortOrder
     patientId?: SortOrder
+    doctorId?: SortOrderInput | SortOrder
+    doctorName?: SortOrderInput | SortOrder
+    departmentId?: SortOrderInput | SortOrder
+    departmentName?: SortOrderInput | SortOrder
     dateTime?: SortOrder
+    tokenNumber?: SortOrderInput | SortOrder
+    fee?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     status?: SortOrder
-    reason?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AppointmentCountOrderByAggregateInput
+    _avg?: AppointmentAvgOrderByAggregateInput
     _max?: AppointmentMaxOrderByAggregateInput
     _min?: AppointmentMinOrderByAggregateInput
+    _sum?: AppointmentSumOrderByAggregateInput
   }
 
   export type AppointmentScalarWhereWithAggregatesInput = {
@@ -15938,9 +16100,16 @@ export namespace Prisma {
     NOT?: AppointmentScalarWhereWithAggregatesInput | AppointmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Appointment"> | string
     patientId?: StringWithAggregatesFilter<"Appointment"> | string
+    doctorId?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    doctorName?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    departmentId?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    departmentName?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
     dateTime?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
+    tokenNumber?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    fee?: FloatNullableWithAggregatesFilter<"Appointment"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
     status?: StringWithAggregatesFilter<"Appointment"> | string
-    reason?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
+    cancelReason?: StringNullableWithAggregatesFilter<"Appointment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
   }
@@ -16975,9 +17144,16 @@ export namespace Prisma {
 
   export type AppointmentCreateInput = {
     id?: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     patient: PatientCreateNestedOneWithoutAppointmentsInput
@@ -16986,18 +17162,32 @@ export namespace Prisma {
   export type AppointmentUncheckedCreateInput = {
     id?: string
     patientId: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AppointmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patient?: PatientUpdateOneRequiredWithoutAppointmentsNestedInput
@@ -17006,9 +17196,16 @@ export namespace Prisma {
   export type AppointmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     patientId?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17016,18 +17213,32 @@ export namespace Prisma {
   export type AppointmentCreateManyInput = {
     id?: string
     patientId: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AppointmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17035,9 +17246,16 @@ export namespace Prisma {
   export type AppointmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     patientId?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18153,22 +18371,51 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type AppointmentCountOrderByAggregateInput = {
     id?: SortOrder
     patientId?: SortOrder
+    doctorId?: SortOrder
+    doctorName?: SortOrder
+    departmentId?: SortOrder
+    departmentName?: SortOrder
     dateTime?: SortOrder
+    tokenNumber?: SortOrder
+    fee?: SortOrder
+    notes?: SortOrder
     status?: SortOrder
-    reason?: SortOrder
+    cancelReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AppointmentAvgOrderByAggregateInput = {
+    fee?: SortOrder
   }
 
   export type AppointmentMaxOrderByAggregateInput = {
     id?: SortOrder
     patientId?: SortOrder
+    doctorId?: SortOrder
+    doctorName?: SortOrder
+    departmentId?: SortOrder
+    departmentName?: SortOrder
     dateTime?: SortOrder
+    tokenNumber?: SortOrder
+    fee?: SortOrder
+    notes?: SortOrder
     status?: SortOrder
-    reason?: SortOrder
+    cancelReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18176,11 +18423,38 @@ export namespace Prisma {
   export type AppointmentMinOrderByAggregateInput = {
     id?: SortOrder
     patientId?: SortOrder
+    doctorId?: SortOrder
+    doctorName?: SortOrder
+    departmentId?: SortOrder
+    departmentName?: SortOrder
     dateTime?: SortOrder
+    tokenNumber?: SortOrder
+    fee?: SortOrder
+    notes?: SortOrder
     status?: SortOrder
-    reason?: SortOrder
+    cancelReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AppointmentSumOrderByAggregateInput = {
+    fee?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type WardListRelationFilter = {
@@ -18441,17 +18715,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type TenantShiftRosterNullableScalarRelationFilter = {
     is?: TenantShiftRosterWhereInput | null
     isNot?: TenantShiftRosterWhereInput | null
@@ -18513,22 +18776,6 @@ export namespace Prisma {
   export type TenantAttendanceSumOrderByAggregateInput = {
     latitude?: SortOrder
     longitude?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -18955,6 +19202,14 @@ export namespace Prisma {
     connect?: PatientWhereUniqueInput
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type PatientUpdateOneRequiredWithoutAppointmentsNestedInput = {
     create?: XOR<PatientCreateWithoutAppointmentsInput, PatientUncheckedCreateWithoutAppointmentsInput>
     connectOrCreate?: PatientCreateOrConnectWithoutAppointmentsInput
@@ -19297,14 +19552,6 @@ export namespace Prisma {
     connect?: TenantShiftRosterWhereUniqueInput
   }
 
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type TenantShiftRosterUpdateOneWithoutAttendanceNestedInput = {
     create?: XOR<TenantShiftRosterCreateWithoutAttendanceInput, TenantShiftRosterUncheckedCreateWithoutAttendanceInput>
     connectOrCreate?: TenantShiftRosterCreateOrConnectWithoutAttendanceInput
@@ -19533,6 +19780,22 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -19555,22 +19818,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -19806,18 +20053,32 @@ export namespace Prisma {
 
   export type AppointmentCreateWithoutPatientInput = {
     id?: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AppointmentUncheckedCreateWithoutPatientInput = {
     id?: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19965,9 +20226,16 @@ export namespace Prisma {
     NOT?: AppointmentScalarWhereInput | AppointmentScalarWhereInput[]
     id?: StringFilter<"Appointment"> | string
     patientId?: StringFilter<"Appointment"> | string
+    doctorId?: StringNullableFilter<"Appointment"> | string | null
+    doctorName?: StringNullableFilter<"Appointment"> | string | null
+    departmentId?: StringNullableFilter<"Appointment"> | string | null
+    departmentName?: StringNullableFilter<"Appointment"> | string | null
     dateTime?: DateTimeFilter<"Appointment"> | Date | string
+    tokenNumber?: StringNullableFilter<"Appointment"> | string | null
+    fee?: FloatNullableFilter<"Appointment"> | number | null
+    notes?: StringNullableFilter<"Appointment"> | string | null
     status?: StringFilter<"Appointment"> | string
-    reason?: StringNullableFilter<"Appointment"> | string | null
+    cancelReason?: StringNullableFilter<"Appointment"> | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
   }
@@ -21655,9 +21923,16 @@ export namespace Prisma {
 
   export type AppointmentCreateManyPatientInput = {
     id?: string
+    doctorId?: string | null
+    doctorName?: string | null
+    departmentId?: string | null
+    departmentName?: string | null
     dateTime: Date | string
+    tokenNumber?: string | null
+    fee?: number | null
+    notes?: string | null
     status?: string
-    reason?: string | null
+    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21690,27 +21965,48 @@ export namespace Prisma {
 
   export type AppointmentUpdateWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AppointmentUncheckedUpdateWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AppointmentUncheckedUpdateManyWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    doctorId?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorName?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentName?: NullableStringFieldUpdateOperationsInput | string | null
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    fee?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

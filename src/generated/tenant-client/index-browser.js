@@ -188,9 +188,16 @@ exports.Prisma.AdmissionScalarFieldEnum = {
 exports.Prisma.AppointmentScalarFieldEnum = {
   id: 'id',
   patientId: 'patientId',
+  doctorId: 'doctorId',
+  doctorName: 'doctorName',
+  departmentId: 'departmentId',
+  departmentName: 'departmentName',
   dateTime: 'dateTime',
+  tokenNumber: 'tokenNumber',
+  fee: 'fee',
+  notes: 'notes',
   status: 'status',
-  reason: 'reason',
+  cancelReason: 'cancelReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

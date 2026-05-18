@@ -53,14 +53,14 @@ const getHistory = async (req, res) => {
   }
 };
 
-/** POST /api/tokens/generate — generate a token for a patient */
+/** POST /api/tokens/generate — generate a token for a patient, optionally with appointment data */
 const generate = async (req, res) => {
   try {
     const branchId = await getBranchId(req);
     if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
-    const { patientId, notes } = req.body;
+    const { patientId, notes, appointmentData } = req.body;
     if (!patientId) return res.status(400).json({ success: false, message: "patientId is required." });
-    const data = await tokensService.generateToken(branchId, patientId, notes);
+    const data = await tokensService.generateToken(branchId, patientId, notes, appointmentData || null);
     res.status(201).json({ success: true, data });
   } catch (e) {
     const status = e.message.includes("already has token") ? 409 : 500;
