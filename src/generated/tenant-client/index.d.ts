@@ -68,6 +68,11 @@ export type TenantAttendance = $Result.DefaultSelection<Prisma.$TenantAttendance
  * 
  */
 export type Token = $Result.DefaultSelection<Prisma.$TokenPayload>
+/**
+ * Model Vitals
+ * 
+ */
+export type Vitals = $Result.DefaultSelection<Prisma.$VitalsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -299,6 +304,16 @@ export class PrismaClient<
     * ```
     */
   get token(): Prisma.TokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vitals`: Exposes CRUD operations for the **Vitals** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Vitals
+    * const vitals = await prisma.vitals.findMany()
+    * ```
+    */
+  get vitals(): Prisma.VitalsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -743,7 +758,8 @@ export namespace Prisma {
     TenantShiftTemplate: 'TenantShiftTemplate',
     TenantShiftRoster: 'TenantShiftRoster',
     TenantAttendance: 'TenantAttendance',
-    Token: 'Token'
+    Token: 'Token',
+    Vitals: 'Vitals'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -759,7 +775,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token"
+      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1577,6 +1593,80 @@ export namespace Prisma {
           }
         }
       }
+      Vitals: {
+        payload: Prisma.$VitalsPayload<ExtArgs>
+        fields: Prisma.VitalsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VitalsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VitalsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          findFirst: {
+            args: Prisma.VitalsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VitalsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          findMany: {
+            args: Prisma.VitalsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>[]
+          }
+          create: {
+            args: Prisma.VitalsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          createMany: {
+            args: Prisma.VitalsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VitalsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>[]
+          }
+          delete: {
+            args: Prisma.VitalsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          update: {
+            args: Prisma.VitalsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          deleteMany: {
+            args: Prisma.VitalsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VitalsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VitalsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>[]
+          }
+          upsert: {
+            args: Prisma.VitalsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalsPayload>
+          }
+          aggregate: {
+            args: Prisma.VitalsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVitals>
+          }
+          groupBy: {
+            args: Prisma.VitalsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VitalsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VitalsCountArgs<ExtArgs>
+            result: $Utils.Optional<VitalsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1696,6 +1786,7 @@ export namespace Prisma {
     tenantShiftRoster?: TenantShiftRosterOmit
     tenantAttendance?: TenantAttendanceOmit
     token?: TokenOmit
+    vitals?: VitalsOmit
   }
 
   /* Types for Logging */
@@ -1819,6 +1910,7 @@ export namespace Prisma {
     appointments: number
     admissions: number
     tokens: number
+    vitals: number
     assignedStaff: number
   }
 
@@ -1826,6 +1918,7 @@ export namespace Prisma {
     appointments?: boolean | PatientCountOutputTypeCountAppointmentsArgs
     admissions?: boolean | PatientCountOutputTypeCountAdmissionsArgs
     tokens?: boolean | PatientCountOutputTypeCountTokensArgs
+    vitals?: boolean | PatientCountOutputTypeCountVitalsArgs
     assignedStaff?: boolean | PatientCountOutputTypeCountAssignedStaffArgs
   }
 
@@ -1859,6 +1952,13 @@ export namespace Prisma {
    */
   export type PatientCountOutputTypeCountTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TokenWhereInput
+  }
+
+  /**
+   * PatientCountOutputType without action
+   */
+  export type PatientCountOutputTypeCountVitalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VitalsWhereInput
   }
 
   /**
@@ -3627,6 +3727,7 @@ export namespace Prisma {
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
     admissions?: boolean | Patient$admissionsArgs<ExtArgs>
     tokens?: boolean | Patient$tokensArgs<ExtArgs>
+    vitals?: boolean | Patient$vitalsArgs<ExtArgs>
     assignedStaff?: boolean | Patient$assignedStaffArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["patient"]>
@@ -3738,6 +3839,7 @@ export namespace Prisma {
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
     admissions?: boolean | Patient$admissionsArgs<ExtArgs>
     tokens?: boolean | Patient$tokensArgs<ExtArgs>
+    vitals?: boolean | Patient$vitalsArgs<ExtArgs>
     assignedStaff?: boolean | Patient$assignedStaffArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3750,6 +3852,7 @@ export namespace Prisma {
       appointments: Prisma.$AppointmentPayload<ExtArgs>[]
       admissions: Prisma.$AdmissionPayload<ExtArgs>[]
       tokens: Prisma.$TokenPayload<ExtArgs>[]
+      vitals: Prisma.$VitalsPayload<ExtArgs>[]
       assignedStaff: Prisma.$TenantUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4181,6 +4284,7 @@ export namespace Prisma {
     appointments<T extends Patient$appointmentsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     admissions<T extends Patient$admissionsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$admissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tokens<T extends Patient$tokensArgs<ExtArgs> = {}>(args?: Subset<T, Patient$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vitals<T extends Patient$vitalsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$vitalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedStaff<T extends Patient$assignedStaffArgs<ExtArgs> = {}>(args?: Subset<T, Patient$assignedStaffArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4704,6 +4808,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TokenScalarFieldEnum | TokenScalarFieldEnum[]
+  }
+
+  /**
+   * Patient.vitals
+   */
+  export type Patient$vitalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    where?: VitalsWhereInput
+    orderBy?: VitalsOrderByWithRelationInput | VitalsOrderByWithRelationInput[]
+    cursor?: VitalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VitalsScalarFieldEnum | VitalsScalarFieldEnum[]
   }
 
   /**
@@ -15269,6 +15397,1231 @@ export namespace Prisma {
 
 
   /**
+   * Model Vitals
+   */
+
+  export type AggregateVitals = {
+    _count: VitalsCountAggregateOutputType | null
+    _avg: VitalsAvgAggregateOutputType | null
+    _sum: VitalsSumAggregateOutputType | null
+    _min: VitalsMinAggregateOutputType | null
+    _max: VitalsMaxAggregateOutputType | null
+  }
+
+  export type VitalsAvgAggregateOutputType = {
+    systolic: number | null
+    diastolic: number | null
+    heartRate: number | null
+    spo2: number | null
+    temperature: number | null
+    respiratoryRate: number | null
+    painLevel: number | null
+  }
+
+  export type VitalsSumAggregateOutputType = {
+    systolic: number | null
+    diastolic: number | null
+    heartRate: number | null
+    spo2: number | null
+    temperature: number | null
+    respiratoryRate: number | null
+    painLevel: number | null
+  }
+
+  export type VitalsMinAggregateOutputType = {
+    id: string | null
+    patientId: string | null
+    systolic: number | null
+    diastolic: number | null
+    heartRate: number | null
+    spo2: number | null
+    temperature: number | null
+    respiratoryRate: number | null
+    painLevel: number | null
+    recordedBy: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VitalsMaxAggregateOutputType = {
+    id: string | null
+    patientId: string | null
+    systolic: number | null
+    diastolic: number | null
+    heartRate: number | null
+    spo2: number | null
+    temperature: number | null
+    respiratoryRate: number | null
+    painLevel: number | null
+    recordedBy: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VitalsCountAggregateOutputType = {
+    id: number
+    patientId: number
+    systolic: number
+    diastolic: number
+    heartRate: number
+    spo2: number
+    temperature: number
+    respiratoryRate: number
+    painLevel: number
+    recordedBy: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VitalsAvgAggregateInputType = {
+    systolic?: true
+    diastolic?: true
+    heartRate?: true
+    spo2?: true
+    temperature?: true
+    respiratoryRate?: true
+    painLevel?: true
+  }
+
+  export type VitalsSumAggregateInputType = {
+    systolic?: true
+    diastolic?: true
+    heartRate?: true
+    spo2?: true
+    temperature?: true
+    respiratoryRate?: true
+    painLevel?: true
+  }
+
+  export type VitalsMinAggregateInputType = {
+    id?: true
+    patientId?: true
+    systolic?: true
+    diastolic?: true
+    heartRate?: true
+    spo2?: true
+    temperature?: true
+    respiratoryRate?: true
+    painLevel?: true
+    recordedBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VitalsMaxAggregateInputType = {
+    id?: true
+    patientId?: true
+    systolic?: true
+    diastolic?: true
+    heartRate?: true
+    spo2?: true
+    temperature?: true
+    respiratoryRate?: true
+    painLevel?: true
+    recordedBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VitalsCountAggregateInputType = {
+    id?: true
+    patientId?: true
+    systolic?: true
+    diastolic?: true
+    heartRate?: true
+    spo2?: true
+    temperature?: true
+    respiratoryRate?: true
+    painLevel?: true
+    recordedBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VitalsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vitals to aggregate.
+     */
+    where?: VitalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vitals to fetch.
+     */
+    orderBy?: VitalsOrderByWithRelationInput | VitalsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VitalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vitals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vitals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Vitals
+    **/
+    _count?: true | VitalsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VitalsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VitalsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VitalsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VitalsMaxAggregateInputType
+  }
+
+  export type GetVitalsAggregateType<T extends VitalsAggregateArgs> = {
+        [P in keyof T & keyof AggregateVitals]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVitals[P]>
+      : GetScalarType<T[P], AggregateVitals[P]>
+  }
+
+
+
+
+  export type VitalsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VitalsWhereInput
+    orderBy?: VitalsOrderByWithAggregationInput | VitalsOrderByWithAggregationInput[]
+    by: VitalsScalarFieldEnum[] | VitalsScalarFieldEnum
+    having?: VitalsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VitalsCountAggregateInputType | true
+    _avg?: VitalsAvgAggregateInputType
+    _sum?: VitalsSumAggregateInputType
+    _min?: VitalsMinAggregateInputType
+    _max?: VitalsMaxAggregateInputType
+  }
+
+  export type VitalsGroupByOutputType = {
+    id: string
+    patientId: string
+    systolic: number | null
+    diastolic: number | null
+    heartRate: number | null
+    spo2: number | null
+    temperature: number | null
+    respiratoryRate: number | null
+    painLevel: number | null
+    recordedBy: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VitalsCountAggregateOutputType | null
+    _avg: VitalsAvgAggregateOutputType | null
+    _sum: VitalsSumAggregateOutputType | null
+    _min: VitalsMinAggregateOutputType | null
+    _max: VitalsMaxAggregateOutputType | null
+  }
+
+  type GetVitalsGroupByPayload<T extends VitalsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VitalsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VitalsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VitalsGroupByOutputType[P]>
+            : GetScalarType<T[P], VitalsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VitalsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    patientId?: boolean
+    systolic?: boolean
+    diastolic?: boolean
+    heartRate?: boolean
+    spo2?: boolean
+    temperature?: boolean
+    respiratoryRate?: boolean
+    painLevel?: boolean
+    recordedBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vitals"]>
+
+  export type VitalsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    patientId?: boolean
+    systolic?: boolean
+    diastolic?: boolean
+    heartRate?: boolean
+    spo2?: boolean
+    temperature?: boolean
+    respiratoryRate?: boolean
+    painLevel?: boolean
+    recordedBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vitals"]>
+
+  export type VitalsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    patientId?: boolean
+    systolic?: boolean
+    diastolic?: boolean
+    heartRate?: boolean
+    spo2?: boolean
+    temperature?: boolean
+    respiratoryRate?: boolean
+    painLevel?: boolean
+    recordedBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vitals"]>
+
+  export type VitalsSelectScalar = {
+    id?: boolean
+    patientId?: boolean
+    systolic?: boolean
+    diastolic?: boolean
+    heartRate?: boolean
+    spo2?: boolean
+    temperature?: boolean
+    respiratoryRate?: boolean
+    painLevel?: boolean
+    recordedBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VitalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "patientId" | "systolic" | "diastolic" | "heartRate" | "spo2" | "temperature" | "respiratoryRate" | "painLevel" | "recordedBy" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["vitals"]>
+  export type VitalsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }
+  export type VitalsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }
+  export type VitalsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }
+
+  export type $VitalsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Vitals"
+    objects: {
+      patient: Prisma.$PatientPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      patientId: string
+      systolic: number | null
+      diastolic: number | null
+      heartRate: number | null
+      spo2: number | null
+      temperature: number | null
+      respiratoryRate: number | null
+      painLevel: number | null
+      recordedBy: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vitals"]>
+    composites: {}
+  }
+
+  type VitalsGetPayload<S extends boolean | null | undefined | VitalsDefaultArgs> = $Result.GetResult<Prisma.$VitalsPayload, S>
+
+  type VitalsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VitalsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VitalsCountAggregateInputType | true
+    }
+
+  export interface VitalsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vitals'], meta: { name: 'Vitals' } }
+    /**
+     * Find zero or one Vitals that matches the filter.
+     * @param {VitalsFindUniqueArgs} args - Arguments to find a Vitals
+     * @example
+     * // Get one Vitals
+     * const vitals = await prisma.vitals.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VitalsFindUniqueArgs>(args: SelectSubset<T, VitalsFindUniqueArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Vitals that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VitalsFindUniqueOrThrowArgs} args - Arguments to find a Vitals
+     * @example
+     * // Get one Vitals
+     * const vitals = await prisma.vitals.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VitalsFindUniqueOrThrowArgs>(args: SelectSubset<T, VitalsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vitals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsFindFirstArgs} args - Arguments to find a Vitals
+     * @example
+     * // Get one Vitals
+     * const vitals = await prisma.vitals.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VitalsFindFirstArgs>(args?: SelectSubset<T, VitalsFindFirstArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vitals that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsFindFirstOrThrowArgs} args - Arguments to find a Vitals
+     * @example
+     * // Get one Vitals
+     * const vitals = await prisma.vitals.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VitalsFindFirstOrThrowArgs>(args?: SelectSubset<T, VitalsFindFirstOrThrowArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Vitals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Vitals
+     * const vitals = await prisma.vitals.findMany()
+     * 
+     * // Get first 10 Vitals
+     * const vitals = await prisma.vitals.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vitalsWithIdOnly = await prisma.vitals.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VitalsFindManyArgs>(args?: SelectSubset<T, VitalsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Vitals.
+     * @param {VitalsCreateArgs} args - Arguments to create a Vitals.
+     * @example
+     * // Create one Vitals
+     * const Vitals = await prisma.vitals.create({
+     *   data: {
+     *     // ... data to create a Vitals
+     *   }
+     * })
+     * 
+     */
+    create<T extends VitalsCreateArgs>(args: SelectSubset<T, VitalsCreateArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Vitals.
+     * @param {VitalsCreateManyArgs} args - Arguments to create many Vitals.
+     * @example
+     * // Create many Vitals
+     * const vitals = await prisma.vitals.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VitalsCreateManyArgs>(args?: SelectSubset<T, VitalsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Vitals and returns the data saved in the database.
+     * @param {VitalsCreateManyAndReturnArgs} args - Arguments to create many Vitals.
+     * @example
+     * // Create many Vitals
+     * const vitals = await prisma.vitals.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Vitals and only return the `id`
+     * const vitalsWithIdOnly = await prisma.vitals.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VitalsCreateManyAndReturnArgs>(args?: SelectSubset<T, VitalsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Vitals.
+     * @param {VitalsDeleteArgs} args - Arguments to delete one Vitals.
+     * @example
+     * // Delete one Vitals
+     * const Vitals = await prisma.vitals.delete({
+     *   where: {
+     *     // ... filter to delete one Vitals
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VitalsDeleteArgs>(args: SelectSubset<T, VitalsDeleteArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Vitals.
+     * @param {VitalsUpdateArgs} args - Arguments to update one Vitals.
+     * @example
+     * // Update one Vitals
+     * const vitals = await prisma.vitals.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VitalsUpdateArgs>(args: SelectSubset<T, VitalsUpdateArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Vitals.
+     * @param {VitalsDeleteManyArgs} args - Arguments to filter Vitals to delete.
+     * @example
+     * // Delete a few Vitals
+     * const { count } = await prisma.vitals.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VitalsDeleteManyArgs>(args?: SelectSubset<T, VitalsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vitals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Vitals
+     * const vitals = await prisma.vitals.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VitalsUpdateManyArgs>(args: SelectSubset<T, VitalsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vitals and returns the data updated in the database.
+     * @param {VitalsUpdateManyAndReturnArgs} args - Arguments to update many Vitals.
+     * @example
+     * // Update many Vitals
+     * const vitals = await prisma.vitals.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Vitals and only return the `id`
+     * const vitalsWithIdOnly = await prisma.vitals.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VitalsUpdateManyAndReturnArgs>(args: SelectSubset<T, VitalsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Vitals.
+     * @param {VitalsUpsertArgs} args - Arguments to update or create a Vitals.
+     * @example
+     * // Update or create a Vitals
+     * const vitals = await prisma.vitals.upsert({
+     *   create: {
+     *     // ... data to create a Vitals
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Vitals we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VitalsUpsertArgs>(args: SelectSubset<T, VitalsUpsertArgs<ExtArgs>>): Prisma__VitalsClient<$Result.GetResult<Prisma.$VitalsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Vitals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsCountArgs} args - Arguments to filter Vitals to count.
+     * @example
+     * // Count the number of Vitals
+     * const count = await prisma.vitals.count({
+     *   where: {
+     *     // ... the filter for the Vitals we want to count
+     *   }
+     * })
+    **/
+    count<T extends VitalsCountArgs>(
+      args?: Subset<T, VitalsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VitalsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Vitals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VitalsAggregateArgs>(args: Subset<T, VitalsAggregateArgs>): Prisma.PrismaPromise<GetVitalsAggregateType<T>>
+
+    /**
+     * Group by Vitals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VitalsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VitalsGroupByArgs['orderBy'] }
+        : { orderBy?: VitalsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VitalsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVitalsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Vitals model
+   */
+  readonly fields: VitalsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Vitals.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VitalsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    patient<T extends PatientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PatientDefaultArgs<ExtArgs>>): Prisma__PatientClient<$Result.GetResult<Prisma.$PatientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Vitals model
+   */
+  interface VitalsFieldRefs {
+    readonly id: FieldRef<"Vitals", 'String'>
+    readonly patientId: FieldRef<"Vitals", 'String'>
+    readonly systolic: FieldRef<"Vitals", 'Int'>
+    readonly diastolic: FieldRef<"Vitals", 'Int'>
+    readonly heartRate: FieldRef<"Vitals", 'Int'>
+    readonly spo2: FieldRef<"Vitals", 'Int'>
+    readonly temperature: FieldRef<"Vitals", 'Float'>
+    readonly respiratoryRate: FieldRef<"Vitals", 'Int'>
+    readonly painLevel: FieldRef<"Vitals", 'Int'>
+    readonly recordedBy: FieldRef<"Vitals", 'String'>
+    readonly notes: FieldRef<"Vitals", 'String'>
+    readonly createdAt: FieldRef<"Vitals", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vitals", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Vitals findUnique
+   */
+  export type VitalsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter, which Vitals to fetch.
+     */
+    where: VitalsWhereUniqueInput
+  }
+
+  /**
+   * Vitals findUniqueOrThrow
+   */
+  export type VitalsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter, which Vitals to fetch.
+     */
+    where: VitalsWhereUniqueInput
+  }
+
+  /**
+   * Vitals findFirst
+   */
+  export type VitalsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter, which Vitals to fetch.
+     */
+    where?: VitalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vitals to fetch.
+     */
+    orderBy?: VitalsOrderByWithRelationInput | VitalsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vitals.
+     */
+    cursor?: VitalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vitals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vitals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vitals.
+     */
+    distinct?: VitalsScalarFieldEnum | VitalsScalarFieldEnum[]
+  }
+
+  /**
+   * Vitals findFirstOrThrow
+   */
+  export type VitalsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter, which Vitals to fetch.
+     */
+    where?: VitalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vitals to fetch.
+     */
+    orderBy?: VitalsOrderByWithRelationInput | VitalsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vitals.
+     */
+    cursor?: VitalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vitals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vitals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vitals.
+     */
+    distinct?: VitalsScalarFieldEnum | VitalsScalarFieldEnum[]
+  }
+
+  /**
+   * Vitals findMany
+   */
+  export type VitalsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter, which Vitals to fetch.
+     */
+    where?: VitalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vitals to fetch.
+     */
+    orderBy?: VitalsOrderByWithRelationInput | VitalsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Vitals.
+     */
+    cursor?: VitalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vitals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vitals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vitals.
+     */
+    distinct?: VitalsScalarFieldEnum | VitalsScalarFieldEnum[]
+  }
+
+  /**
+   * Vitals create
+   */
+  export type VitalsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Vitals.
+     */
+    data: XOR<VitalsCreateInput, VitalsUncheckedCreateInput>
+  }
+
+  /**
+   * Vitals createMany
+   */
+  export type VitalsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Vitals.
+     */
+    data: VitalsCreateManyInput | VitalsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Vitals createManyAndReturn
+   */
+  export type VitalsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * The data used to create many Vitals.
+     */
+    data: VitalsCreateManyInput | VitalsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vitals update
+   */
+  export type VitalsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Vitals.
+     */
+    data: XOR<VitalsUpdateInput, VitalsUncheckedUpdateInput>
+    /**
+     * Choose, which Vitals to update.
+     */
+    where: VitalsWhereUniqueInput
+  }
+
+  /**
+   * Vitals updateMany
+   */
+  export type VitalsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Vitals.
+     */
+    data: XOR<VitalsUpdateManyMutationInput, VitalsUncheckedUpdateManyInput>
+    /**
+     * Filter which Vitals to update
+     */
+    where?: VitalsWhereInput
+    /**
+     * Limit how many Vitals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vitals updateManyAndReturn
+   */
+  export type VitalsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * The data used to update Vitals.
+     */
+    data: XOR<VitalsUpdateManyMutationInput, VitalsUncheckedUpdateManyInput>
+    /**
+     * Filter which Vitals to update
+     */
+    where?: VitalsWhereInput
+    /**
+     * Limit how many Vitals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vitals upsert
+   */
+  export type VitalsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Vitals to update in case it exists.
+     */
+    where: VitalsWhereUniqueInput
+    /**
+     * In case the Vitals found by the `where` argument doesn't exist, create a new Vitals with this data.
+     */
+    create: XOR<VitalsCreateInput, VitalsUncheckedCreateInput>
+    /**
+     * In case the Vitals was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VitalsUpdateInput, VitalsUncheckedUpdateInput>
+  }
+
+  /**
+   * Vitals delete
+   */
+  export type VitalsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+    /**
+     * Filter which Vitals to delete.
+     */
+    where: VitalsWhereUniqueInput
+  }
+
+  /**
+   * Vitals deleteMany
+   */
+  export type VitalsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vitals to delete
+     */
+    where?: VitalsWhereInput
+    /**
+     * Limit how many Vitals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vitals without action
+   */
+  export type VitalsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vitals
+     */
+    select?: VitalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vitals
+     */
+    omit?: VitalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VitalsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15481,6 +16834,25 @@ export namespace Prisma {
   };
 
   export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
+
+
+  export const VitalsScalarFieldEnum: {
+    id: 'id',
+    patientId: 'patientId',
+    systolic: 'systolic',
+    diastolic: 'diastolic',
+    heartRate: 'heartRate',
+    spo2: 'spo2',
+    temperature: 'temperature',
+    respiratoryRate: 'respiratoryRate',
+    painLevel: 'painLevel',
+    recordedBy: 'recordedBy',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VitalsScalarFieldEnum = (typeof VitalsScalarFieldEnum)[keyof typeof VitalsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15752,6 +17124,7 @@ export namespace Prisma {
     appointments?: AppointmentListRelationFilter
     admissions?: AdmissionListRelationFilter
     tokens?: TokenListRelationFilter
+    vitals?: VitalsListRelationFilter
     assignedStaff?: TenantUserListRelationFilter
   }
 
@@ -15790,6 +17163,7 @@ export namespace Prisma {
     appointments?: AppointmentOrderByRelationAggregateInput
     admissions?: AdmissionOrderByRelationAggregateInput
     tokens?: TokenOrderByRelationAggregateInput
+    vitals?: VitalsOrderByRelationAggregateInput
     assignedStaff?: TenantUserOrderByRelationAggregateInput
   }
 
@@ -15831,6 +17205,7 @@ export namespace Prisma {
     appointments?: AppointmentListRelationFilter
     admissions?: AdmissionListRelationFilter
     tokens?: TokenListRelationFilter
+    vitals?: VitalsListRelationFilter
     assignedStaff?: TenantUserListRelationFilter
   }, "id">
 
@@ -16668,6 +18043,103 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
   }
 
+  export type VitalsWhereInput = {
+    AND?: VitalsWhereInput | VitalsWhereInput[]
+    OR?: VitalsWhereInput[]
+    NOT?: VitalsWhereInput | VitalsWhereInput[]
+    id?: StringFilter<"Vitals"> | string
+    patientId?: StringFilter<"Vitals"> | string
+    systolic?: IntNullableFilter<"Vitals"> | number | null
+    diastolic?: IntNullableFilter<"Vitals"> | number | null
+    heartRate?: IntNullableFilter<"Vitals"> | number | null
+    spo2?: IntNullableFilter<"Vitals"> | number | null
+    temperature?: FloatNullableFilter<"Vitals"> | number | null
+    respiratoryRate?: IntNullableFilter<"Vitals"> | number | null
+    painLevel?: IntNullableFilter<"Vitals"> | number | null
+    recordedBy?: StringNullableFilter<"Vitals"> | string | null
+    notes?: StringNullableFilter<"Vitals"> | string | null
+    createdAt?: DateTimeFilter<"Vitals"> | Date | string
+    updatedAt?: DateTimeFilter<"Vitals"> | Date | string
+    patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
+  }
+
+  export type VitalsOrderByWithRelationInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    systolic?: SortOrderInput | SortOrder
+    diastolic?: SortOrderInput | SortOrder
+    heartRate?: SortOrderInput | SortOrder
+    spo2?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    respiratoryRate?: SortOrderInput | SortOrder
+    painLevel?: SortOrderInput | SortOrder
+    recordedBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    patient?: PatientOrderByWithRelationInput
+  }
+
+  export type VitalsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VitalsWhereInput | VitalsWhereInput[]
+    OR?: VitalsWhereInput[]
+    NOT?: VitalsWhereInput | VitalsWhereInput[]
+    patientId?: StringFilter<"Vitals"> | string
+    systolic?: IntNullableFilter<"Vitals"> | number | null
+    diastolic?: IntNullableFilter<"Vitals"> | number | null
+    heartRate?: IntNullableFilter<"Vitals"> | number | null
+    spo2?: IntNullableFilter<"Vitals"> | number | null
+    temperature?: FloatNullableFilter<"Vitals"> | number | null
+    respiratoryRate?: IntNullableFilter<"Vitals"> | number | null
+    painLevel?: IntNullableFilter<"Vitals"> | number | null
+    recordedBy?: StringNullableFilter<"Vitals"> | string | null
+    notes?: StringNullableFilter<"Vitals"> | string | null
+    createdAt?: DateTimeFilter<"Vitals"> | Date | string
+    updatedAt?: DateTimeFilter<"Vitals"> | Date | string
+    patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
+  }, "id">
+
+  export type VitalsOrderByWithAggregationInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    systolic?: SortOrderInput | SortOrder
+    diastolic?: SortOrderInput | SortOrder
+    heartRate?: SortOrderInput | SortOrder
+    spo2?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    respiratoryRate?: SortOrderInput | SortOrder
+    painLevel?: SortOrderInput | SortOrder
+    recordedBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VitalsCountOrderByAggregateInput
+    _avg?: VitalsAvgOrderByAggregateInput
+    _max?: VitalsMaxOrderByAggregateInput
+    _min?: VitalsMinOrderByAggregateInput
+    _sum?: VitalsSumOrderByAggregateInput
+  }
+
+  export type VitalsScalarWhereWithAggregatesInput = {
+    AND?: VitalsScalarWhereWithAggregatesInput | VitalsScalarWhereWithAggregatesInput[]
+    OR?: VitalsScalarWhereWithAggregatesInput[]
+    NOT?: VitalsScalarWhereWithAggregatesInput | VitalsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Vitals"> | string
+    patientId?: StringWithAggregatesFilter<"Vitals"> | string
+    systolic?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    diastolic?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    heartRate?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    spo2?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    temperature?: FloatNullableWithAggregatesFilter<"Vitals"> | number | null
+    respiratoryRate?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    painLevel?: IntNullableWithAggregatesFilter<"Vitals"> | number | null
+    recordedBy?: StringNullableWithAggregatesFilter<"Vitals"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Vitals"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Vitals"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vitals"> | Date | string
+  }
+
   export type TenantUserCreateInput = {
     id?: string
     email: string
@@ -16823,6 +18295,7 @@ export namespace Prisma {
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     admissions?: AdmissionCreateNestedManyWithoutPatientInput
     tokens?: TokenCreateNestedManyWithoutPatientInput
+    vitals?: VitalsCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -16861,6 +18334,7 @@ export namespace Prisma {
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
     tokens?: TokenUncheckedCreateNestedManyWithoutPatientInput
+    vitals?: VitalsUncheckedCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -16899,6 +18373,7 @@ export namespace Prisma {
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUpdateManyWithoutPatientNestedInput
     tokens?: TokenUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -16937,6 +18412,7 @@ export namespace Prisma {
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUncheckedUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -17885,6 +19361,117 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VitalsCreateInput = {
+    id?: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    patient: PatientCreateNestedOneWithoutVitalsInput
+  }
+
+  export type VitalsUncheckedCreateInput = {
+    id?: string
+    patientId: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VitalsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    patient?: PatientUpdateOneRequiredWithoutVitalsNestedInput
+  }
+
+  export type VitalsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    patientId?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalsCreateManyInput = {
+    id?: string
+    patientId: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VitalsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    patientId?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -18143,6 +19730,12 @@ export namespace Prisma {
     none?: TokenWhereInput
   }
 
+  export type VitalsListRelationFilter = {
+    every?: VitalsWhereInput
+    some?: VitalsWhereInput
+    none?: VitalsWhereInput
+  }
+
   export type TenantUserListRelationFilter = {
     every?: TenantUserWhereInput
     some?: TenantUserWhereInput
@@ -18154,6 +19747,10 @@ export namespace Prisma {
   }
 
   export type TokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VitalsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18852,6 +20449,74 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type VitalsCountOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    systolic?: SortOrder
+    diastolic?: SortOrder
+    heartRate?: SortOrder
+    spo2?: SortOrder
+    temperature?: SortOrder
+    respiratoryRate?: SortOrder
+    painLevel?: SortOrder
+    recordedBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VitalsAvgOrderByAggregateInput = {
+    systolic?: SortOrder
+    diastolic?: SortOrder
+    heartRate?: SortOrder
+    spo2?: SortOrder
+    temperature?: SortOrder
+    respiratoryRate?: SortOrder
+    painLevel?: SortOrder
+  }
+
+  export type VitalsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    systolic?: SortOrder
+    diastolic?: SortOrder
+    heartRate?: SortOrder
+    spo2?: SortOrder
+    temperature?: SortOrder
+    respiratoryRate?: SortOrder
+    painLevel?: SortOrder
+    recordedBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VitalsMinOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    systolic?: SortOrder
+    diastolic?: SortOrder
+    heartRate?: SortOrder
+    spo2?: SortOrder
+    temperature?: SortOrder
+    respiratoryRate?: SortOrder
+    painLevel?: SortOrder
+    recordedBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VitalsSumOrderByAggregateInput = {
+    systolic?: SortOrder
+    diastolic?: SortOrder
+    heartRate?: SortOrder
+    spo2?: SortOrder
+    temperature?: SortOrder
+    respiratoryRate?: SortOrder
+    painLevel?: SortOrder
+  }
+
   export type AdmissionCreateNestedManyWithoutDoctorInput = {
     create?: XOR<AdmissionCreateWithoutDoctorInput, AdmissionUncheckedCreateWithoutDoctorInput> | AdmissionCreateWithoutDoctorInput[] | AdmissionUncheckedCreateWithoutDoctorInput[]
     connectOrCreate?: AdmissionCreateOrConnectWithoutDoctorInput | AdmissionCreateOrConnectWithoutDoctorInput[]
@@ -18969,6 +20634,13 @@ export namespace Prisma {
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
   }
 
+  export type VitalsCreateNestedManyWithoutPatientInput = {
+    create?: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput> | VitalsCreateWithoutPatientInput[] | VitalsUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: VitalsCreateOrConnectWithoutPatientInput | VitalsCreateOrConnectWithoutPatientInput[]
+    createMany?: VitalsCreateManyPatientInputEnvelope
+    connect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+  }
+
   export type TenantUserCreateNestedManyWithoutAssignedPatientsInput = {
     create?: XOR<TenantUserCreateWithoutAssignedPatientsInput, TenantUserUncheckedCreateWithoutAssignedPatientsInput> | TenantUserCreateWithoutAssignedPatientsInput[] | TenantUserUncheckedCreateWithoutAssignedPatientsInput[]
     connectOrCreate?: TenantUserCreateOrConnectWithoutAssignedPatientsInput | TenantUserCreateOrConnectWithoutAssignedPatientsInput[]
@@ -18994,6 +20666,13 @@ export namespace Prisma {
     connectOrCreate?: TokenCreateOrConnectWithoutPatientInput | TokenCreateOrConnectWithoutPatientInput[]
     createMany?: TokenCreateManyPatientInputEnvelope
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
+  }
+
+  export type VitalsUncheckedCreateNestedManyWithoutPatientInput = {
+    create?: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput> | VitalsCreateWithoutPatientInput[] | VitalsUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: VitalsCreateOrConnectWithoutPatientInput | VitalsCreateOrConnectWithoutPatientInput[]
+    createMany?: VitalsCreateManyPatientInputEnvelope
+    connect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
   }
 
   export type TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput = {
@@ -19056,6 +20735,20 @@ export namespace Prisma {
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
   }
 
+  export type VitalsUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput> | VitalsCreateWithoutPatientInput[] | VitalsUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: VitalsCreateOrConnectWithoutPatientInput | VitalsCreateOrConnectWithoutPatientInput[]
+    upsert?: VitalsUpsertWithWhereUniqueWithoutPatientInput | VitalsUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: VitalsCreateManyPatientInputEnvelope
+    set?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    disconnect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    delete?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    connect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    update?: VitalsUpdateWithWhereUniqueWithoutPatientInput | VitalsUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: VitalsUpdateManyWithWhereWithoutPatientInput | VitalsUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: VitalsScalarWhereInput | VitalsScalarWhereInput[]
+  }
+
   export type TenantUserUpdateManyWithoutAssignedPatientsNestedInput = {
     create?: XOR<TenantUserCreateWithoutAssignedPatientsInput, TenantUserUncheckedCreateWithoutAssignedPatientsInput> | TenantUserCreateWithoutAssignedPatientsInput[] | TenantUserUncheckedCreateWithoutAssignedPatientsInput[]
     connectOrCreate?: TenantUserCreateOrConnectWithoutAssignedPatientsInput | TenantUserCreateOrConnectWithoutAssignedPatientsInput[]
@@ -19109,6 +20802,20 @@ export namespace Prisma {
     update?: TokenUpdateWithWhereUniqueWithoutPatientInput | TokenUpdateWithWhereUniqueWithoutPatientInput[]
     updateMany?: TokenUpdateManyWithWhereWithoutPatientInput | TokenUpdateManyWithWhereWithoutPatientInput[]
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
+  }
+
+  export type VitalsUncheckedUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput> | VitalsCreateWithoutPatientInput[] | VitalsUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: VitalsCreateOrConnectWithoutPatientInput | VitalsCreateOrConnectWithoutPatientInput[]
+    upsert?: VitalsUpsertWithWhereUniqueWithoutPatientInput | VitalsUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: VitalsCreateManyPatientInputEnvelope
+    set?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    disconnect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    delete?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    connect?: VitalsWhereUniqueInput | VitalsWhereUniqueInput[]
+    update?: VitalsUpdateWithWhereUniqueWithoutPatientInput | VitalsUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: VitalsUpdateManyWithWhereWithoutPatientInput | VitalsUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: VitalsScalarWhereInput | VitalsScalarWhereInput[]
   }
 
   export type TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput = {
@@ -19584,6 +21291,20 @@ export namespace Prisma {
     update?: XOR<XOR<PatientUpdateToOneWithWhereWithoutTokensInput, PatientUpdateWithoutTokensInput>, PatientUncheckedUpdateWithoutTokensInput>
   }
 
+  export type PatientCreateNestedOneWithoutVitalsInput = {
+    create?: XOR<PatientCreateWithoutVitalsInput, PatientUncheckedCreateWithoutVitalsInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutVitalsInput
+    connect?: PatientWhereUniqueInput
+  }
+
+  export type PatientUpdateOneRequiredWithoutVitalsNestedInput = {
+    create?: XOR<PatientCreateWithoutVitalsInput, PatientUncheckedCreateWithoutVitalsInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutVitalsInput
+    upsert?: PatientUpsertWithoutVitalsInput
+    connect?: PatientWhereUniqueInput
+    update?: XOR<XOR<PatientUpdateToOneWithWhereWithoutVitalsInput, PatientUpdateWithoutVitalsInput>, PatientUncheckedUpdateWithoutVitalsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19920,6 +21641,7 @@ export namespace Prisma {
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     admissions?: AdmissionCreateNestedManyWithoutPatientInput
     tokens?: TokenCreateNestedManyWithoutPatientInput
+    vitals?: VitalsCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutAssignedStaffInput = {
@@ -19957,6 +21679,7 @@ export namespace Prisma {
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
     tokens?: TokenUncheckedCreateNestedManyWithoutPatientInput
+    vitals?: VitalsUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutAssignedStaffInput = {
@@ -20165,6 +21888,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VitalsCreateWithoutPatientInput = {
+    id?: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VitalsUncheckedCreateWithoutPatientInput = {
+    id?: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VitalsCreateOrConnectWithoutPatientInput = {
+    where: VitalsWhereUniqueInput
+    create: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput>
+  }
+
+  export type VitalsCreateManyPatientInputEnvelope = {
+    data: VitalsCreateManyPatientInput | VitalsCreateManyPatientInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUserCreateWithoutAssignedPatientsInput = {
     id?: string
     email: string
@@ -20288,6 +22051,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Token"> | Date | string
   }
 
+  export type VitalsUpsertWithWhereUniqueWithoutPatientInput = {
+    where: VitalsWhereUniqueInput
+    update: XOR<VitalsUpdateWithoutPatientInput, VitalsUncheckedUpdateWithoutPatientInput>
+    create: XOR<VitalsCreateWithoutPatientInput, VitalsUncheckedCreateWithoutPatientInput>
+  }
+
+  export type VitalsUpdateWithWhereUniqueWithoutPatientInput = {
+    where: VitalsWhereUniqueInput
+    data: XOR<VitalsUpdateWithoutPatientInput, VitalsUncheckedUpdateWithoutPatientInput>
+  }
+
+  export type VitalsUpdateManyWithWhereWithoutPatientInput = {
+    where: VitalsScalarWhereInput
+    data: XOR<VitalsUpdateManyMutationInput, VitalsUncheckedUpdateManyWithoutPatientInput>
+  }
+
+  export type VitalsScalarWhereInput = {
+    AND?: VitalsScalarWhereInput | VitalsScalarWhereInput[]
+    OR?: VitalsScalarWhereInput[]
+    NOT?: VitalsScalarWhereInput | VitalsScalarWhereInput[]
+    id?: StringFilter<"Vitals"> | string
+    patientId?: StringFilter<"Vitals"> | string
+    systolic?: IntNullableFilter<"Vitals"> | number | null
+    diastolic?: IntNullableFilter<"Vitals"> | number | null
+    heartRate?: IntNullableFilter<"Vitals"> | number | null
+    spo2?: IntNullableFilter<"Vitals"> | number | null
+    temperature?: FloatNullableFilter<"Vitals"> | number | null
+    respiratoryRate?: IntNullableFilter<"Vitals"> | number | null
+    painLevel?: IntNullableFilter<"Vitals"> | number | null
+    recordedBy?: StringNullableFilter<"Vitals"> | string | null
+    notes?: StringNullableFilter<"Vitals"> | string | null
+    createdAt?: DateTimeFilter<"Vitals"> | Date | string
+    updatedAt?: DateTimeFilter<"Vitals"> | Date | string
+  }
+
   export type TenantUserUpsertWithWhereUniqueWithoutAssignedPatientsInput = {
     where: TenantUserWhereUniqueInput
     update: XOR<TenantUserUpdateWithoutAssignedPatientsInput, TenantUserUncheckedUpdateWithoutAssignedPatientsInput>
@@ -20357,6 +22155,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     tokens?: TokenCreateNestedManyWithoutPatientInput
+    vitals?: VitalsCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -20394,6 +22193,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     tokens?: TokenUncheckedCreateNestedManyWithoutPatientInput
+    vitals?: VitalsUncheckedCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -20563,6 +22363,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     tokens?: TokenUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -20600,6 +22401,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUncheckedUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -20777,6 +22579,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     admissions?: AdmissionCreateNestedManyWithoutPatientInput
     tokens?: TokenCreateNestedManyWithoutPatientInput
+    vitals?: VitalsCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -20814,6 +22617,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
     tokens?: TokenUncheckedCreateNestedManyWithoutPatientInput
+    vitals?: VitalsUncheckedCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -20867,6 +22671,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admissions?: AdmissionUpdateManyWithoutPatientNestedInput
     tokens?: TokenUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -20904,6 +22709,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUncheckedUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -21627,6 +23433,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     admissions?: AdmissionCreateNestedManyWithoutPatientInput
+    vitals?: VitalsCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -21664,6 +23471,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
+    vitals?: VitalsUncheckedCreateNestedManyWithoutPatientInput
     assignedStaff?: TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput
   }
 
@@ -21717,6 +23525,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -21754,6 +23563,175 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUncheckedUpdateManyWithoutPatientNestedInput
+    assignedStaff?: TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput
+  }
+
+  export type PatientCreateWithoutVitalsInput = {
+    id?: string
+    firstName?: string | null
+    lastName?: string | null
+    name?: string | null
+    age?: number | null
+    gender?: string | null
+    dob?: Date | string | null
+    contact?: string | null
+    alternateMobile?: string | null
+    email?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    pincode?: string | null
+    country?: string | null
+    aadhaar?: string | null
+    pan?: string | null
+    passport?: string | null
+    idProofUrl?: string | null
+    emergencyContactName?: string | null
+    emergencyContactPhone?: string | null
+    status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    appointments?: AppointmentCreateNestedManyWithoutPatientInput
+    admissions?: AdmissionCreateNestedManyWithoutPatientInput
+    tokens?: TokenCreateNestedManyWithoutPatientInput
+    assignedStaff?: TenantUserCreateNestedManyWithoutAssignedPatientsInput
+  }
+
+  export type PatientUncheckedCreateWithoutVitalsInput = {
+    id?: string
+    firstName?: string | null
+    lastName?: string | null
+    name?: string | null
+    age?: number | null
+    gender?: string | null
+    dob?: Date | string | null
+    contact?: string | null
+    alternateMobile?: string | null
+    email?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    pincode?: string | null
+    country?: string | null
+    aadhaar?: string | null
+    pan?: string | null
+    passport?: string | null
+    idProofUrl?: string | null
+    emergencyContactName?: string | null
+    emergencyContactPhone?: string | null
+    status?: string
+    arrivalMode?: string | null
+    triagePriority?: string | null
+    emergencyType?: string | null
+    arrivalTime?: Date | string | null
+    isEmergency?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
+    admissions?: AdmissionUncheckedCreateNestedManyWithoutPatientInput
+    tokens?: TokenUncheckedCreateNestedManyWithoutPatientInput
+    assignedStaff?: TenantUserUncheckedCreateNestedManyWithoutAssignedPatientsInput
+  }
+
+  export type PatientCreateOrConnectWithoutVitalsInput = {
+    where: PatientWhereUniqueInput
+    create: XOR<PatientCreateWithoutVitalsInput, PatientUncheckedCreateWithoutVitalsInput>
+  }
+
+  export type PatientUpsertWithoutVitalsInput = {
+    update: XOR<PatientUpdateWithoutVitalsInput, PatientUncheckedUpdateWithoutVitalsInput>
+    create: XOR<PatientCreateWithoutVitalsInput, PatientUncheckedCreateWithoutVitalsInput>
+    where?: PatientWhereInput
+  }
+
+  export type PatientUpdateToOneWithWhereWithoutVitalsInput = {
+    where?: PatientWhereInput
+    data: XOR<PatientUpdateWithoutVitalsInput, PatientUncheckedUpdateWithoutVitalsInput>
+  }
+
+  export type PatientUpdateWithoutVitalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    pincode?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaar?: NullableStringFieldUpdateOperationsInput | string | null
+    pan?: NullableStringFieldUpdateOperationsInput | string | null
+    passport?: NullableStringFieldUpdateOperationsInput | string | null
+    idProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appointments?: AppointmentUpdateManyWithoutPatientNestedInput
+    admissions?: AdmissionUpdateManyWithoutPatientNestedInput
+    tokens?: TokenUpdateManyWithoutPatientNestedInput
+    assignedStaff?: TenantUserUpdateManyWithoutAssignedPatientsNestedInput
+  }
+
+  export type PatientUncheckedUpdateWithoutVitalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    pincode?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaar?: NullableStringFieldUpdateOperationsInput | string | null
+    pan?: NullableStringFieldUpdateOperationsInput | string | null
+    passport?: NullableStringFieldUpdateOperationsInput | string | null
+    idProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    arrivalMode?: NullableStringFieldUpdateOperationsInput | string | null
+    triagePriority?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyType?: NullableStringFieldUpdateOperationsInput | string | null
+    arrivalTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isEmergency?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+    admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
+    tokens?: TokenUncheckedUpdateManyWithoutPatientNestedInput
     assignedStaff?: TenantUserUncheckedUpdateManyWithoutAssignedPatientsNestedInput
   }
 
@@ -21848,6 +23826,7 @@ export namespace Prisma {
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUpdateManyWithoutPatientNestedInput
     tokens?: TokenUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutAssignedStaffInput = {
@@ -21885,6 +23864,7 @@ export namespace Prisma {
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     admissions?: AdmissionUncheckedUpdateManyWithoutPatientNestedInput
     tokens?: TokenUncheckedUpdateManyWithoutPatientNestedInput
+    vitals?: VitalsUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateManyWithoutAssignedStaffInput = {
@@ -21958,6 +23938,21 @@ export namespace Prisma {
     displayToken: string
     date?: Date | string
     status?: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VitalsCreateManyPatientInput = {
+    id?: string
+    systolic?: number | null
+    diastolic?: number | null
+    heartRate?: number | null
+    spo2?: number | null
+    temperature?: number | null
+    respiratoryRate?: number | null
+    painLevel?: number | null
+    recordedBy?: string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22084,6 +24079,51 @@ export namespace Prisma {
     displayToken?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalsUpdateWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalsUncheckedUpdateWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalsUncheckedUpdateManyWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    heartRate?: NullableIntFieldUpdateOperationsInput | number | null
+    spo2?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
+    painLevel?: NullableIntFieldUpdateOperationsInput | number | null
+    recordedBy?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

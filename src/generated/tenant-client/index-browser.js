@@ -288,6 +288,22 @@ exports.Prisma.TokenScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VitalsScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  systolic: 'systolic',
+  diastolic: 'diastolic',
+  heartRate: 'heartRate',
+  spo2: 'spo2',
+  temperature: 'temperature',
+  respiratoryRate: 'respiratoryRate',
+  painLevel: 'painLevel',
+  recordedBy: 'recordedBy',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -330,7 +346,8 @@ exports.Prisma.ModelName = {
   TenantShiftTemplate: 'TenantShiftTemplate',
   TenantShiftRoster: 'TenantShiftRoster',
   TenantAttendance: 'TenantAttendance',
-  Token: 'Token'
+  Token: 'Token',
+  Vitals: 'Vitals'
 };
 
 /**

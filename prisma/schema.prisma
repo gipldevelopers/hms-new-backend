@@ -81,6 +81,7 @@ model Branch {
   patients       Patient[]
   admissions     Admission[]
   tokens         Token[]
+  vitals         Vitals[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -126,6 +127,7 @@ model Patient {
 
   admissions Admission[]
   tokens     Token[]
+  vitals     Vitals[]
 
   @@map("patients")
 }
@@ -379,4 +381,27 @@ model Token {
   @@index([branchId])
   @@index([date])
   @@map("tokens")
+}
+
+model Vitals {
+  id              String   @id @default(uuid())
+  patientId       String
+  patient         Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  branchId        String
+  branch          Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  
+  systolic        Int?
+  diastolic       Int?
+  heartRate       Int?
+  spo2            Int?
+  temperature     Float?
+  respiratoryRate Int?
+  painLevel       Int?
+  recordedBy      String?
+  notes           String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("vitals")
 }
