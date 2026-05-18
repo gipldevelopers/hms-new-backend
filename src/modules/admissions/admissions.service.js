@@ -7,7 +7,7 @@ const emailService = require("../../services/email.service");
  */
 const getAdmissionsOverview = async (branchId, query = {}) => {
   const tenantDb = await getTenantClient(branchId);
-  const { search, status, type = 'admissions', departmentId } = query;
+  const { search, status, type = 'admissions', departmentId, wardId } = query;
 
   const where = {};
 
@@ -19,18 +19,26 @@ const getAdmissionsOverview = async (branchId, query = {}) => {
     where.departmentId = departmentId;
   }
 
+  if (wardId && wardId !== 'All' && wardId !== "") {
+    where.wardId = wardId;
+  }
+
   if (search) {
     where.patient = {
       name: { contains: search, mode: 'insensitive' }
     };
   }
 
-  // If type is discharge, we filter by status being Completed
   if (type === 'discharge') {
     where.status = 'Completed';
+  } else if (type === 'all') {
+    // If status is specifically provided, use it, otherwise show all
+    if (status && status !== 'All' && status !== "") {
+      where.status = status;
+    }
   } else {
-    // Default to active admissions: exclude Completed
-    where.status = status && status !== "" ? status : { not: 'Completed' };
+    // Default to active admissions: exclude Completed unless a specific status is requested
+    where.status = status && status !== "" && status !== "All" ? status : { not: 'Completed' };
   }
 
   const admissions = await tenantDb.admission.findMany({

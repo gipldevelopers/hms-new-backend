@@ -19,7 +19,15 @@ const getPatientById = async (branchId, patientId) => {
   return await tenantDb.patient.findUnique({
     where: { id: patientId },
     include: {
-      admissions: true
+      admissions: {
+        include: {
+          bed: true,
+          ward: true,
+          doctor: true,
+          department: true
+        },
+        orderBy: { createdAt: 'desc' }
+      }
     }
   });
 };

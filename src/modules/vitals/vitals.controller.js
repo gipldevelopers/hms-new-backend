@@ -143,6 +143,23 @@ const deleteVitals = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/vitals/filters
+ * Returns list of dynamic wards and staff members for filters
+ */
+const getVitalsFilters = async (req, res) => {
+  try {
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "No initialized branches found." });
+
+    const filters = await vitalsService.getVitalsFilters(branchId);
+    res.json(filters);
+  } catch (error) {
+    console.error("Error in getVitalsFilters:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getVitalsOverview,
   getVitalsStats,
@@ -151,4 +168,5 @@ module.exports = {
   createVitals,
   updateVitals,
   deleteVitals,
+  getVitalsFilters,
 };
