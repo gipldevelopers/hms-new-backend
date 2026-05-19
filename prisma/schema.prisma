@@ -28,6 +28,7 @@ model User {
   updatedAt        DateTime  @updatedAt
 
   doctorAdmissions Admission[] @relation("DoctorAdmissions")
+  assignedTasks    Task[]      @relation("AssignedTasksGlobal")
 }
 
 enum Role {
@@ -82,6 +83,7 @@ model Branch {
   admissions     Admission[]
   tokens         Token[]
   vitals         Vitals[]
+  tasks          Task[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -128,6 +130,7 @@ model Patient {
   admissions Admission[]
   tokens     Token[]
   vitals     Vitals[]
+  tasks      Task[]
 
   @@map("patients")
 }
@@ -404,4 +407,25 @@ model Vitals {
   updatedAt       DateTime @updatedAt
 
   @@map("vitals")
+}
+
+model Task {
+  id           String      @id @default(uuid())
+  patientId    String
+  patient      Patient     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  branchId     String
+  branch       Branch      @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  bedLabel     String?
+  priority     String      @default("MEDIUM")
+  dueDate      String?
+  assignedToId String?
+  assignedTo   User?       @relation("AssignedTasksGlobal", fields: [assignedToId], references: [id], onDelete: SetNull)
+  status       String      @default("Pending") // Pending, In Progress, Completed
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("tasks")
 }

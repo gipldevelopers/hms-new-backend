@@ -20,6 +20,7 @@ const emergencyRoutes = require('./emergency/emergency.routes');
 const tokensRoutes = require('./tokens/tokens.routes');
 const appointmentsRoutes = require('./appointments/appointments.routes');
 const vitalsRoutes = require('./vitals/vitals.routes');
+const tasksRoutes = require('./tasks/tasks.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -40,5 +41,6 @@ router.use('/emergency', emergencyRoutes);
 router.use('/tokens', tokensRoutes);
 router.use('/appointments', appointmentsRoutes);
 router.use('/vitals', vitalsRoutes);
+router.use('/tasks', tasksRoutes);
 
 module.exports = router;

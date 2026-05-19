@@ -304,6 +304,20 @@ exports.Prisma.VitalsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  title: 'title',
+  description: 'description',
+  bedLabel: 'bedLabel',
+  priority: 'priority',
+  dueDate: 'dueDate',
+  assignedToId: 'assignedToId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -347,7 +361,8 @@ exports.Prisma.ModelName = {
   TenantShiftRoster: 'TenantShiftRoster',
   TenantAttendance: 'TenantAttendance',
   Token: 'Token',
-  Vitals: 'Vitals'
+  Vitals: 'Vitals',
+  Task: 'Task'
 };
 
 /**
