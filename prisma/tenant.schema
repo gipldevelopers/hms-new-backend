@@ -278,3 +278,20 @@ model Task {
 
   @@map("tasks")
 }
+
+model PharmacyItem {
+  id           String    @id @default(uuid())
+  medicineName String
+  type         String
+  mfg          String?
+  quantity     Int       @default(0)
+  expiryDate   DateTime?
+  notes        String?
+  rackId       String?
+  storageType  String    @default("Cold Storage")
+  status       String    @default("IN STOCK") // IN STOCK, LOW, OUT OF STOCK
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("pharmacy_items")
+}

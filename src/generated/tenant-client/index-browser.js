@@ -318,6 +318,21 @@ exports.Prisma.TaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PharmacyItemScalarFieldEnum = {
+  id: 'id',
+  medicineName: 'medicineName',
+  type: 'type',
+  mfg: 'mfg',
+  quantity: 'quantity',
+  expiryDate: 'expiryDate',
+  notes: 'notes',
+  rackId: 'rackId',
+  storageType: 'storageType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -362,7 +377,8 @@ exports.Prisma.ModelName = {
   TenantAttendance: 'TenantAttendance',
   Token: 'Token',
   Vitals: 'Vitals',
-  Task: 'Task'
+  Task: 'Task',
+  PharmacyItem: 'PharmacyItem'
 };
 
 /**
