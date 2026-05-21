@@ -7,7 +7,7 @@ const emailService = require("../../services/email.service");
  */
 const getAdmissionsOverview = async (branchId, query = {}) => {
   const tenantDb = await getTenantClient(branchId);
-  const { search, status, type = 'admissions', departmentId } = query;
+  const { search, status, type = 'admissions', departmentId, wardId } = query;
 
   const where = {};
 
@@ -19,18 +19,26 @@ const getAdmissionsOverview = async (branchId, query = {}) => {
     where.departmentId = departmentId;
   }
 
+  if (wardId && wardId !== 'All' && wardId !== "") {
+    where.wardId = wardId;
+  }
+
   if (search) {
     where.patient = {
       name: { contains: search, mode: 'insensitive' }
     };
   }
 
-  // If type is discharge, we filter by status being Completed
   if (type === 'discharge') {
     where.status = 'Completed';
+  } else if (type === 'all') {
+    // If status is specifically provided, use it, otherwise show all
+    if (status && status !== 'All' && status !== "") {
+      where.status = status;
+    }
   } else {
-    // Default to active admissions: exclude Completed
-    where.status = status && status !== "" ? status : { not: 'Completed' };
+    // Default to active admissions: exclude Completed unless a specific status is requested
+    where.status = status && status !== "" && status !== "All" ? status : { not: 'Completed' };
   }
 
   const admissions = await tenantDb.admission.findMany({
@@ -57,10 +65,11 @@ const createAdmission = async (branchId, data) => {
   const patientId = data.patientId || crypto.randomUUID();
 
   // Fetch real names/codes from Tenant DB to avoid placeholders in Main DB
-  const [realDept, realWard, realBed] = await Promise.all([
+  const [realDept, realWard, realBed, realDoctor] = await Promise.all([
     tenantDb.department.findUnique({ where: { id: data.departmentId } }),
     tenantDb.ward.findUnique({ where: { id: data.wardId } }),
-    tenantDb.bed.findUnique({ where: { id: data.bedId } })
+    tenantDb.bed.findUnique({ where: { id: data.bedId } }),
+    data.doctorId ? mainDb.user.findUnique({ where: { id: data.doctorId } }) : Promise.resolve(null)
   ]);
 
   if (realBed && realBed.status === 'OCCUPIED') {
@@ -69,7 +78,7 @@ const createAdmission = async (branchId, data) => {
 
   const syncFunc = async (db, isMain = false) => {
     return await db.$transaction(async (tx) => {
-      // 0. Self-Healing: Ensure Department, Ward, and Bed exist in this DB (Main DB sync safety)
+      // 0. Self-Healing: Ensure Department, Ward, Bed, and Doctor exist in this DB
       if (isMain) {
         await tx.department.upsert({
           where: { id: data.departmentId },
@@ -105,6 +114,36 @@ const createAdmission = async (branchId, data) => {
             status: "AVAILABLE"
           }
         });
+      }
+
+      // Sync Doctor if provided
+      if (realDoctor) {
+        const doctorData = {
+          email: realDoctor.email,
+          name: realDoctor.name,
+          password: realDoctor.password,
+          role: realDoctor.role,
+          consoleRoles: realDoctor.consoleRoles,
+          status: realDoctor.status,
+          shiftType: realDoctor.shiftType,
+          shiftStartTime: realDoctor.shiftStartTime,
+          shiftEndTime: realDoctor.shiftEndTime
+        };
+
+        if (isMain) {
+          await tx.user.upsert({
+            where: { id: realDoctor.id },
+            update: doctorData,
+            create: { id: realDoctor.id, ...doctorData, branchId: realDoctor.branchId }
+          });
+        } else {
+          // In Tenant DB, we use tenantUser model
+          await tx.tenantUser.upsert({
+            where: { id: realDoctor.id },
+            update: doctorData,
+            create: { id: realDoctor.id, ...doctorData }
+          });
+        }
       }
 
       // Prepare localized data
@@ -200,10 +239,11 @@ const updateAdmission = async (branchId, admissionId, data) => {
   if (!oldAdmission) throw new Error("Admission record not found");
 
   // Fetch real data only for provided IDs (support partial updates)
-  const [realDept, realWard, realBed] = await Promise.all([
+  const [realDept, realWard, realBed, realDoctor] = await Promise.all([
     data.departmentId ? tenantDb.department.findUnique({ where: { id: data.departmentId } }) : Promise.resolve(null),
     data.wardId ? tenantDb.ward.findUnique({ where: { id: data.wardId } }) : Promise.resolve(null),
-    data.bedId ? tenantDb.bed.findUnique({ where: { id: data.bedId } }) : Promise.resolve(null)
+    data.bedId ? tenantDb.bed.findUnique({ where: { id: data.bedId } }) : Promise.resolve(null),
+    data.doctorId ? mainDb.user.findUnique({ where: { id: data.doctorId } }) : Promise.resolve(null)
   ]);
 
   const syncFunc = async (db, isMain = false) => {
@@ -252,6 +292,35 @@ const updateAdmission = async (branchId, admissionId, data) => {
               branchId: branchId,
               status: "AVAILABLE"
             }
+          });
+        }
+      }
+
+      // Sync Doctor if provided
+      if (realDoctor) {
+        const doctorData = {
+          email: realDoctor.email,
+          name: realDoctor.name,
+          password: realDoctor.password,
+          role: realDoctor.role,
+          consoleRoles: realDoctor.consoleRoles,
+          status: realDoctor.status,
+          shiftType: realDoctor.shiftType,
+          shiftStartTime: realDoctor.shiftStartTime,
+          shiftEndTime: realDoctor.shiftEndTime
+        };
+
+        if (isMain) {
+          await tx.user.upsert({
+            where: { id: realDoctor.id },
+            update: doctorData,
+            create: { id: realDoctor.id, ...doctorData, branchId: realDoctor.branchId }
+          });
+        } else {
+          await tx.tenantUser.upsert({
+            where: { id: realDoctor.id },
+            update: doctorData,
+            create: { id: realDoctor.id, ...doctorData }
           });
         }
       }

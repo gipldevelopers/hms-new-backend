@@ -13,6 +13,9 @@ router.get("/stats", vitalsController.getVitalsStats);
 // Patient-specific vitals history
 router.get("/patient/:patientId", vitalsController.getPatientVitals);
 
+// Real options for filters
+router.get("/filters", vitalsController.getVitalsFilters);
+
 // Single record CRUD
 router.get("/:id", vitalsController.getVitalsById);
 router.post("/", vitalsController.createVitals);

@@ -19,6 +19,9 @@ const patientsRoutes = require('./patients/patients.routes');
 const emergencyRoutes = require('./emergency/emergency.routes');
 const tokensRoutes = require('./tokens/tokens.routes');
 const appointmentsRoutes = require('./appointments/appointments.routes');
+const vitalsRoutes = require('./vitals/vitals.routes');
+const tasksRoutes = require('./tasks/tasks.routes');
+const pharmacyRoutes = require('./pharmacy/pharmacy.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -38,5 +41,8 @@ router.use('/patients', patientsRoutes);
 router.use('/emergency', emergencyRoutes);
 router.use('/tokens', tokensRoutes);
 router.use('/appointments', appointmentsRoutes);
+router.use('/vitals', vitalsRoutes);
+router.use('/tasks', tasksRoutes);
+router.use('/pharmacy', pharmacyRoutes);
 
 module.exports = router;

@@ -288,6 +288,51 @@ exports.Prisma.TokenScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VitalsScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  systolic: 'systolic',
+  diastolic: 'diastolic',
+  heartRate: 'heartRate',
+  spo2: 'spo2',
+  temperature: 'temperature',
+  respiratoryRate: 'respiratoryRate',
+  painLevel: 'painLevel',
+  recordedBy: 'recordedBy',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  title: 'title',
+  description: 'description',
+  bedLabel: 'bedLabel',
+  priority: 'priority',
+  dueDate: 'dueDate',
+  assignedToId: 'assignedToId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PharmacyItemScalarFieldEnum = {
+  id: 'id',
+  medicineName: 'medicineName',
+  type: 'type',
+  mfg: 'mfg',
+  quantity: 'quantity',
+  expiryDate: 'expiryDate',
+  notes: 'notes',
+  rackId: 'rackId',
+  storageType: 'storageType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -330,7 +375,10 @@ exports.Prisma.ModelName = {
   TenantShiftTemplate: 'TenantShiftTemplate',
   TenantShiftRoster: 'TenantShiftRoster',
   TenantAttendance: 'TenantAttendance',
-  Token: 'Token'
+  Token: 'Token',
+  Vitals: 'Vitals',
+  Task: 'Task',
+  PharmacyItem: 'PharmacyItem'
 };
 
 /**

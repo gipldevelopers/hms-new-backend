@@ -25,6 +25,7 @@ model TenantUser {
 
   doctorAdmissions Admission[] @relation("DoctorAdmissions")
   assignedPatients Patient[]   @relation("StaffPatientAssignments")
+  assignedTasks    Task[]      @relation("AssignedTasksTenant")
 
   @@map("users")
 }
@@ -68,7 +69,9 @@ model Patient {
   appointments  Appointment[]
   admissions    Admission[]
   tokens        Token[]
+  vitals        Vitals[]
   assignedStaff TenantUser[]  @relation("StaffPatientAssignments")
+  tasks         Task[]
 
   @@map("patients")
 }
@@ -232,4 +235,61 @@ model Token {
 
   @@index([date])
   @@map("tokens")
+}
+
+model Vitals {
+  id        String  @id @default(uuid())
+  patientId String
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  systolic        Int?
+  diastolic       Int?
+  heartRate       Int?
+  spo2            Int?
+  temperature     Float?
+  respiratoryRate Int?
+  painLevel       Int?
+  recordedBy      String?
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("vitals")
+}
+
+model Task {
+  id           String      @id @default(uuid())
+  patientId    String
+  patient      Patient     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  bedLabel     String?
+  priority     String      @default("MEDIUM")
+  dueDate      String?
+  assignedToId String?
+  assignedTo   TenantUser? @relation("AssignedTasksTenant", fields: [assignedToId], references: [id], onDelete: SetNull)
+  status       String      @default("Pending") // Pending, In Progress, Completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tasks")
+}
+
+model PharmacyItem {
+  id           String    @id @default(uuid())
+  medicineName String
+  type         String
+  mfg          String?
+  quantity     Int       @default(0)
+  expiryDate   DateTime?
+  notes        String?
+  rackId       String?
+  storageType  String    @default("Cold Storage")
+  status       String    @default("IN STOCK") // IN STOCK, LOW, OUT OF STOCK
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("pharmacy_items")
 }
