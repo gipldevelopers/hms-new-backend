@@ -12,10 +12,23 @@ const CLIENT_URL = process.env.CLIENT_URL || "*";
 app.set("trust proxy", 1);
 
 // Security Middleware
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin: function (origin, callback) {
+      // Allow all origins
+      callback(null, true);
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "x-branch-id",
+      "x-tenant-id",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+    ],
     credentials: true,
   })
 );
