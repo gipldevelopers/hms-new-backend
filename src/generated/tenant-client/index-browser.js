@@ -333,6 +333,56 @@ exports.Prisma.PharmacyItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConsultationScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  patientId: 'patientId',
+  doctorId: 'doctorId',
+  doctorName: 'doctorName',
+  chiefComplaints: 'chiefComplaints',
+  clinicalHistory: 'clinicalHistory',
+  examination: 'examination',
+  provisionalDiagnosis: 'provisionalDiagnosis',
+  finalDiagnosis: 'finalDiagnosis',
+  labTests: 'labTests',
+  followUpDate: 'followUpDate',
+  followUpNotes: 'followUpNotes',
+  referralDoctor: 'referralDoctor',
+  referralDepartment: 'referralDepartment',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PrescriptionScalarFieldEnum = {
+  id: 'id',
+  consultationId: 'consultationId',
+  patientId: 'patientId',
+  doctorId: 'doctorId',
+  doctorName: 'doctorName',
+  instructions: 'instructions',
+  pharmacyStatus: 'pharmacyStatus',
+  pharmacyNotes: 'pharmacyNotes',
+  processedBy: 'processedBy',
+  processedAt: 'processedAt',
+  dispensedAt: 'dispensedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PrescriptionItemScalarFieldEnum = {
+  id: 'id',
+  prescriptionId: 'prescriptionId',
+  medicineId: 'medicineId',
+  medicineName: 'medicineName',
+  dosage: 'dosage',
+  timing: 'timing',
+  duration: 'duration',
+  instructions: 'instructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -378,7 +428,10 @@ exports.Prisma.ModelName = {
   Token: 'Token',
   Vitals: 'Vitals',
   Task: 'Task',
-  PharmacyItem: 'PharmacyItem'
+  PharmacyItem: 'PharmacyItem',
+  Consultation: 'Consultation',
+  Prescription: 'Prescription',
+  PrescriptionItem: 'PrescriptionItem'
 };
 
 /**
