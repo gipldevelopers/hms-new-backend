@@ -73,6 +73,8 @@ model Patient {
   vitals       Vitals[]
   assignedStaff TenantUser[] @relation("StaffPatientAssignments")
   tasks        Task[]
+  consultations Consultation[]
+  prescriptions Prescription[]
 
   @@map("patients")
 }
@@ -293,5 +295,89 @@ model PharmacyItem {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
+  prescriptionItems PrescriptionItem[]
+
   @@map("pharmacy_items")
+}
+
+model Consultation {
+  id                String   @id @default(uuid())
+  appointmentId     String   @unique
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String?
+  doctorName        String?
+  
+  // Clinical Notes
+  chiefComplaints   String?
+  clinicalHistory   String?
+  examination       String?
+  
+  // Diagnosis
+  provisionalDiagnosis String?
+  finalDiagnosis       String?
+  
+  // Lab Investigations
+  labTests          Json?    // Array of lab test names/codes
+  
+  // Prescription
+  prescriptions     Prescription[]
+  
+  // Follow-up
+  followUpDate      DateTime?
+  followUpNotes     String?
+  referralDoctor    String?
+  referralDepartment String?
+  
+  status            String   @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("consultations")
+}
+
+model Prescription {
+  id              String   @id @default(uuid())
+  consultationId  String
+  consultation    Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+  patientId       String
+  patient         Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId        String?
+  doctorName      String?
+  
+  items           PrescriptionItem[]
+  
+  instructions    String?  // General advice/instructions
+
+  // Pharmacy workflow status
+  pharmacyStatus  String   @default("PENDING") // PENDING, PROCESSING, READY, DISPENSED
+  pharmacyNotes   String?
+  processedBy     String?  // pharmacist name
+  processedAt     DateTime?
+  dispensedAt     DateTime?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("prescriptions")
+}
+
+model PrescriptionItem {
+  id              String   @id @default(uuid())
+  prescriptionId  String
+  prescription    Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  
+  medicineId      String?
+  medicine        PharmacyItem? @relation(fields: [medicineId], references: [id], onDelete: SetNull)
+  medicineName    String
+  
+  dosage          String   // e.g., "1 Tablet", "5ml"
+  timing          String   // e.g., "1-1-1 (After Food)", "1-0-1"
+  duration        String   // e.g., "5 Days", "2 Weeks"
+  instructions    String?  // Additional instructions
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("prescription_items")
 }
