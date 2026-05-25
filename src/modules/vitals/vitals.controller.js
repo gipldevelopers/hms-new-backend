@@ -7,6 +7,25 @@ const prisma = require("../../database/prisma");
 const resolveBranchId = async (req) => {
   let branchId = req.query.branchId || req.body.branchId || req.user.branchId;
 
+  // If a branch is explicitly requested, don't fallback to another branch if it's not initialized
+  const explicitBranchId = req.query.branchId || req.body.branchId;
+  if (explicitBranchId) {
+    const branch = await prisma.branch.findUnique({ where: { id: explicitBranchId } });
+    if (!branch || !branch.isDbInitialized) {
+      return null; // Explicit branch was not initialized
+    }
+    return explicitBranchId;
+  }
+
+  // If we have a patient ID, find which branch owns this patient
+  const patientId = req.params.patientId || req.body.patientId || req.query.patientId;
+  if (!branchId && patientId) {
+    const globPatient = await prisma.patient.findUnique({ where: { id: patientId } });
+    if (globPatient && globPatient.branchId) {
+      branchId = globPatient.branchId;
+    }
+  }
+
   if (branchId) {
     const branch = await prisma.branch.findUnique({ where: { id: branchId } });
     if (!branch || !branch.isDbInitialized) branchId = null;
@@ -27,7 +46,7 @@ const resolveBranchId = async (req) => {
 const getVitalsOverview = async (req, res) => {
   try {
     const branchId = await resolveBranchId(req);
-    if (!branchId) return res.status(400).json({ error: "No initialized branches found." });
+    if (!branchId) return res.json([]);
 
     const data = await vitalsService.getVitalsOverview(branchId, req.query);
     res.json(data);
@@ -44,7 +63,7 @@ const getVitalsOverview = async (req, res) => {
 const getVitalsStats = async (req, res) => {
   try {
     const branchId = await resolveBranchId(req);
-    if (!branchId) return res.status(400).json({ error: "No initialized branches found." });
+    if (!branchId) return res.json({ totalPatients: 0, critical: 0, abnormal: 0, overdue: 0 });
 
     const stats = await vitalsService.getVitalsStats(branchId);
     res.json(stats);
