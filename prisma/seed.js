@@ -85,7 +85,8 @@ async function main() {
       { name: 'Laboratory Tech', role: 'LABORATORY', slug: 'laboratory' },
       { name: 'Radiologist', role: 'RADIOLOGY', slug: 'radiology' },
       { name: 'Finance head', role: 'FINANCE', slug: 'finance' },
-      { name: 'Reports Manager', role: 'REPORTS', slug: 'reports' }
+      { name: 'Reports Manager', role: 'REPORTS', slug: 'reports' },
+      { name: 'Hospital Inventory Manager', role: 'HOSPITAL_INVENTORY', slug: 'hospital-inventory' }
     ];
 
     console.log('\n👥 Processing Demo Users...');
