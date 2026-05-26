@@ -23,6 +23,8 @@ const vitalsRoutes = require('./vitals/vitals.routes');
 const tasksRoutes = require('./tasks/tasks.routes');
 const pharmacyRoutes = require('./pharmacy/pharmacy.routes');
 const doctorOpdRoutes = require('./doctor-opd/doctor-opd.routes');
+const billingRoutes = require('./billing/billing.routes');
+const laboratoryRoutes = require('./laboratory/laboratory.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -46,5 +48,7 @@ router.use('/vitals', vitalsRoutes);
 router.use('/tasks', tasksRoutes);
 router.use('/pharmacy', pharmacyRoutes);
 router.use('/doctor-opd', doctorOpdRoutes);
+router.use('/billing', billingRoutes);
+router.use('/laboratory', laboratoryRoutes);
 
 module.exports = router;
