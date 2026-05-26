@@ -17,3 +17,4 @@ const prisma = new PrismaClient({
 });
 
 module.exports = prisma;
+// Forced nodemon reload trigger to reload regenerated Prisma Client with new Role enum.
