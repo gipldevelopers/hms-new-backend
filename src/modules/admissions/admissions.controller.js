@@ -1,23 +1,44 @@
 const admissionsService = require("./admissions.service");
 const prisma = require("../../database/prisma");
 
+/**
+ * Helper: resolve branchId with explicit check and fallback
+ */
+const resolveBranchId = async (req) => {
+  let branchId = req.query.branchId || req.body.branchId || req.user.branchId;
+
+  // If a branch is explicitly requested, don't fallback to another branch if it's not initialized
+  const explicitBranchId = req.query.branchId || req.body.branchId;
+  if (explicitBranchId) {
+    const branch = await prisma.branch.findUnique({ where: { id: explicitBranchId } });
+    if (!branch || !branch.isDbInitialized) {
+      return null; // Explicit branch was not initialized
+    }
+    return explicitBranchId;
+  }
+
+  if (branchId) {
+    const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+    if (!branch || !branch.isDbInitialized) branchId = null;
+  }
+
+  if (!branchId) {
+    const firstBranch = await prisma.branch.findFirst({
+      where: { isDbInitialized: true }
+    });
+    if (firstBranch) branchId = firstBranch.id;
+  }
+
+  return branchId;
+};
+
 const getOverview = async (req, res) => {
   try {
-    let branchId = req.query.branchId || req.user.branchId;
-    
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-
+    const branchId = await resolveBranchId(req);
     if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({
-        where: { isDbInitialized: true }
-      });
-      if (firstBranch) branchId = firstBranch.id;
+      // If no valid/initialized branch was found, return empty array
+      return res.json([]);
     }
-    
-    if (!branchId) return res.status(400).json({ error: "No initialized branches found." });
     
     const overview = await admissionsService.getAdmissionsOverview(branchId, req.query);
     res.json(overview);
@@ -29,19 +50,8 @@ const getOverview = async (req, res) => {
 
 const createAdmission = async (req, res) => {
   try {
-    let branchId = req.body.branchId || req.query.branchId || req.user.branchId;
-    
-    // Fallback logic
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-    if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
-      if (firstBranch) branchId = firstBranch.id;
-    }
-
-    if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch is not initialized or does not exist." });
     
     const result = await admissionsService.createAdmission(branchId, req.body);
     res.status(201).json(result);
@@ -53,21 +63,11 @@ const createAdmission = async (req, res) => {
 
 const getStats = async (req, res) => {
   try {
-    let branchId = req.query.branchId || req.user.branchId;
-    
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-
+    const branchId = await resolveBranchId(req);
     if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({
-        where: { isDbInitialized: true }
-      });
-      if (firstBranch) branchId = firstBranch.id;
+      // If branch not initialized, return empty stats
+      return res.json({ todayAdmissions: 0, todayDischarges: 0, inProgress: 0, pending: 0 });
     }
-    
-    if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
     
     const stats = await admissionsService.getStats(branchId);
     res.json(stats);
@@ -80,19 +80,8 @@ const getStats = async (req, res) => {
 const updateAdmission = async (req, res) => {
   try {
     const { id } = req.params;
-    let branchId = req.body.branchId || req.query.branchId || req.user.branchId;
-    
-    // Fallback logic
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-    if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
-      if (firstBranch) branchId = firstBranch.id;
-    }
-
-    if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch is not initialized or does not exist." });
     
     const result = await admissionsService.updateAdmission(branchId, id, req.body);
     res.json(result);
@@ -105,19 +94,8 @@ const updateAdmission = async (req, res) => {
 const deleteAdmission = async (req, res) => {
   try {
     const { id } = req.params;
-    let branchId = req.query.branchId || req.user.branchId;
-    
-    // Fallback logic
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-    if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({ where: { isDbInitialized: true } });
-      if (firstBranch) branchId = firstBranch.id;
-    }
-
-    if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch is not initialized or does not exist." });
     
     const result = await admissionsService.deleteAdmission(branchId, id);
     res.json(result);

@@ -1,23 +1,47 @@
 const patientsService = require("./patients.service");
 const prisma = require("../../database/prisma");
 
+const resolveBranchId = async (req) => {
+  let branchId = req.query.branchId || req.body.branchId || req.user.branchId;
+
+  // If a branch is explicitly requested, don't fallback to another branch if it's not initialized
+  const explicitBranchId = req.query.branchId || req.body.branchId;
+  if (explicitBranchId) {
+    const branch = await prisma.branch.findUnique({ where: { id: explicitBranchId } });
+    if (!branch || !branch.isDbInitialized) {
+      return null; // Explicit branch was not initialized
+    }
+    return explicitBranchId;
+  }
+
+  // If we have a patient ID, find which branch owns this patient
+  const patientId = req.params.id || req.body.patientId || req.query.patientId;
+  if (!branchId && patientId) {
+    const globPatient = await prisma.patient.findUnique({ where: { id: patientId } });
+    if (globPatient && globPatient.branchId) {
+      branchId = globPatient.branchId;
+    }
+  }
+
+  if (branchId) {
+    const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+    if (!branch || !branch.isDbInitialized) branchId = null;
+  }
+
+  if (!branchId) {
+    const firstBranch = await prisma.branch.findFirst({
+      where: { isDbInitialized: true }
+    });
+    if (firstBranch) branchId = firstBranch.id;
+  }
+
+  return branchId;
+};
+
 const getPatientsList = async (req, res) => {
   try {
-    let branchId = req.query.branchId || req.user.branchId;
-    
-    if (branchId) {
-      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
-      if (!branch || !branch.isDbInitialized) branchId = null;
-    }
-
-    if (!branchId) {
-      const firstBranch = await prisma.branch.findFirst({
-        where: { isDbInitialized: true }
-      });
-      if (firstBranch) branchId = firstBranch.id;
-    }
-
-    if (!branchId) return res.status(400).json({ error: "No initialized branches found." });
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.json([]);
 
     const patients = await patientsService.getAllPatients(branchId);
     res.json(patients);
@@ -29,8 +53,7 @@ const getPatientsList = async (req, res) => {
 const getPatientDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    const branchId = req.query.branchId || req.user.branchId;
-
+    const branchId = await resolveBranchId(req);
     if (!branchId) return res.status(400).json({ error: "Branch ID is required." });
 
     const patient = await patientsService.getPatientById(branchId, id);
@@ -44,7 +67,7 @@ const getPatientDetails = async (req, res) => {
 
 const createPatient = async (req, res) => {
   try {
-    const branchId = req.body.branchId || req.user.branchId;
+    const branchId = await resolveBranchId(req);
     console.log("--- Create Patient Start ---");
     console.log("Branch ID:", branchId);
     console.log("Request Body Keys:", Object.keys(req.body));
@@ -71,7 +94,7 @@ const createPatient = async (req, res) => {
 const updatePatient = async (req, res) => {
   try {
     const { id } = req.params;
-    const branchId = req.body.branchId || req.user.branchId;
+    const branchId = await resolveBranchId(req);
     console.log("--- Update Patient Start ---");
     console.log("ID:", id, "Branch ID:", branchId);
 
@@ -97,8 +120,7 @@ const updatePatient = async (req, res) => {
 const deletePatient = async (req, res) => {
   try {
     const { id } = req.params;
-    const branchId = req.query.branchId || req.user.branchId;
-
+    const branchId = await resolveBranchId(req);
     if (!branchId) return res.status(400).json({ error: "Branch ID is required." });
 
     await patientsService.deletePatient(branchId, id);

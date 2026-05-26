@@ -42,6 +42,7 @@ enum Role {
   RADIOLOGY
   FINANCE
   REPORTS
+  HOSPITAL_INVENTORY
 }
 
 model Branch {
