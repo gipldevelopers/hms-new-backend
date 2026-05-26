@@ -379,3 +379,36 @@ model PrescriptionItem {
 
   @@map("prescription_items")
 }
+
+model InventoryItem {
+  id           String   @id @default(uuid())
+  name         String
+  sku          String
+  category     String
+  qty          String
+  expiry       String
+  status       String   @default("In Stock")
+  supplier     String?
+  minThreshold String?
+  notes        String?
+  unitPrice    Float    @default(0.0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  stockHistory InventoryStockHistory[]
+
+  @@map("inventory_items")
+}
+
+model InventoryStockHistory {
+  id         String        @id @default(uuid())
+  itemId     String
+  item       InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  dateTime   DateTime      @default(now())
+  type       String // e.g. "Addition", "Usage", "Initial Stock"
+  qtyChanged String // e.g. "+20", "-5"
+  user       String
+  notes      String?
+
+  @@map("inventory_stock_histories")
+}
