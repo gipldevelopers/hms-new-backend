@@ -6,7 +6,7 @@ const auditLogger = require("../../middleware/audit-logger");
 
 // Applied to all mutation routes in this module
 router.use(auth);
-router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF", "RECEPTION"));
+router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF", "RECEPTION", "DOCTOR"));
 router.use(auditLogger("ADMISSIONS_MANAGEMENT"));
 
 router.get("/overview", admissionsController.getOverview);

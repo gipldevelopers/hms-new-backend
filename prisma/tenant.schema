@@ -21,6 +21,8 @@ model TenantUser {
   shiftType    String?
   shiftStartTime String?
   shiftEndTime   String?
+  image          String?
+  department     String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -75,6 +77,10 @@ model Patient {
   tasks        Task[]
   consultations Consultation[]
   prescriptions Prescription[]
+  bills        Bill[]
+  labTestOrders LabTestOrder[]
+  notes        PatientNote[]
+  serviceRequests ServiceRequest[]
 
   @@map("patients")
 }
@@ -319,6 +325,7 @@ model Consultation {
   
   // Lab Investigations
   labTests          Json?    // Array of lab test names/codes
+  labTestOrder      LabTestOrder?
   
   // Prescription
   prescriptions     Prescription[]
@@ -380,6 +387,85 @@ model PrescriptionItem {
   updatedAt       DateTime @updatedAt
 
   @@map("prescription_items")
+}
+
+model Bill {
+  id              String    @id @default(uuid())
+  patientId       String
+  patient         Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  type            String    // "OPD" or "IPD"
+  consultationFee Float     @default(0)
+  labCharges      Float     @default(0)
+  pharmacyCharges Float     @default(0)
+  roomCharges     Float     @default(0)
+  otherCharges    Float     @default(0)
+  discount        Float     @default(0)
+  tax             Float     @default(0)
+  subtotal        Float     @default(0)
+  netPayable      Float     @default(0)
+  amountPaid      Float     @default(0)
+  paymentMethod   String?   // "Cash", "Card", "UPI", etc.
+  status          String    @default("UNPAID") // "UNPAID", "PARTIAL", "PAID", "DISCHARGED"
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("bills")
+}
+
+model LabTestOrder {
+  id             String       @id @default(uuid())
+  orderNumber    String       @unique
+  patientId       String
+  patient         Patient      @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  consultationId  String?      @unique
+  consultation    Consultation? @relation(fields: [consultationId], references: [id], onDelete: SetNull)
+  doctorId        String?
+  doctorName      String?
+  departmentName  String?
+  priority        String       @default("Normal") // Normal, High, Urgent
+  status          String       @default("Pending") // Pending, Collecting, Processing, Completed
+  tests           Json         // Array: { id, name, code, status, timeline }
+  clinicalNotes   String?
+  orderedAt       DateTime     @default(now())
+  completedAt     DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([patientId])
+  @@index([status])
+  @@map("lab_test_orders")
+}
+
+model PatientNote {
+  id           String   @id @default(uuid())
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  authorId     String?
+  authorName   String   // User name who wrote it
+  authorRole   String   // Role (e.g., Nurse, Cardiologist)
+  content      String
+  fileUrl      String?  // Attached document URL
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("patient_notes")
+}
+
+model ServiceRequest {
+  id                 String   @id @default(uuid())
+  patientId          String
+  patient            Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientName        String
+  bed                String
+  requestType        String
+  requestDescription String?
+  priority           String   @default("Normal") // Normal, Urgent
+  dept               String   // Laboratory, Radiology, Facilities, Therapy, Blood Bank
+  status             String   @default("Pending") // Pending, Accepted, Completed
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("service_requests")
 }
 
 model InventoryItem {

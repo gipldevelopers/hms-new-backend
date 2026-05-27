@@ -13,6 +13,7 @@ router.get("/me", (req, res) => {
   }
   res.json({ success: true, data: user });
 });
+router.put("/me", userController.updateMe);
 
 // Staff need to fetch doctor lists for clinical operations
 router.get("/", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), userController.getAllUsers);

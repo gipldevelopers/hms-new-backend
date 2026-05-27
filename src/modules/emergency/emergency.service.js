@@ -95,6 +95,7 @@ const getEmergencyById = async (branchId, patientId) => {
   return patient;
 };
 
+
 /**
  * Create a new emergency registration.
  * Writes to both tenant DB and main DB (dual-write pattern).
@@ -124,6 +125,7 @@ const createEmergencyRegistration = async (branchId, data) => {
   const tenantPatient = await tenantDb.patient.create({
     data: { id: patientId, ...patientData },
   });
+
 
   // Write to main DB (sync)
   await prisma.patient.create({
@@ -166,6 +168,7 @@ const updateEmergencyRegistration = async (branchId, patientId, data) => {
     where: { id: patientId },
     data: updateData,
   });
+
 
   // Update main DB
   await prisma.patient.update({

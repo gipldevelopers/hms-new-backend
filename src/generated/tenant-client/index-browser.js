@@ -383,30 +383,68 @@ exports.Prisma.PrescriptionItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.InventoryItemScalarFieldEnum = {
+exports.Prisma.BillScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  sku: 'sku',
-  category: 'category',
-  qty: 'qty',
-  expiry: 'expiry',
+  patientId: 'patientId',
+  type: 'type',
+  consultationFee: 'consultationFee',
+  labCharges: 'labCharges',
+  pharmacyCharges: 'pharmacyCharges',
+  roomCharges: 'roomCharges',
+  otherCharges: 'otherCharges',
+  discount: 'discount',
+  tax: 'tax',
+  subtotal: 'subtotal',
+  netPayable: 'netPayable',
+  amountPaid: 'amountPaid',
+  paymentMethod: 'paymentMethod',
   status: 'status',
-  supplier: 'supplier',
-  minThreshold: 'minThreshold',
-  notes: 'notes',
-  unitPrice: 'unitPrice',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.InventoryStockHistoryScalarFieldEnum = {
+exports.Prisma.LabTestOrderScalarFieldEnum = {
   id: 'id',
-  itemId: 'itemId',
-  dateTime: 'dateTime',
-  type: 'type',
-  qtyChanged: 'qtyChanged',
-  user: 'user',
-  notes: 'notes'
+  orderNumber: 'orderNumber',
+  patientId: 'patientId',
+  consultationId: 'consultationId',
+  doctorId: 'doctorId',
+  doctorName: 'doctorName',
+  departmentName: 'departmentName',
+  priority: 'priority',
+  status: 'status',
+  tests: 'tests',
+  clinicalNotes: 'clinicalNotes',
+  orderedAt: 'orderedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PatientNoteScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  authorRole: 'authorRole',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  patientName: 'patientName',
+  bed: 'bed',
+  requestType: 'requestType',
+  requestDescription: 'requestDescription',
+  priority: 'priority',
+  dept: 'dept',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -458,8 +496,10 @@ exports.Prisma.ModelName = {
   Consultation: 'Consultation',
   Prescription: 'Prescription',
   PrescriptionItem: 'PrescriptionItem',
-  InventoryItem: 'InventoryItem',
-  InventoryStockHistory: 'InventoryStockHistory'
+  Bill: 'Bill',
+  LabTestOrder: 'LabTestOrder',
+  PatientNote: 'PatientNote',
+  ServiceRequest: 'ServiceRequest'
 };
 
 /**
