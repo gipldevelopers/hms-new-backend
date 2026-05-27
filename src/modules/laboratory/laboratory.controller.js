@@ -112,6 +112,27 @@ const updateTestStatus = async (req, res) => {
   }
 };
 
+const updateOrderStatus = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+
+    const { status } = req.body;
+    if (!status) {
+      return res.status(400).json({ success: false, message: "Status parameter is required" });
+    }
+
+    const order = await svc.updateOrderStatus(branchId, req.params.id, status);
+    res.json({ success: true, data: order, message: "Order status updated" });
+  } catch (e) {
+    console.error("Error updating order status:", e);
+    const status = e.message.includes("not found") ? 404 : 400;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   searchPatients,
   listTests,
@@ -120,4 +141,5 @@ module.exports = {
   createOrder,
   getOrder,
   updateTestStatus,
+  updateOrderStatus,
 };

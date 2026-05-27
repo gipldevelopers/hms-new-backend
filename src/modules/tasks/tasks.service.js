@@ -172,15 +172,20 @@ const getTasksFilters = async (branchId) => {
     }
   });
 
-  const formattedPatients = admissions.map(adm => {
-    const p = adm.patient;
-    const name = p.name || `${p.firstName || ""} ${p.lastName || ""}`.trim() || "Unknown";
-    return {
-      id: p.id,
-      name: name,
-      bed: adm.bed?.label || ""
-    };
+  // Deduplicate patients by unique ID
+  const uniquePatientsMap = new Map();
+  admissions.forEach(adm => {
+    if (adm.patient && !uniquePatientsMap.has(adm.patient.id)) {
+      const p = adm.patient;
+      const name = p.name || `${p.firstName || ""} ${p.lastName || ""}`.trim() || "Unknown";
+      uniquePatientsMap.set(p.id, {
+        id: p.id,
+        name: name,
+        bed: adm.bed?.label || ""
+      });
+    }
   });
+  const formattedPatients = Array.from(uniquePatientsMap.values());
 
   // Fetch all staff users
   const staffUsers = await tx.tenantUser.findMany({

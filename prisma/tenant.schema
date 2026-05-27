@@ -77,6 +77,7 @@ model Patient {
   prescriptions Prescription[]
   bills        Bill[]
   labTestOrders LabTestOrder[]
+  notes        PatientNote[]
 
   @@map("patients")
 }
@@ -430,4 +431,19 @@ model LabTestOrder {
   @@index([patientId])
   @@index([status])
   @@map("lab_test_orders")
+}
+
+model PatientNote {
+  id           String   @id @default(uuid())
+  patientId    String
+  patient      Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  authorId     String?
+  authorName   String   // User name who wrote it
+  authorRole   String   // Role (e.g., Nurse, Cardiologist)
+  content      String
+  fileUrl      String?  // Attached document URL
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("patient_notes")
 }

@@ -14,6 +14,7 @@ router.get("/clinical-options", ctrl.getClinicalOptions);
 router.get("/test-orders", ctrl.listOrders);
 router.post("/test-orders", ctrl.createOrder);
 router.get("/test-orders/:id", ctrl.getOrder);
+router.patch("/test-orders/:id/status", ctrl.updateOrderStatus);
 router.patch("/test-orders/:id/tests/:testId/status", ctrl.updateTestStatus);
 
 module.exports = router;

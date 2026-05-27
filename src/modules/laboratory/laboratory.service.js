@@ -286,6 +286,122 @@ const upsertOrderFromConsultation = async (branchId, consultation, appointment, 
 const listOrders = async (branchId) => {
   const tenantDb = await getTenantClient(branchId);
   const fields = getLabOrderFields(tenantDb);
+  
+  // Auto-seeder: seed initial patient data and lab test orders if empty
+  const count = await tenantDb.labTestOrder.count();
+  if (count === 0) {
+    console.log("No lab orders found. Seeding initial lab orders for testing...");
+    let patients = await tenantDb.patient.findMany({ take: 5 });
+    if (patients.length === 0) {
+      console.log("No patients found. Seeding initial patients first...");
+      const mockPatientsData = [
+        {
+          id: crypto.randomUUID(),
+          name: "Robert Fox",
+          age: 45,
+          gender: "Male",
+          contact: "9876543210",
+          email: "robert.fox@example.com",
+          address: "123 Main St, Central City",
+        },
+        {
+          id: crypto.randomUUID(),
+          name: "Jane Cooper",
+          age: 34,
+          gender: "Female",
+          contact: "9876543211",
+          email: "jane.cooper@example.com",
+          address: "456 Oak Ave, Central City",
+        },
+        {
+          id: crypto.randomUUID(),
+          name: "Albert Flores",
+          age: 52,
+          gender: "Male",
+          contact: "9876543212",
+          email: "albert.flores@example.com",
+          address: "789 Pine Rd, Central City",
+        },
+        {
+          id: crypto.randomUUID(),
+          name: "Esther Howard",
+          age: 29,
+          gender: "Female",
+          contact: "9876543213",
+          email: "esther.howard@example.com",
+          address: "321 Maple Dr, Central City",
+        }
+      ];
+
+      for (const p of mockPatientsData) {
+        await tenantDb.patient.create({ data: p }).catch(e => console.error("Error seeding patient:", e));
+      }
+      patients = await tenantDb.patient.findMany({ take: 5 });
+    }
+
+    const mockOrders = [
+      {
+        patientId: patients[0]?.id,
+        tests: [
+          { id: crypto.randomUUID(), name: "Complete Blood Count (CBC)", code: "CBC", status: "Pending" },
+          { id: crypto.randomUUID(), name: "Lipid Profile", code: "LIPID", status: "Pending" },
+          { id: crypto.randomUUID(), name: "Liver Function Test (LFT)", code: "LFT", status: "Pending" }
+        ],
+        priority: "Urgent",
+        status: "Pending"
+      },
+      {
+        patientId: patients[1]?.id || patients[0]?.id,
+        tests: [
+          { id: crypto.randomUUID(), name: "Thyroid Profile (T3, T4, TSH)", code: "THYROID", status: "Pending" },
+          { id: crypto.randomUUID(), name: "HbA1c", code: "HBA1C", status: "Pending" }
+        ],
+        priority: "High",
+        status: "Pending"
+      },
+      {
+        patientId: patients[2]?.id || patients[0]?.id,
+        tests: [
+          { id: crypto.randomUUID(), name: "Urine Routine", code: "URINE", status: "Pending" },
+          { id: crypto.randomUUID(), name: "Renal Function Test (RFT)", code: "RFT", status: "Pending" }
+        ],
+        priority: "Normal",
+        status: "Pending"
+      },
+      {
+        patientId: patients[3]?.id || patients[0]?.id,
+        tests: [
+          { id: crypto.randomUUID(), name: "D-Dimer", code: "DDIMER", status: "Pending" },
+          { id: crypto.randomUUID(), name: "Troponin I", code: "TROPONIN", status: "Pending" }
+        ],
+        priority: "Urgent",
+        status: "Pending"
+      }
+    ];
+
+    for (const mo of mockOrders) {
+      if (!mo.patientId) continue;
+      const orderNumber = buildOrderNumber();
+      const orderIdentifier = hasField(fields, "orderNumber")
+        ? { orderNumber }
+        : hasField(fields, "orderId")
+          ? { orderId: orderNumber }
+          : {};
+
+      await tenantDb.labTestOrder.create({
+        data: {
+          id: crypto.randomUUID(),
+          patientId: mo.patientId,
+          tests: mo.tests,
+          priority: mo.priority,
+          status: mo.status,
+          doctorName: "Laboratory",
+          ...orderIdentifier
+        }
+      }).catch(e => console.error("Error seeding order:", e));
+    }
+  }
+
   const orderBy = [{ status: "asc" }];
   if (hasField(fields, "orderedAt")) {
     orderBy.push({ orderedAt: "desc" });
@@ -410,6 +526,41 @@ const updateTestStatus = async (branchId, orderId, testId) => {
   });
 };
 
+const updateOrderStatus = async (branchId, id, status) => {
+  const tenantDb = await getTenantClient(branchId);
+  const order = await getOrder(branchId, id);
+
+  let updatedTests = Array.isArray(order.tests) ? order.tests : [];
+  if (status === "Collected" || status === "Completed") {
+    const testStatus = status === "Collected" ? "Collecting" : "Completed";
+    updatedTests = updatedTests.map(t => ({
+      ...t,
+      status: testStatus,
+      timeline: [
+        ...(Array.isArray(t.timeline) ? t.timeline : []),
+        { status: testStatus, at: new Date().toISOString(), note: `Marked as ${status}` }
+      ]
+    }));
+  }
+
+  const updateData = {
+    status,
+    tests: updatedTests,
+    completedAt: status === "Completed" ? new Date() : null
+  };
+
+  const fields = getLabOrderFields(tenantDb);
+  if (!hasField(fields, "completedAt")) delete updateData.completedAt;
+
+  return tenantDb.labTestOrder.update({
+    where: { id: order.id },
+    data: updateData,
+    include: {
+      patient: true
+    }
+  });
+};
+
 module.exports = {
   resolveBranchId,
   normalizePriority,
@@ -423,4 +574,5 @@ module.exports = {
   listOrders,
   getOrder,
   updateTestStatus,
+  updateOrderStatus,
 };

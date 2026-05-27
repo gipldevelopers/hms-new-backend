@@ -421,6 +421,18 @@ exports.Prisma.LabTestOrderScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PatientNoteScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  authorRole: 'authorRole',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -471,7 +483,8 @@ exports.Prisma.ModelName = {
   Prescription: 'Prescription',
   PrescriptionItem: 'PrescriptionItem',
   Bill: 'Bill',
-  LabTestOrder: 'LabTestOrder'
+  LabTestOrder: 'LabTestOrder',
+  PatientNote: 'PatientNote'
 };
 
 /**

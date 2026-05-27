@@ -130,10 +130,74 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const getPatientPrescription = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch ID is required." });
+
+    const userId = req.user?.id;
+    const userName = req.user?.name || "Staff";
+
+    const prescription = await patientsService.getOrCreatePatientPrescription(branchId, id, userId, userName);
+    res.json({ success: true, data: prescription });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+const getPatientNotesList = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch ID is required." });
+
+    const notes = await patientsService.getPatientNotes(branchId, id);
+    res.json({ success: true, data: notes });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+const createPatientNoteRecord = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.status(400).json({ error: "Branch ID is required." });
+
+    const { content, fileUrl } = req.body;
+    if (!content) {
+      return res.status(400).json({ error: "Note content is required." });
+    }
+
+    // Determine author role
+    let authorRole = req.user?.role || "Staff";
+    if (req.user?.consoleRoles && Array.isArray(req.user.consoleRoles) && req.user.consoleRoles.length > 0) {
+      authorRole = req.user.consoleRoles[0];
+    }
+
+    const noteData = {
+      authorId: req.user?.id,
+      authorName: req.user?.name || "Staff",
+      authorRole,
+      content,
+      fileUrl
+    };
+
+    const note = await patientsService.createPatientNote(branchId, id, noteData);
+    res.status(201).json({ success: true, data: note });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getPatientsList,
   getPatientDetails,
   createPatient,
   updatePatient,
-  deletePatient
+  deletePatient,
+  getPatientPrescription,
+  getPatientNotesList,
+  createPatientNoteRecord
 };

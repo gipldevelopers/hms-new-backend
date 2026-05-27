@@ -1,5 +1,6 @@
 const { getTenantClient } = require("../../database/tenant-manager");
 const prisma = require("../../database/prisma");
+const crypto = require("crypto");
 
 const getAllPatients = async (branchId) => {
   const tenantDb = await getTenantClient(branchId);
@@ -180,10 +181,111 @@ const deletePatient = async (branchId, patientId) => {
   return true;
 };
 
+const getOrCreatePatientPrescription = async (branchId, patientId, userId, userName) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  // 1. Try to find the latest prescription for this patient
+  let prescription = await tenantDb.prescription.findFirst({
+    where: { patientId },
+    include: {
+      items: {
+        include: {
+          medicine: true
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+
+  if (prescription) {
+    return prescription;
+  }
+
+  // 2. If no prescription exists, check for a completed consultation for this patient
+  let consultation = await tenantDb.consultation.findFirst({
+    where: { patientId },
+    orderBy: { createdAt: "desc" }
+  });
+
+  if (!consultation) {
+    // We need to create an ad-hoc appointment and consultation first
+    const appointmentId = crypto.randomUUID();
+    const appt = await tenantDb.appointment.create({
+      data: {
+        id: appointmentId,
+        patientId,
+        dateTime: new Date(),
+        status: "COMPLETED",
+        notes: "Auto-generated for admitted patient medication",
+        tokenNumber: `IPD-${patientId.substring(0, 4).toUpperCase()}`
+      }
+    });
+
+    // Create a consultation
+    consultation = await tenantDb.consultation.create({
+      data: {
+        id: crypto.randomUUID(),
+        appointmentId: appt.id,
+        patientId,
+        doctorId: userId || null,
+        doctorName: userName || "Staff",
+        chiefComplaints: "Admitted Patient Medication MAR",
+        status: "COMPLETED"
+      }
+    });
+  }
+
+  // 3. Create the prescription
+  prescription = await tenantDb.prescription.create({
+    data: {
+      id: crypto.randomUUID(),
+      consultationId: consultation.id,
+      patientId,
+      doctorId: userId || null,
+      doctorName: userName || "Staff",
+      instructions: "Medication MAR"
+    },
+    include: {
+      items: {
+        include: {
+          medicine: true
+        }
+      }
+    }
+  });
+
+  return prescription;
+};
+
+const getPatientNotes = async (branchId, patientId) => {
+  const tenantDb = await getTenantClient(branchId);
+  return await tenantDb.patientNote.findMany({
+    where: { patientId },
+    orderBy: { createdAt: 'desc' }
+  });
+};
+
+const createPatientNote = async (branchId, patientId, noteData) => {
+  const tenantDb = await getTenantClient(branchId);
+  return await tenantDb.patientNote.create({
+    data: {
+      patientId,
+      authorId: noteData.authorId || null,
+      authorName: noteData.authorName || "Staff",
+      authorRole: noteData.authorRole || "Staff",
+      content: noteData.content,
+      fileUrl: noteData.fileUrl || null
+    }
+  });
+};
+
 module.exports = {
   getAllPatients,
   getPatientById,
   createPatient,
   updatePatient,
-  deletePatient
+  deletePatient,
+  getOrCreatePatientPrescription,
+  getPatientNotes,
+  createPatientNote
 };
