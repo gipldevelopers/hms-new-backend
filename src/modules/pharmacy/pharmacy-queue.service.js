@@ -200,6 +200,44 @@ const toggleItemPicked = async (branchId, prescriptionId, itemId, picked) => {
   return { prescriptionId, itemId, picked, pickedItems };
 };
 
+const parseQuantity = (dosage, timing, duration) => {
+  // Parse timing: e.g., "1-0-1", "1-1-1", "1 Tablet", "1-1-1-1"
+  let dailyDose = 1;
+  if (timing) {
+    const parts = timing.split('-');
+    if (parts.length >= 2) {
+      dailyDose = parts.reduce((sum, p) => sum + (parseInt(p) || 0), 0);
+    } else {
+      const match = timing.match(/(\d+)/);
+      if (match) dailyDose = parseInt(match[1]);
+    }
+  }
+
+  // Parse duration: e.g., "5 Days", "1 Week", "2 Weeks", "1 Month", "10 Days"
+  let days = 1;
+  if (duration) {
+    const numMatch = duration.match(/(\d+)/);
+    const num = numMatch ? parseInt(numMatch[1]) : 1;
+    if (duration.toLowerCase().includes("week")) {
+      days = num * 7;
+    } else if (duration.toLowerCase().includes("month")) {
+      days = num * 30;
+    } else {
+      days = num;
+    }
+  }
+
+  // Parse dosage: e.g. "1 Tablet", "2 Tablets", "5ml"
+  let doseMultiplier = 1;
+  if (dosage) {
+    const match = dosage.match(/(\d+)/);
+    if (match) doseMultiplier = parseInt(match[1]);
+  }
+
+  const total = dailyDose * days * doseMultiplier;
+  return total > 0 ? total : 10; // Fallback to 10 if parsed to 0
+};
+
 /**
  * Dispense prescription with payment info
  */
@@ -211,6 +249,36 @@ const dispensePrescription = async (branchId, prescriptionId, paymentData, pharm
     include: { items: { include: { medicine: true } } }
   });
   if (!prescription) throw new Error("Prescription not found");
+
+  // Deduct stock for each prescribed item in the inventory
+  if (prescription.items && prescription.items.length > 0) {
+    for (const item of prescription.items) {
+      if (item.medicineId) {
+        const medicine = await tenantDb.pharmacyItem.findUnique({
+          where: { id: item.medicineId }
+        });
+        if (medicine) {
+          const parsedQty = parseQuantity(item.dosage, item.timing, item.duration);
+          const newQty = Math.max(0, medicine.quantity - parsedQty);
+          
+          let newStatus = "IN STOCK";
+          if (newQty === 0) {
+            newStatus = "OUT OF STOCK";
+          } else if (newQty < 500) {
+            newStatus = "LOW";
+          }
+
+          await tenantDb.pharmacyItem.update({
+            where: { id: item.medicineId },
+            data: {
+              quantity: newQty,
+              status: newStatus
+            }
+          });
+        }
+      }
+    }
+  }
 
   const updateData = {
     pharmacyStatus: "DISPENSED",

@@ -338,31 +338,86 @@ const updateAdmission = async (branchId, admissionId, data) => {
 
       // Only update patient if data provided
       if (Object.keys(localPatientData).length > (isMain ? 1 : 0)) {
-        await tx.patient.update({
-          where: { id: oldAdmission.patientId },
-          data: localPatientData
+        const patientExists = await tx.patient.findUnique({
+          where: { id: oldAdmission.patientId }
         });
+        if (patientExists) {
+          await tx.patient.update({
+            where: { id: oldAdmission.patientId },
+            data: localPatientData
+          });
+        } else {
+          await tx.patient.create({
+            data: {
+              id: oldAdmission.patientId,
+              name: data.patientName || oldAdmission.patient?.name || "Unknown",
+              age: parseInt(data.patientAge) || oldAdmission.patient?.age || null,
+              gender: data.patientGender || oldAdmission.patient?.gender || null,
+              contact: data.patientContact || oldAdmission.patient?.contact || null,
+              email: data.patientEmail !== undefined ? (data.patientEmail || null) : (oldAdmission.patient?.email || null),
+              emergencyContactName: data.emergencyContactName !== undefined ? (data.emergencyContactName || null) : (oldAdmission.patient?.emergencyContactName || null),
+              emergencyContactPhone: data.emergencyContactPhone !== undefined ? (data.emergencyContactPhone || null) : (oldAdmission.patient?.emergencyContactPhone || null),
+              ...(isMain ? { branchId } : {})
+            }
+          });
+        }
       }
 
-      const admission = await tx.admission.update({
-        where: { id: admissionId },
-        data: {
-          ...(data.departmentId && { departmentId: data.departmentId }),
-          ...(data.wardId && { wardId: data.wardId }),
-          ...(data.bedId && { bedId: data.bedId }),
-          ...(data.doctorId !== undefined && { doctorId: data.doctorId || null }),
-          ...(data.reason !== undefined && { reason: data.reason }),
-          ...(data.status !== undefined && { status: data.status }),
-          ...(data.admissionDate && { admissionDate: new Date(data.admissionDate) }),
-          ...(data.status === "Completed" && { dischargeDate: new Date() }),
-          ...(isMain ? { branchId } : {})
-        }
+      const admissionExists = await tx.admission.findUnique({
+        where: { id: admissionId }
       });
+
+      let admission;
+      if (admissionExists) {
+        admission = await tx.admission.update({
+          where: { id: admissionId },
+          data: {
+            ...((data.departmentId || (realWard ? realWard.departmentId : null)) && { departmentId: data.departmentId || realWard.departmentId }),
+            ...(data.wardId && { wardId: data.wardId }),
+            ...(data.bedId && { bedId: data.bedId }),
+            ...(data.doctorId !== undefined && { doctorId: data.doctorId || null }),
+            ...(data.reason !== undefined && { reason: data.reason }),
+            ...(data.status !== undefined && { status: data.status }),
+            ...(data.admissionDate && { admissionDate: new Date(data.admissionDate) }),
+            ...(data.status === "Completed" && { dischargeDate: new Date() }),
+            ...(isMain ? { branchId } : {})
+          }
+        });
+      } else {
+        admission = await tx.admission.create({
+          data: {
+            id: admissionId,
+            patientId: oldAdmission.patientId,
+            departmentId: data.departmentId || (realWard ? realWard.departmentId : oldAdmission.departmentId),
+            wardId: data.wardId || oldAdmission.wardId,
+            bedId: data.bedId || oldAdmission.bedId,
+            doctorId: data.doctorId !== undefined ? (data.doctorId || null) : (oldAdmission.doctorId || null),
+            reason: data.reason !== undefined ? data.reason : (oldAdmission.reason || "Admitted"),
+            status: data.status || oldAdmission.status || "Pending",
+            admissionDate: data.admissionDate ? new Date(data.admissionDate) : (oldAdmission.admissionDate || new Date()),
+            dischargeDate: data.status === "Completed" ? new Date() : (oldAdmission.dischargeDate || null),
+            ...(isMain ? { branchId } : {})
+          }
+        });
+      }
 
       // Manage bed transitions
       if (data.bedId && oldAdmission.bedId !== data.bedId) {
         await tx.bed.updateMany({ where: { id: oldAdmission.bedId }, data: { status: "AVAILABLE" } });
         await tx.bed.updateMany({ where: { id: data.bedId }, data: { status: "OCCUPIED" } });
+
+        // Propagate the new bed label to patient tasks and service requests in the tenant database
+        if (!isMain) {
+          const newBedLabel = realBed?.label || "Bed";
+          await tx.serviceRequest.updateMany({
+            where: { patientId: oldAdmission.patientId, status: { not: "Completed" } },
+            data: { bed: newBedLabel }
+          });
+          await tx.task.updateMany({
+            where: { patientId: oldAdmission.patientId, status: { not: "Completed" } },
+            data: { bedLabel: newBedLabel }
+          });
+        }
       } else if (data.status === "Completed" && oldAdmission.status !== "Completed") {
         await tx.bed.updateMany({ where: { id: oldAdmission.bedId }, data: { status: "AVAILABLE" } });
       } else if (data.status === "In Progress" && oldAdmission.status === "Completed") {

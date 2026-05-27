@@ -1,4 +1,6 @@
 const userService = require("./users.service");
+const prisma = require("../../database/prisma");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -67,10 +69,62 @@ const getStats = async (req, res) => {
   }
 };
 
+const updateMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword, name, email, department, image } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // 1. Password update check
+    let updatedPassword = undefined;
+    if (newPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({ success: false, message: "Current password is required to change password" });
+      }
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ success: false, message: "Current password is incorrect" });
+      }
+      updatedPassword = newPassword;
+    }
+
+    // 2. Profile fields check (only editable by BRANCH_ADMIN / SUPERADMIN)
+    const updatePayload = {};
+    if (updatedPassword) {
+      updatePayload.password = updatedPassword;
+    }
+
+    const isAuthorizedForProfileEdit = req.user.role === 'BRANCH_ADMIN' || req.user.role === 'SUPERADMIN';
+
+    if (name !== undefined || email !== undefined || department !== undefined || image !== undefined) {
+      if (!isAuthorizedForProfileEdit) {
+        return res.status(403).json({ success: false, message: "Only branch admin can update profile details" });
+      }
+      if (name !== undefined) updatePayload.name = name;
+      if (email !== undefined) updatePayload.email = email;
+      if (department !== undefined) updatePayload.department = department;
+      if (image !== undefined) updatePayload.image = image;
+    }
+
+    const updatedUser = await userService.updateUser(userId, updatePayload);
+    res.json({ success: true, data: updatedUser, message: "Profile updated successfully" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   updateUser,
   deleteUser,
-  getStats
+  getStats,
+  updateMe
 };

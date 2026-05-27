@@ -2,6 +2,21 @@ const { getTenantClient } = require("../../database/tenant-manager");
 const prisma = require("../../database/prisma");
 const crypto = require("crypto");
 
+const normalizeLabTestsForConsultation = (labTests = []) => {
+  if (!Array.isArray(labTests)) return null;
+  return labTests
+    .map((test) => {
+      const name = typeof test === "string" ? test : test?.name;
+      if (!name || !String(name).trim()) return null;
+      return {
+        id: typeof test === "object" && test?.id ? test.id : crypto.randomUUID(),
+        name: String(name).trim(),
+        code: typeof test === "object" && test?.code ? test.code : String(name).trim().toUpperCase().replace(/[^A-Z0-9]+/g, "-").slice(0, 18),
+      };
+    })
+    .filter(Boolean);
+};
+
 const resolveBranchId = async (branchId) => {
   if (branchId) {
     const b = await prisma.branch.findUnique({ where: { id: branchId } });
@@ -135,7 +150,8 @@ const getOPDPatientDetails = async (branchId, appointmentId) => {
             }
           }
         }
-      }
+      },
+      labTestOrder: true
     }
   });
 
@@ -194,7 +210,7 @@ const saveConsultation = async (branchId, appointmentId, data, userId, userName)
     examination: data.examination || null,
     provisionalDiagnosis: data.provisionalDiagnosis || null,
     finalDiagnosis: data.finalDiagnosis || null,
-    labTests: data.labTests || null,
+    labTests: normalizeLabTestsForConsultation(data.labTests),
     followUpDate: data.followUpDate ? new Date(data.followUpDate) : null,
     followUpNotes: data.followUpNotes || null,
     referralDoctor: data.referralDoctor || null,
@@ -249,6 +265,9 @@ const saveConsultation = async (branchId, appointmentId, data, userId, userName)
       data: { status: "COMPLETED" }
     });
   }
+
+  const labService = require("../laboratory/laboratory.service");
+  await labService.upsertOrderFromConsultation(branchId, consultation, appointment, data);
 
   return consultation;
 };

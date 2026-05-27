@@ -383,6 +383,70 @@ exports.Prisma.PrescriptionItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BillScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  type: 'type',
+  consultationFee: 'consultationFee',
+  labCharges: 'labCharges',
+  pharmacyCharges: 'pharmacyCharges',
+  roomCharges: 'roomCharges',
+  otherCharges: 'otherCharges',
+  discount: 'discount',
+  tax: 'tax',
+  subtotal: 'subtotal',
+  netPayable: 'netPayable',
+  amountPaid: 'amountPaid',
+  paymentMethod: 'paymentMethod',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LabTestOrderScalarFieldEnum = {
+  id: 'id',
+  orderNumber: 'orderNumber',
+  patientId: 'patientId',
+  consultationId: 'consultationId',
+  doctorId: 'doctorId',
+  doctorName: 'doctorName',
+  departmentName: 'departmentName',
+  priority: 'priority',
+  status: 'status',
+  tests: 'tests',
+  clinicalNotes: 'clinicalNotes',
+  orderedAt: 'orderedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PatientNoteScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  authorRole: 'authorRole',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  patientName: 'patientName',
+  bed: 'bed',
+  requestType: 'requestType',
+  requestDescription: 'requestDescription',
+  priority: 'priority',
+  dept: 'dept',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -431,7 +495,11 @@ exports.Prisma.ModelName = {
   PharmacyItem: 'PharmacyItem',
   Consultation: 'Consultation',
   Prescription: 'Prescription',
-  PrescriptionItem: 'PrescriptionItem'
+  PrescriptionItem: 'PrescriptionItem',
+  Bill: 'Bill',
+  LabTestOrder: 'LabTestOrder',
+  PatientNote: 'PatientNote',
+  ServiceRequest: 'ServiceRequest'
 };
 
 /**
