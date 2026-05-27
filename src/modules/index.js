@@ -26,6 +26,7 @@ const doctorOpdRoutes = require('./doctor-opd/doctor-opd.routes');
 const billingRoutes = require('./billing/billing.routes');
 const laboratoryRoutes = require('./laboratory/laboratory.routes');
 const servicesRoutes = require('./services/services.routes');
+const hospitalInventoryRoutes = require('./hospital-inventory/hospital-inventory.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -52,5 +53,7 @@ router.use('/doctor-opd', doctorOpdRoutes);
 router.use('/billing', billingRoutes);
 router.use('/laboratory', laboratoryRoutes);
 router.use('/services', servicesRoutes);
+router.use('/hospital-inventory', hospitalInventoryRoutes);
 
 module.exports = router;
+// Trigger restart for newly generated Prisma tenant client 1234
