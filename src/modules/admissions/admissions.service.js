@@ -372,7 +372,7 @@ const updateAdmission = async (branchId, admissionId, data) => {
         admission = await tx.admission.update({
           where: { id: admissionId },
           data: {
-            ...(data.departmentId && { departmentId: data.departmentId }),
+            ...((data.departmentId || (realWard ? realWard.departmentId : null)) && { departmentId: data.departmentId || realWard.departmentId }),
             ...(data.wardId && { wardId: data.wardId }),
             ...(data.bedId && { bedId: data.bedId }),
             ...(data.doctorId !== undefined && { doctorId: data.doctorId || null }),
@@ -388,7 +388,7 @@ const updateAdmission = async (branchId, admissionId, data) => {
           data: {
             id: admissionId,
             patientId: oldAdmission.patientId,
-            departmentId: data.departmentId || oldAdmission.departmentId,
+            departmentId: data.departmentId || (realWard ? realWard.departmentId : oldAdmission.departmentId),
             wardId: data.wardId || oldAdmission.wardId,
             bedId: data.bedId || oldAdmission.bedId,
             doctorId: data.doctorId !== undefined ? (data.doctorId || null) : (oldAdmission.doctorId || null),
@@ -405,6 +405,19 @@ const updateAdmission = async (branchId, admissionId, data) => {
       if (data.bedId && oldAdmission.bedId !== data.bedId) {
         await tx.bed.updateMany({ where: { id: oldAdmission.bedId }, data: { status: "AVAILABLE" } });
         await tx.bed.updateMany({ where: { id: data.bedId }, data: { status: "OCCUPIED" } });
+
+        // Propagate the new bed label to patient tasks and service requests in the tenant database
+        if (!isMain) {
+          const newBedLabel = realBed?.label || "Bed";
+          await tx.serviceRequest.updateMany({
+            where: { patientId: oldAdmission.patientId, status: { not: "Completed" } },
+            data: { bed: newBedLabel }
+          });
+          await tx.task.updateMany({
+            where: { patientId: oldAdmission.patientId, status: { not: "Completed" } },
+            data: { bedLabel: newBedLabel }
+          });
+        }
       } else if (data.status === "Completed" && oldAdmission.status !== "Completed") {
         await tx.bed.updateMany({ where: { id: oldAdmission.bedId }, data: { status: "AVAILABLE" } });
       } else if (data.status === "In Progress" && oldAdmission.status === "Completed") {

@@ -402,7 +402,7 @@ const listOrders = async (branchId) => {
     }
   }
 
-  const orderBy = [{ status: "asc" }];
+  const orderBy = [];
   if (hasField(fields, "orderedAt")) {
     orderBy.push({ orderedAt: "desc" });
   } else if (hasField(fields, "createdAt")) {

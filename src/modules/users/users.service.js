@@ -81,7 +81,9 @@ const createUser = async (userData) => {
           status: user.status,
           shiftType: user.shiftType,
           shiftStartTime: user.shiftStartTime,
-          shiftEndTime: user.shiftEndTime
+          shiftEndTime: user.shiftEndTime,
+          image: user.image,
+          department: user.department
         }
       });
       console.log(`✅ Successfully synced ${user.email} to tenant DB (ID Match: ${user.id}).`);
@@ -129,7 +131,9 @@ const updateUser = async (id, userData) => {
           isRestricted: user.isRestricted,
           shiftType: user.shiftType,
           shiftStartTime: user.shiftStartTime,
-          shiftEndTime: user.shiftEndTime
+          shiftEndTime: user.shiftEndTime,
+          image: user.image,
+          department: user.department
         }
       }).catch(() => { }); // ignore if doesn't exist in tenant yet
     } catch (err) { }

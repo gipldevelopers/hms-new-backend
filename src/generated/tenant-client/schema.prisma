@@ -66,17 +66,18 @@ model Patient {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  appointments  Appointment[]
-  admissions    Admission[]
-  tokens        Token[]
-  vitals        Vitals[]
-  assignedStaff TenantUser[]   @relation("StaffPatientAssignments")
-  tasks         Task[]
-  consultations Consultation[]
-  prescriptions Prescription[]
-  bills         Bill[]
-  labTestOrders LabTestOrder[]
-  notes         PatientNote[]
+  appointments    Appointment[]
+  admissions      Admission[]
+  tokens          Token[]
+  vitals          Vitals[]
+  assignedStaff   TenantUser[]     @relation("StaffPatientAssignments")
+  tasks           Task[]
+  consultations   Consultation[]
+  prescriptions   Prescription[]
+  bills           Bill[]
+  labTestOrders   LabTestOrder[]
+  notes           PatientNote[]
+  serviceRequests ServiceRequest[]
 
   @@map("patients")
 }
@@ -444,4 +445,21 @@ model PatientNote {
   updatedAt  DateTime @updatedAt
 
   @@map("patient_notes")
+}
+
+model ServiceRequest {
+  id                 String   @id @default(uuid())
+  patientId          String
+  patient            Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientName        String
+  bed                String
+  requestType        String
+  requestDescription String?
+  priority           String   @default("Normal") // Normal, Urgent
+  dept               String // Laboratory, Radiology, Facilities, Therapy, Blood Bank
+  status             String   @default("Pending") // Pending, Accepted, Completed
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("service_requests")
 }

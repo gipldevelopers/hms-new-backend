@@ -22,6 +22,8 @@ model User {
   shiftType        String? // Day, Night, Emergency
   shiftStartTime   String?
   shiftEndTime     String?
+  image            String?
+  department       String?
   resetToken       String?
   resetTokenExpiry DateTime?
   createdAt        DateTime  @default(now())
