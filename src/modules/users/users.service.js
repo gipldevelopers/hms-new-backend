@@ -33,7 +33,7 @@ const getAllUsers = async (filters = {}) => {
 };
 
 const createUser = async (userData) => {
-  const { password: manualPassword, branchId, ...otherData } = userData;
+  const { password: manualPassword, branchId, image, department, ...otherData } = userData;
 
   // Normalize branchId: "" should be null for UUID relations
   const normalizedBranchId = (branchId === "" || !branchId) ? null : branchId;
@@ -82,8 +82,8 @@ const createUser = async (userData) => {
           shiftType: user.shiftType,
           shiftStartTime: user.shiftStartTime,
           shiftEndTime: user.shiftEndTime,
-          image: user.image,
-          department: user.department
+          image: image,
+          department: department
         }
       });
       console.log(`✅ Successfully synced ${user.email} to tenant DB (ID Match: ${user.id}).`);
@@ -99,7 +99,7 @@ const createUser = async (userData) => {
 };
 
 const updateUser = async (id, userData) => {
-  const { password, branchId, ...otherData } = userData;
+  const { password, branchId, image, department, ...otherData } = userData;
   const updateData = { ...otherData };
 
   // Normalize branchId
@@ -132,8 +132,8 @@ const updateUser = async (id, userData) => {
           shiftType: user.shiftType,
           shiftStartTime: user.shiftStartTime,
           shiftEndTime: user.shiftEndTime,
-          image: user.image,
-          department: user.department
+          image: image,
+          department: department
         }
       }).catch(() => { }); // ignore if doesn't exist in tenant yet
     } catch (err) { }
