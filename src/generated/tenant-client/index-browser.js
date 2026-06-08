@@ -132,6 +132,8 @@ exports.Prisma.TenantUserScalarFieldEnum = {
   shiftType: 'shiftType',
   shiftStartTime: 'shiftStartTime',
   shiftEndTime: 'shiftEndTime',
+  image: 'image',
+  department: 'department',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -447,6 +449,32 @@ exports.Prisma.ServiceRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InventoryItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  category: 'category',
+  qty: 'qty',
+  expiry: 'expiry',
+  status: 'status',
+  supplier: 'supplier',
+  minThreshold: 'minThreshold',
+  notes: 'notes',
+  unitPrice: 'unitPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InventoryStockHistoryScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  dateTime: 'dateTime',
+  type: 'type',
+  qtyChanged: 'qtyChanged',
+  user: 'user',
+  notes: 'notes'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -499,7 +527,9 @@ exports.Prisma.ModelName = {
   Bill: 'Bill',
   LabTestOrder: 'LabTestOrder',
   PatientNote: 'PatientNote',
-  ServiceRequest: 'ServiceRequest'
+  ServiceRequest: 'ServiceRequest',
+  InventoryItem: 'InventoryItem',
+  InventoryStockHistory: 'InventoryStockHistory'
 };
 
 /**
