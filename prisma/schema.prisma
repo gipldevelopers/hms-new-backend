@@ -87,6 +87,8 @@ model Branch {
   tokens         Token[]
   vitals         Vitals[]
   tasks          Task[]
+  inventoryItems          InventoryItem[]
+  inventoryStockHistories InventoryStockHistory[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -435,6 +437,8 @@ model Task {
 
 model InventoryItem {
   id           String    @id @default(uuid())
+  branchId     String
+  branch       Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
   name         String
   sku          String
   category     String
@@ -457,6 +461,8 @@ model InventoryStockHistory {
   id          String        @id @default(uuid())
   itemId      String
   item        InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  branchId    String
+  branch      Branch        @relation(fields: [branchId], references: [id], onDelete: Cascade)
   dateTime    DateTime      @default(now())
   type        String        // e.g. "Addition", "Usage", "Initial Stock"
   qtyChanged  String        // e.g. "+20", "-5"
