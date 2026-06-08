@@ -467,6 +467,41 @@ model ServiceRequest {
 }
 
 model InventoryItem {
+  id            String   @id @default(uuid())
+  name          String
+  sku           String
+  category      String
+  qty           String
+  expiry        String
+  status        String   @default("In Stock")
+  supplier      String?
+  minThreshold  String?
+  notes         String?
+  unitPrice     Float    @default(0.0)
+  inventoryType String   @default("LAB")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  stockHistory InventoryStockHistory[]
+
+  @@map("inventory_items")
+}
+
+model InventoryStockHistory {
+  id            String        @id @default(uuid())
+  itemId        String
+  item          InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  dateTime      DateTime      @default(now())
+  type          String // e.g. "Addition", "Usage", "Initial Stock"
+  qtyChanged    String // e.g. "+20", "-5"
+  user          String
+  notes         String?
+  inventoryType String        @default("LAB")
+
+  @@map("inventory_stock_histories")
+}
+
+model StockItem {
   id           String   @id @default(uuid())
   name         String
   sku          String
@@ -481,20 +516,35 @@ model InventoryItem {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  stockHistory InventoryStockHistory[]
+  stockHistory StockHistory[]
 
-  @@map("inventory_items")
+  @@map("stock_items")
 }
 
-model InventoryStockHistory {
-  id         String        @id @default(uuid())
+model StockHistory {
+  id         String    @id @default(uuid())
   itemId     String
-  item       InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  dateTime   DateTime      @default(now())
+  item       StockItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  dateTime   DateTime  @default(now())
   type       String // e.g. "Addition", "Usage", "Initial Stock"
   qtyChanged String // e.g. "+20", "-5"
   user       String
   notes      String?
 
-  @@map("inventory_stock_histories")
+  @@map("stock_histories")
+}
+
+model StockTransfer {
+  id          String   @id @default(uuid())
+  transferId  String   @unique
+  source      String
+  destination String
+  date        DateTime @default(now())
+  totalItems  Int
+  items       Json // Array of items: [{ name, sku, qty }]
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("stock_transfers")
 }

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ctrl = require("./hospital-inventory.controller");
+const ctrl = require("./lab-inventory.controller");
 const { auth, authorize } = require("../../middleware/auth");
 const auditLogger = require("../../middleware/audit-logger");
 
