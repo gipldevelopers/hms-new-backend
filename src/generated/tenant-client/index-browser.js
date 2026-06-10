@@ -461,6 +461,7 @@ exports.Prisma.InventoryItemScalarFieldEnum = {
   minThreshold: 'minThreshold',
   notes: 'notes',
   unitPrice: 'unitPrice',
+  inventoryType: 'inventoryType',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -472,7 +473,47 @@ exports.Prisma.InventoryStockHistoryScalarFieldEnum = {
   type: 'type',
   qtyChanged: 'qtyChanged',
   user: 'user',
+  notes: 'notes',
+  inventoryType: 'inventoryType'
+};
+
+exports.Prisma.StockItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  category: 'category',
+  qty: 'qty',
+  expiry: 'expiry',
+  status: 'status',
+  supplier: 'supplier',
+  minThreshold: 'minThreshold',
+  notes: 'notes',
+  unitPrice: 'unitPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StockHistoryScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  dateTime: 'dateTime',
+  type: 'type',
+  qtyChanged: 'qtyChanged',
+  user: 'user',
   notes: 'notes'
+};
+
+exports.Prisma.StockTransferScalarFieldEnum = {
+  id: 'id',
+  transferId: 'transferId',
+  source: 'source',
+  destination: 'destination',
+  date: 'date',
+  totalItems: 'totalItems',
+  items: 'items',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -529,7 +570,10 @@ exports.Prisma.ModelName = {
   PatientNote: 'PatientNote',
   ServiceRequest: 'ServiceRequest',
   InventoryItem: 'InventoryItem',
-  InventoryStockHistory: 'InventoryStockHistory'
+  InventoryStockHistory: 'InventoryStockHistory',
+  StockItem: 'StockItem',
+  StockHistory: 'StockHistory',
+  StockTransfer: 'StockTransfer'
 };
 
 /**

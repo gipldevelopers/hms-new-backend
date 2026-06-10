@@ -1,4 +1,4 @@
-const { createItem, updateItem, deleteItem, adjustStock } = require('../src/modules/hospital-inventory/hospital-inventory.service');
+const { createItem, updateItem, deleteItem, adjustStock } = require('../src/modules/lab-inventory/lab-inventory.service');
 const { getTenantClient, mainDb } = require('../src/database/tenant-manager');
 
 async function test() {

@@ -1,4 +1,4 @@
-const service = require("./hospital-inventory.service");
+const service = require("./stock-inventory.service");
 const prisma = require("../../database/prisma");
 
 /**
@@ -21,7 +21,7 @@ const resolveBranchId = async (req) => {
 };
 
 /**
- * Get all inventory items
+ * Get all stock inventory items
  */
 const getItems = async (req, res) => {
   try {
@@ -64,7 +64,7 @@ const getItemDetails = async (req, res) => {
 };
 
 /**
- * Create a new item
+ * Create a new stock item
  */
 const createItem = async (req, res) => {
   try {
@@ -75,7 +75,7 @@ const createItem = async (req, res) => {
 
     const userName = req.user?.name || "System Admin";
     const item = await service.createItem(branchId, req.body, userName);
-    res.status(211).json({ success: true, data: item });
+    res.status(201).json({ success: true, data: item });
   } catch (error) {
     console.error("Error in createItem controller:", error);
     res.status(500).json({ success: false, error: error.message });
@@ -83,7 +83,7 @@ const createItem = async (req, res) => {
 };
 
 /**
- * Update an existing item
+ * Update an existing stock item
  */
 const updateItem = async (req, res) => {
   try {
@@ -103,7 +103,7 @@ const updateItem = async (req, res) => {
 };
 
 /**
- * Delete an inventory item
+ * Delete a stock inventory item
  */
 const deleteItem = async (req, res) => {
   try {
@@ -141,11 +141,30 @@ const adjustStock = async (req, res) => {
   }
 };
 
+/**
+ * Get dashboard stats for Stock Inventory
+ */
+const getDashboardStats = async (req, res) => {
+  try {
+    const branchId = await resolveBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, error: "No active or initialized branch found." });
+    }
+
+    const stats = await service.getDashboardStats(branchId);
+    res.json({ success: true, data: stats });
+  } catch (error) {
+    console.error("Error in getDashboardStats controller:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getItems,
   getItemDetails,
   createItem,
   updateItem,
   deleteItem,
-  adjustStock
+  adjustStock,
+  getDashboardStats
 };

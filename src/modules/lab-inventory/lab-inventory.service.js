@@ -8,7 +8,9 @@ const getItems = async (branchId, filters = {}) => {
   const tenantDb = await getTenantClient(branchId);
   const { search, category, status } = filters;
 
-  const where = {};
+  const where = {
+    inventoryType: "LAB"
+  };
 
   if (category && category !== "All") {
     where.category = category;
@@ -40,8 +42,8 @@ const getItems = async (branchId, filters = {}) => {
 const getItemDetails = async (branchId, itemId) => {
   const tenantDb = await getTenantClient(branchId);
 
-  const item = await tenantDb.inventoryItem.findUnique({
-    where: { id: itemId },
+  const item = await tenantDb.inventoryItem.findFirst({
+    where: { id: itemId, inventoryType: "LAB" },
     include: {
       stockHistory: {
         orderBy: { dateTime: "desc" }
@@ -74,7 +76,8 @@ const createItem = async (branchId, data, userName) => {
     supplier: data.supplier || "",
     minThreshold: data.minThreshold || "5",
     notes: data.notes || "",
-    unitPrice: parseFloat(data.unitPrice) || 0.0
+    unitPrice: parseFloat(data.unitPrice) || 0.0,
+    inventoryType: "LAB"
   };
 
   // Create in tenant DB
@@ -99,7 +102,8 @@ const createItem = async (branchId, data, userName) => {
     type: "Initial Stock",
     qtyChanged: `+${qtyNumber}`,
     user: userName || "System Admin",
-    notes: data.notes || "Initial stock entry upon creation"
+    notes: data.notes || "Initial stock entry upon creation",
+    inventoryType: "LAB"
   };
 
   // Create in tenant DB
@@ -125,8 +129,8 @@ const updateItem = async (branchId, itemId, data, userName) => {
   const tenantDb = await getTenantClient(branchId);
 
   // Fetch current item details to compare quantity
-  const currentItem = await tenantDb.inventoryItem.findUnique({
-    where: { id: itemId }
+  const currentItem = await tenantDb.inventoryItem.findFirst({
+    where: { id: itemId, inventoryType: "LAB" }
   });
 
   if (!currentItem) {
@@ -161,7 +165,8 @@ const updateItem = async (branchId, itemId, data, userName) => {
       supplier: data.supplier,
       minThreshold: data.minThreshold || "500",
       notes: data.notes,
-      unitPrice: parseFloat(data.unitPrice) || 0.0
+      unitPrice: parseFloat(data.unitPrice) || 0.0,
+      inventoryType: "LAB"
     }
   });
 
@@ -176,7 +181,8 @@ const updateItem = async (branchId, itemId, data, userName) => {
     supplier: data.supplier,
     minThreshold: data.minThreshold || "500",
     notes: data.notes,
-    unitPrice: parseFloat(data.unitPrice) || 0.0
+    unitPrice: parseFloat(data.unitPrice) || 0.0,
+    inventoryType: "LAB"
   };
   await mainDb.inventoryItem.upsert({
     where: { id: itemId },
@@ -201,7 +207,8 @@ const updateItem = async (branchId, itemId, data, userName) => {
       type: type,
       qtyChanged: `${prefix}${diff.toFixed(2).replace(/\.00$/, "")}`,
       user: userName || "System Admin",
-      notes: data.notes || `Stock quantity manually updated from ${currentItem.qty} to ${data.qty}`
+      notes: data.notes || `Stock quantity manually updated from ${currentItem.qty} to ${data.qty}`,
+      inventoryType: "LAB"
     };
 
     await tenantDb.inventoryStockHistory.create({
@@ -226,13 +233,13 @@ const deleteItem = async (branchId, itemId) => {
   const tenantDb = await getTenantClient(branchId);
 
   // Delete from tenant DB
-  await tenantDb.inventoryItem.delete({
-    where: { id: itemId }
+  await tenantDb.inventoryItem.deleteMany({
+    where: { id: itemId, inventoryType: "LAB" }
   });
 
   // Delete from main DB
   await mainDb.inventoryItem.deleteMany({
-    where: { id: itemId }
+    where: { id: itemId, inventoryType: "LAB" }
   });
 
   return { success: true };
@@ -245,8 +252,8 @@ const adjustStock = async (branchId, itemId, data, userName) => {
   const tenantDb = await getTenantClient(branchId);
 
   // Get current item
-  const currentItem = await tenantDb.inventoryItem.findUnique({
-    where: { id: itemId }
+  const currentItem = await tenantDb.inventoryItem.findFirst({
+    where: { id: itemId, inventoryType: "LAB" }
   });
 
   if (!currentItem) {
@@ -293,7 +300,8 @@ const adjustStock = async (branchId, itemId, data, userName) => {
   // Update item in Main DB (using upsert for self-healing)
   const updateData = {
     qty: newQty,
-    status: newStatus
+    status: newStatus,
+    inventoryType: "LAB"
   };
   await mainDb.inventoryItem.upsert({
     where: { id: itemId },
@@ -309,6 +317,7 @@ const adjustStock = async (branchId, itemId, data, userName) => {
       minThreshold: currentItem.minThreshold || "500",
       notes: currentItem.notes || "",
       unitPrice: currentItem.unitPrice || 0.0,
+      inventoryType: "LAB",
       ...updateData
     }
   });
@@ -321,7 +330,8 @@ const adjustStock = async (branchId, itemId, data, userName) => {
     type: data.type,
     qtyChanged: `${prefix}${Math.abs(changeVal)}`,
     user: userName || "System Admin",
-    notes: data.notes || ""
+    notes: data.notes || "",
+    inventoryType: "LAB"
   };
 
   await tenantDb.inventoryStockHistory.create({
