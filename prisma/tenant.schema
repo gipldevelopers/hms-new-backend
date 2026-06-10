@@ -519,6 +519,7 @@ model StockItem {
   updatedAt    DateTime  @updatedAt
 
   stockHistory StockHistory[]
+  batchReturns BatchReturn[]
 
   @@map("stock_items")
 }
@@ -550,3 +551,19 @@ model StockTransfer {
 
   @@map("stock_transfers")
 }
+
+model BatchReturn {
+  id             String    @id @default(uuid())
+  itemId         String
+  item           StockItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  qtyReturned    Float
+  vendor         String
+  reason         String
+  settlementMode String
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("batch_returns")
+}
+

@@ -516,6 +516,18 @@ exports.Prisma.StockTransferScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BatchReturnScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  qtyReturned: 'qtyReturned',
+  vendor: 'vendor',
+  reason: 'reason',
+  settlementMode: 'settlementMode',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -573,7 +585,8 @@ exports.Prisma.ModelName = {
   InventoryStockHistory: 'InventoryStockHistory',
   StockItem: 'StockItem',
   StockHistory: 'StockHistory',
-  StockTransfer: 'StockTransfer'
+  StockTransfer: 'StockTransfer',
+  BatchReturn: 'BatchReturn'
 };
 
 /**

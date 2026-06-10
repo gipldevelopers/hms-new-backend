@@ -143,6 +143,11 @@ export type StockHistory = $Result.DefaultSelection<Prisma.$StockHistoryPayload>
  * 
  */
 export type StockTransfer = $Result.DefaultSelection<Prisma.$StockTransferPayload>
+/**
+ * Model BatchReturn
+ * 
+ */
+export type BatchReturn = $Result.DefaultSelection<Prisma.$BatchReturnPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -524,6 +529,16 @@ export class PrismaClient<
     * ```
     */
   get stockTransfer(): Prisma.StockTransferDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.batchReturn`: Exposes CRUD operations for the **BatchReturn** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BatchReturns
+    * const batchReturns = await prisma.batchReturn.findMany()
+    * ```
+    */
+  get batchReturn(): Prisma.BatchReturnDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -983,7 +998,8 @@ export namespace Prisma {
     InventoryStockHistory: 'InventoryStockHistory',
     StockItem: 'StockItem',
     StockHistory: 'StockHistory',
-    StockTransfer: 'StockTransfer'
+    StockTransfer: 'StockTransfer',
+    BatchReturn: 'BatchReturn'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -999,7 +1015,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer"
+      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2927,6 +2943,80 @@ export namespace Prisma {
           }
         }
       }
+      BatchReturn: {
+        payload: Prisma.$BatchReturnPayload<ExtArgs>
+        fields: Prisma.BatchReturnFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BatchReturnFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BatchReturnFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          findFirst: {
+            args: Prisma.BatchReturnFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BatchReturnFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          findMany: {
+            args: Prisma.BatchReturnFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>[]
+          }
+          create: {
+            args: Prisma.BatchReturnCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          createMany: {
+            args: Prisma.BatchReturnCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BatchReturnCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>[]
+          }
+          delete: {
+            args: Prisma.BatchReturnDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          update: {
+            args: Prisma.BatchReturnUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          deleteMany: {
+            args: Prisma.BatchReturnDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BatchReturnUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BatchReturnUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>[]
+          }
+          upsert: {
+            args: Prisma.BatchReturnUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BatchReturnPayload>
+          }
+          aggregate: {
+            args: Prisma.BatchReturnAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBatchReturn>
+          }
+          groupBy: {
+            args: Prisma.BatchReturnGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BatchReturnGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BatchReturnCountArgs<ExtArgs>
+            result: $Utils.Optional<BatchReturnCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3061,6 +3151,7 @@ export namespace Prisma {
     stockItem?: StockItemOmit
     stockHistory?: StockHistoryOmit
     stockTransfer?: StockTransferOmit
+    batchReturn?: BatchReturnOmit
   }
 
   /* Types for Logging */
@@ -3587,10 +3678,12 @@ export namespace Prisma {
 
   export type StockItemCountOutputType = {
     stockHistory: number
+    batchReturns: number
   }
 
   export type StockItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stockHistory?: boolean | StockItemCountOutputTypeCountStockHistoryArgs
+    batchReturns?: boolean | StockItemCountOutputTypeCountBatchReturnsArgs
   }
 
   // Custom InputTypes
@@ -3609,6 +3702,13 @@ export namespace Prisma {
    */
   export type StockItemCountOutputTypeCountStockHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockHistoryWhereInput
+  }
+
+  /**
+   * StockItemCountOutputType without action
+   */
+  export type StockItemCountOutputTypeCountBatchReturnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BatchReturnWhereInput
   }
 
 
@@ -31733,6 +31833,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     stockHistory?: boolean | StockItem$stockHistoryArgs<ExtArgs>
+    batchReturns?: boolean | StockItem$batchReturnsArgs<ExtArgs>
     _count?: boolean | StockItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stockItem"]>
 
@@ -31787,6 +31888,7 @@ export namespace Prisma {
   export type StockItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "category" | "qty" | "expiry" | "status" | "supplier" | "minThreshold" | "notes" | "unitPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["stockItem"]>
   export type StockItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stockHistory?: boolean | StockItem$stockHistoryArgs<ExtArgs>
+    batchReturns?: boolean | StockItem$batchReturnsArgs<ExtArgs>
     _count?: boolean | StockItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StockItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -31796,6 +31898,7 @@ export namespace Prisma {
     name: "StockItem"
     objects: {
       stockHistory: Prisma.$StockHistoryPayload<ExtArgs>[]
+      batchReturns: Prisma.$BatchReturnPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -32206,6 +32309,7 @@ export namespace Prisma {
   export interface Prisma__StockItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     stockHistory<T extends StockItem$stockHistoryArgs<ExtArgs> = {}>(args?: Subset<T, StockItem$stockHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    batchReturns<T extends StockItem$batchReturnsArgs<ExtArgs> = {}>(args?: Subset<T, StockItem$batchReturnsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32662,6 +32766,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockHistoryScalarFieldEnum | StockHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * StockItem.batchReturns
+   */
+  export type StockItem$batchReturnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    where?: BatchReturnWhereInput
+    orderBy?: BatchReturnOrderByWithRelationInput | BatchReturnOrderByWithRelationInput[]
+    cursor?: BatchReturnWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BatchReturnScalarFieldEnum | BatchReturnScalarFieldEnum[]
   }
 
   /**
@@ -34868,6 +34996,1155 @@ export namespace Prisma {
 
 
   /**
+   * Model BatchReturn
+   */
+
+  export type AggregateBatchReturn = {
+    _count: BatchReturnCountAggregateOutputType | null
+    _avg: BatchReturnAvgAggregateOutputType | null
+    _sum: BatchReturnSumAggregateOutputType | null
+    _min: BatchReturnMinAggregateOutputType | null
+    _max: BatchReturnMaxAggregateOutputType | null
+  }
+
+  export type BatchReturnAvgAggregateOutputType = {
+    qtyReturned: number | null
+  }
+
+  export type BatchReturnSumAggregateOutputType = {
+    qtyReturned: number | null
+  }
+
+  export type BatchReturnMinAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    qtyReturned: number | null
+    vendor: string | null
+    reason: string | null
+    settlementMode: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BatchReturnMaxAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    qtyReturned: number | null
+    vendor: string | null
+    reason: string | null
+    settlementMode: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BatchReturnCountAggregateOutputType = {
+    id: number
+    itemId: number
+    qtyReturned: number
+    vendor: number
+    reason: number
+    settlementMode: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BatchReturnAvgAggregateInputType = {
+    qtyReturned?: true
+  }
+
+  export type BatchReturnSumAggregateInputType = {
+    qtyReturned?: true
+  }
+
+  export type BatchReturnMinAggregateInputType = {
+    id?: true
+    itemId?: true
+    qtyReturned?: true
+    vendor?: true
+    reason?: true
+    settlementMode?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BatchReturnMaxAggregateInputType = {
+    id?: true
+    itemId?: true
+    qtyReturned?: true
+    vendor?: true
+    reason?: true
+    settlementMode?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BatchReturnCountAggregateInputType = {
+    id?: true
+    itemId?: true
+    qtyReturned?: true
+    vendor?: true
+    reason?: true
+    settlementMode?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BatchReturnAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BatchReturn to aggregate.
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BatchReturns to fetch.
+     */
+    orderBy?: BatchReturnOrderByWithRelationInput | BatchReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BatchReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BatchReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BatchReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BatchReturns
+    **/
+    _count?: true | BatchReturnCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BatchReturnAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BatchReturnSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BatchReturnMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BatchReturnMaxAggregateInputType
+  }
+
+  export type GetBatchReturnAggregateType<T extends BatchReturnAggregateArgs> = {
+        [P in keyof T & keyof AggregateBatchReturn]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBatchReturn[P]>
+      : GetScalarType<T[P], AggregateBatchReturn[P]>
+  }
+
+
+
+
+  export type BatchReturnGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BatchReturnWhereInput
+    orderBy?: BatchReturnOrderByWithAggregationInput | BatchReturnOrderByWithAggregationInput[]
+    by: BatchReturnScalarFieldEnum[] | BatchReturnScalarFieldEnum
+    having?: BatchReturnScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BatchReturnCountAggregateInputType | true
+    _avg?: BatchReturnAvgAggregateInputType
+    _sum?: BatchReturnSumAggregateInputType
+    _min?: BatchReturnMinAggregateInputType
+    _max?: BatchReturnMaxAggregateInputType
+  }
+
+  export type BatchReturnGroupByOutputType = {
+    id: string
+    itemId: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BatchReturnCountAggregateOutputType | null
+    _avg: BatchReturnAvgAggregateOutputType | null
+    _sum: BatchReturnSumAggregateOutputType | null
+    _min: BatchReturnMinAggregateOutputType | null
+    _max: BatchReturnMaxAggregateOutputType | null
+  }
+
+  type GetBatchReturnGroupByPayload<T extends BatchReturnGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BatchReturnGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BatchReturnGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BatchReturnGroupByOutputType[P]>
+            : GetScalarType<T[P], BatchReturnGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BatchReturnSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    qtyReturned?: boolean
+    vendor?: boolean
+    reason?: boolean
+    settlementMode?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["batchReturn"]>
+
+  export type BatchReturnSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    qtyReturned?: boolean
+    vendor?: boolean
+    reason?: boolean
+    settlementMode?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["batchReturn"]>
+
+  export type BatchReturnSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    qtyReturned?: boolean
+    vendor?: boolean
+    reason?: boolean
+    settlementMode?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["batchReturn"]>
+
+  export type BatchReturnSelectScalar = {
+    id?: boolean
+    itemId?: boolean
+    qtyReturned?: boolean
+    vendor?: boolean
+    reason?: boolean
+    settlementMode?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BatchReturnOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itemId" | "qtyReturned" | "vendor" | "reason" | "settlementMode" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["batchReturn"]>
+  export type BatchReturnInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }
+  export type BatchReturnIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }
+  export type BatchReturnIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | StockItemDefaultArgs<ExtArgs>
+  }
+
+  export type $BatchReturnPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BatchReturn"
+    objects: {
+      item: Prisma.$StockItemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      itemId: string
+      qtyReturned: number
+      vendor: string
+      reason: string
+      settlementMode: string
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["batchReturn"]>
+    composites: {}
+  }
+
+  type BatchReturnGetPayload<S extends boolean | null | undefined | BatchReturnDefaultArgs> = $Result.GetResult<Prisma.$BatchReturnPayload, S>
+
+  type BatchReturnCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BatchReturnFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BatchReturnCountAggregateInputType | true
+    }
+
+  export interface BatchReturnDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BatchReturn'], meta: { name: 'BatchReturn' } }
+    /**
+     * Find zero or one BatchReturn that matches the filter.
+     * @param {BatchReturnFindUniqueArgs} args - Arguments to find a BatchReturn
+     * @example
+     * // Get one BatchReturn
+     * const batchReturn = await prisma.batchReturn.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BatchReturnFindUniqueArgs>(args: SelectSubset<T, BatchReturnFindUniqueArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BatchReturn that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BatchReturnFindUniqueOrThrowArgs} args - Arguments to find a BatchReturn
+     * @example
+     * // Get one BatchReturn
+     * const batchReturn = await prisma.batchReturn.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BatchReturnFindUniqueOrThrowArgs>(args: SelectSubset<T, BatchReturnFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BatchReturn that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnFindFirstArgs} args - Arguments to find a BatchReturn
+     * @example
+     * // Get one BatchReturn
+     * const batchReturn = await prisma.batchReturn.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BatchReturnFindFirstArgs>(args?: SelectSubset<T, BatchReturnFindFirstArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BatchReturn that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnFindFirstOrThrowArgs} args - Arguments to find a BatchReturn
+     * @example
+     * // Get one BatchReturn
+     * const batchReturn = await prisma.batchReturn.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BatchReturnFindFirstOrThrowArgs>(args?: SelectSubset<T, BatchReturnFindFirstOrThrowArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BatchReturns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BatchReturns
+     * const batchReturns = await prisma.batchReturn.findMany()
+     * 
+     * // Get first 10 BatchReturns
+     * const batchReturns = await prisma.batchReturn.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const batchReturnWithIdOnly = await prisma.batchReturn.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BatchReturnFindManyArgs>(args?: SelectSubset<T, BatchReturnFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BatchReturn.
+     * @param {BatchReturnCreateArgs} args - Arguments to create a BatchReturn.
+     * @example
+     * // Create one BatchReturn
+     * const BatchReturn = await prisma.batchReturn.create({
+     *   data: {
+     *     // ... data to create a BatchReturn
+     *   }
+     * })
+     * 
+     */
+    create<T extends BatchReturnCreateArgs>(args: SelectSubset<T, BatchReturnCreateArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BatchReturns.
+     * @param {BatchReturnCreateManyArgs} args - Arguments to create many BatchReturns.
+     * @example
+     * // Create many BatchReturns
+     * const batchReturn = await prisma.batchReturn.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BatchReturnCreateManyArgs>(args?: SelectSubset<T, BatchReturnCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BatchReturns and returns the data saved in the database.
+     * @param {BatchReturnCreateManyAndReturnArgs} args - Arguments to create many BatchReturns.
+     * @example
+     * // Create many BatchReturns
+     * const batchReturn = await prisma.batchReturn.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BatchReturns and only return the `id`
+     * const batchReturnWithIdOnly = await prisma.batchReturn.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BatchReturnCreateManyAndReturnArgs>(args?: SelectSubset<T, BatchReturnCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BatchReturn.
+     * @param {BatchReturnDeleteArgs} args - Arguments to delete one BatchReturn.
+     * @example
+     * // Delete one BatchReturn
+     * const BatchReturn = await prisma.batchReturn.delete({
+     *   where: {
+     *     // ... filter to delete one BatchReturn
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BatchReturnDeleteArgs>(args: SelectSubset<T, BatchReturnDeleteArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BatchReturn.
+     * @param {BatchReturnUpdateArgs} args - Arguments to update one BatchReturn.
+     * @example
+     * // Update one BatchReturn
+     * const batchReturn = await prisma.batchReturn.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BatchReturnUpdateArgs>(args: SelectSubset<T, BatchReturnUpdateArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BatchReturns.
+     * @param {BatchReturnDeleteManyArgs} args - Arguments to filter BatchReturns to delete.
+     * @example
+     * // Delete a few BatchReturns
+     * const { count } = await prisma.batchReturn.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BatchReturnDeleteManyArgs>(args?: SelectSubset<T, BatchReturnDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BatchReturns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BatchReturns
+     * const batchReturn = await prisma.batchReturn.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BatchReturnUpdateManyArgs>(args: SelectSubset<T, BatchReturnUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BatchReturns and returns the data updated in the database.
+     * @param {BatchReturnUpdateManyAndReturnArgs} args - Arguments to update many BatchReturns.
+     * @example
+     * // Update many BatchReturns
+     * const batchReturn = await prisma.batchReturn.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BatchReturns and only return the `id`
+     * const batchReturnWithIdOnly = await prisma.batchReturn.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BatchReturnUpdateManyAndReturnArgs>(args: SelectSubset<T, BatchReturnUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BatchReturn.
+     * @param {BatchReturnUpsertArgs} args - Arguments to update or create a BatchReturn.
+     * @example
+     * // Update or create a BatchReturn
+     * const batchReturn = await prisma.batchReturn.upsert({
+     *   create: {
+     *     // ... data to create a BatchReturn
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BatchReturn we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BatchReturnUpsertArgs>(args: SelectSubset<T, BatchReturnUpsertArgs<ExtArgs>>): Prisma__BatchReturnClient<$Result.GetResult<Prisma.$BatchReturnPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BatchReturns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnCountArgs} args - Arguments to filter BatchReturns to count.
+     * @example
+     * // Count the number of BatchReturns
+     * const count = await prisma.batchReturn.count({
+     *   where: {
+     *     // ... the filter for the BatchReturns we want to count
+     *   }
+     * })
+    **/
+    count<T extends BatchReturnCountArgs>(
+      args?: Subset<T, BatchReturnCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BatchReturnCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BatchReturn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BatchReturnAggregateArgs>(args: Subset<T, BatchReturnAggregateArgs>): Prisma.PrismaPromise<GetBatchReturnAggregateType<T>>
+
+    /**
+     * Group by BatchReturn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BatchReturnGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BatchReturnGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BatchReturnGroupByArgs['orderBy'] }
+        : { orderBy?: BatchReturnGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BatchReturnGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBatchReturnGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BatchReturn model
+   */
+  readonly fields: BatchReturnFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BatchReturn.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BatchReturnClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends StockItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StockItemDefaultArgs<ExtArgs>>): Prisma__StockItemClient<$Result.GetResult<Prisma.$StockItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BatchReturn model
+   */
+  interface BatchReturnFieldRefs {
+    readonly id: FieldRef<"BatchReturn", 'String'>
+    readonly itemId: FieldRef<"BatchReturn", 'String'>
+    readonly qtyReturned: FieldRef<"BatchReturn", 'Float'>
+    readonly vendor: FieldRef<"BatchReturn", 'String'>
+    readonly reason: FieldRef<"BatchReturn", 'String'>
+    readonly settlementMode: FieldRef<"BatchReturn", 'String'>
+    readonly notes: FieldRef<"BatchReturn", 'String'>
+    readonly createdAt: FieldRef<"BatchReturn", 'DateTime'>
+    readonly updatedAt: FieldRef<"BatchReturn", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BatchReturn findUnique
+   */
+  export type BatchReturnFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which BatchReturn to fetch.
+     */
+    where: BatchReturnWhereUniqueInput
+  }
+
+  /**
+   * BatchReturn findUniqueOrThrow
+   */
+  export type BatchReturnFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which BatchReturn to fetch.
+     */
+    where: BatchReturnWhereUniqueInput
+  }
+
+  /**
+   * BatchReturn findFirst
+   */
+  export type BatchReturnFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which BatchReturn to fetch.
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BatchReturns to fetch.
+     */
+    orderBy?: BatchReturnOrderByWithRelationInput | BatchReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BatchReturns.
+     */
+    cursor?: BatchReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BatchReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BatchReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BatchReturns.
+     */
+    distinct?: BatchReturnScalarFieldEnum | BatchReturnScalarFieldEnum[]
+  }
+
+  /**
+   * BatchReturn findFirstOrThrow
+   */
+  export type BatchReturnFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which BatchReturn to fetch.
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BatchReturns to fetch.
+     */
+    orderBy?: BatchReturnOrderByWithRelationInput | BatchReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BatchReturns.
+     */
+    cursor?: BatchReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BatchReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BatchReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BatchReturns.
+     */
+    distinct?: BatchReturnScalarFieldEnum | BatchReturnScalarFieldEnum[]
+  }
+
+  /**
+   * BatchReturn findMany
+   */
+  export type BatchReturnFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter, which BatchReturns to fetch.
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BatchReturns to fetch.
+     */
+    orderBy?: BatchReturnOrderByWithRelationInput | BatchReturnOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BatchReturns.
+     */
+    cursor?: BatchReturnWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BatchReturns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BatchReturns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BatchReturns.
+     */
+    distinct?: BatchReturnScalarFieldEnum | BatchReturnScalarFieldEnum[]
+  }
+
+  /**
+   * BatchReturn create
+   */
+  export type BatchReturnCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BatchReturn.
+     */
+    data: XOR<BatchReturnCreateInput, BatchReturnUncheckedCreateInput>
+  }
+
+  /**
+   * BatchReturn createMany
+   */
+  export type BatchReturnCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BatchReturns.
+     */
+    data: BatchReturnCreateManyInput | BatchReturnCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BatchReturn createManyAndReturn
+   */
+  export type BatchReturnCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * The data used to create many BatchReturns.
+     */
+    data: BatchReturnCreateManyInput | BatchReturnCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BatchReturn update
+   */
+  export type BatchReturnUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BatchReturn.
+     */
+    data: XOR<BatchReturnUpdateInput, BatchReturnUncheckedUpdateInput>
+    /**
+     * Choose, which BatchReturn to update.
+     */
+    where: BatchReturnWhereUniqueInput
+  }
+
+  /**
+   * BatchReturn updateMany
+   */
+  export type BatchReturnUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BatchReturns.
+     */
+    data: XOR<BatchReturnUpdateManyMutationInput, BatchReturnUncheckedUpdateManyInput>
+    /**
+     * Filter which BatchReturns to update
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * Limit how many BatchReturns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BatchReturn updateManyAndReturn
+   */
+  export type BatchReturnUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * The data used to update BatchReturns.
+     */
+    data: XOR<BatchReturnUpdateManyMutationInput, BatchReturnUncheckedUpdateManyInput>
+    /**
+     * Filter which BatchReturns to update
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * Limit how many BatchReturns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BatchReturn upsert
+   */
+  export type BatchReturnUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BatchReturn to update in case it exists.
+     */
+    where: BatchReturnWhereUniqueInput
+    /**
+     * In case the BatchReturn found by the `where` argument doesn't exist, create a new BatchReturn with this data.
+     */
+    create: XOR<BatchReturnCreateInput, BatchReturnUncheckedCreateInput>
+    /**
+     * In case the BatchReturn was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BatchReturnUpdateInput, BatchReturnUncheckedUpdateInput>
+  }
+
+  /**
+   * BatchReturn delete
+   */
+  export type BatchReturnDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+    /**
+     * Filter which BatchReturn to delete.
+     */
+    where: BatchReturnWhereUniqueInput
+  }
+
+  /**
+   * BatchReturn deleteMany
+   */
+  export type BatchReturnDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BatchReturns to delete
+     */
+    where?: BatchReturnWhereInput
+    /**
+     * Limit how many BatchReturns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BatchReturn without action
+   */
+  export type BatchReturnDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BatchReturn
+     */
+    select?: BatchReturnSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BatchReturn
+     */
+    omit?: BatchReturnOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BatchReturnInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -35353,6 +36630,21 @@ export namespace Prisma {
   };
 
   export type StockTransferScalarFieldEnum = (typeof StockTransferScalarFieldEnum)[keyof typeof StockTransferScalarFieldEnum]
+
+
+  export const BatchReturnScalarFieldEnum: {
+    id: 'id',
+    itemId: 'itemId',
+    qtyReturned: 'qtyReturned',
+    vendor: 'vendor',
+    reason: 'reason',
+    settlementMode: 'settlementMode',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BatchReturnScalarFieldEnum = (typeof BatchReturnScalarFieldEnum)[keyof typeof BatchReturnScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -37739,6 +39031,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"StockItem"> | Date | string
     updatedAt?: DateTimeFilter<"StockItem"> | Date | string
     stockHistory?: StockHistoryListRelationFilter
+    batchReturns?: BatchReturnListRelationFilter
   }
 
   export type StockItemOrderByWithRelationInput = {
@@ -37756,6 +39049,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     stockHistory?: StockHistoryOrderByRelationAggregateInput
+    batchReturns?: BatchReturnOrderByRelationAggregateInput
   }
 
   export type StockItemWhereUniqueInput = Prisma.AtLeast<{
@@ -37776,6 +39070,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"StockItem"> | Date | string
     updatedAt?: DateTimeFilter<"StockItem"> | Date | string
     stockHistory?: StockHistoryListRelationFilter
+    batchReturns?: BatchReturnListRelationFilter
   }, "id">
 
   export type StockItemOrderByWithAggregationInput = {
@@ -37960,6 +39255,83 @@ export namespace Prisma {
     notes?: StringNullableWithAggregatesFilter<"StockTransfer"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StockTransfer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StockTransfer"> | Date | string
+  }
+
+  export type BatchReturnWhereInput = {
+    AND?: BatchReturnWhereInput | BatchReturnWhereInput[]
+    OR?: BatchReturnWhereInput[]
+    NOT?: BatchReturnWhereInput | BatchReturnWhereInput[]
+    id?: StringFilter<"BatchReturn"> | string
+    itemId?: StringFilter<"BatchReturn"> | string
+    qtyReturned?: FloatFilter<"BatchReturn"> | number
+    vendor?: StringFilter<"BatchReturn"> | string
+    reason?: StringFilter<"BatchReturn"> | string
+    settlementMode?: StringFilter<"BatchReturn"> | string
+    notes?: StringNullableFilter<"BatchReturn"> | string | null
+    createdAt?: DateTimeFilter<"BatchReturn"> | Date | string
+    updatedAt?: DateTimeFilter<"BatchReturn"> | Date | string
+    item?: XOR<StockItemScalarRelationFilter, StockItemWhereInput>
+  }
+
+  export type BatchReturnOrderByWithRelationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    qtyReturned?: SortOrder
+    vendor?: SortOrder
+    reason?: SortOrder
+    settlementMode?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    item?: StockItemOrderByWithRelationInput
+  }
+
+  export type BatchReturnWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BatchReturnWhereInput | BatchReturnWhereInput[]
+    OR?: BatchReturnWhereInput[]
+    NOT?: BatchReturnWhereInput | BatchReturnWhereInput[]
+    itemId?: StringFilter<"BatchReturn"> | string
+    qtyReturned?: FloatFilter<"BatchReturn"> | number
+    vendor?: StringFilter<"BatchReturn"> | string
+    reason?: StringFilter<"BatchReturn"> | string
+    settlementMode?: StringFilter<"BatchReturn"> | string
+    notes?: StringNullableFilter<"BatchReturn"> | string | null
+    createdAt?: DateTimeFilter<"BatchReturn"> | Date | string
+    updatedAt?: DateTimeFilter<"BatchReturn"> | Date | string
+    item?: XOR<StockItemScalarRelationFilter, StockItemWhereInput>
+  }, "id">
+
+  export type BatchReturnOrderByWithAggregationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    qtyReturned?: SortOrder
+    vendor?: SortOrder
+    reason?: SortOrder
+    settlementMode?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BatchReturnCountOrderByAggregateInput
+    _avg?: BatchReturnAvgOrderByAggregateInput
+    _max?: BatchReturnMaxOrderByAggregateInput
+    _min?: BatchReturnMinOrderByAggregateInput
+    _sum?: BatchReturnSumOrderByAggregateInput
+  }
+
+  export type BatchReturnScalarWhereWithAggregatesInput = {
+    AND?: BatchReturnScalarWhereWithAggregatesInput | BatchReturnScalarWhereWithAggregatesInput[]
+    OR?: BatchReturnScalarWhereWithAggregatesInput[]
+    NOT?: BatchReturnScalarWhereWithAggregatesInput | BatchReturnScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BatchReturn"> | string
+    itemId?: StringWithAggregatesFilter<"BatchReturn"> | string
+    qtyReturned?: FloatWithAggregatesFilter<"BatchReturn"> | number
+    vendor?: StringWithAggregatesFilter<"BatchReturn"> | string
+    reason?: StringWithAggregatesFilter<"BatchReturn"> | string
+    settlementMode?: StringWithAggregatesFilter<"BatchReturn"> | string
+    notes?: StringNullableWithAggregatesFilter<"BatchReturn"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BatchReturn"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BatchReturn"> | Date | string
   }
 
   export type TenantUserCreateInput = {
@@ -40559,6 +41931,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stockHistory?: StockHistoryCreateNestedManyWithoutItemInput
+    batchReturns?: BatchReturnCreateNestedManyWithoutItemInput
   }
 
   export type StockItemUncheckedCreateInput = {
@@ -40576,6 +41949,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     stockHistory?: StockHistoryUncheckedCreateNestedManyWithoutItemInput
+    batchReturns?: BatchReturnUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type StockItemUpdateInput = {
@@ -40593,6 +41967,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockHistory?: StockHistoryUpdateManyWithoutItemNestedInput
+    batchReturns?: BatchReturnUpdateManyWithoutItemNestedInput
   }
 
   export type StockItemUncheckedUpdateInput = {
@@ -40610,6 +41985,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockHistory?: StockHistoryUncheckedUpdateManyWithoutItemNestedInput
+    batchReturns?: BatchReturnUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type StockItemCreateManyInput = {
@@ -40815,6 +42191,89 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     totalItems?: IntFieldUpdateOperationsInput | number
     items?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BatchReturnCreateInput = {
+    id?: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    item: StockItemCreateNestedOneWithoutBatchReturnsInput
+  }
+
+  export type BatchReturnUncheckedCreateInput = {
+    id?: string
+    itemId: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BatchReturnUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: StockItemUpdateOneRequiredWithoutBatchReturnsNestedInput
+  }
+
+  export type BatchReturnUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BatchReturnCreateManyInput = {
+    id?: string
+    itemId: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BatchReturnUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BatchReturnUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42575,7 +44034,17 @@ export namespace Prisma {
     none?: StockHistoryWhereInput
   }
 
+  export type BatchReturnListRelationFilter = {
+    every?: BatchReturnWhereInput
+    some?: BatchReturnWhereInput
+    none?: BatchReturnWhereInput
+  }
+
   export type StockHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BatchReturnOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42713,6 +44182,50 @@ export namespace Prisma {
 
   export type StockTransferSumOrderByAggregateInput = {
     totalItems?: SortOrder
+  }
+
+  export type BatchReturnCountOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    qtyReturned?: SortOrder
+    vendor?: SortOrder
+    reason?: SortOrder
+    settlementMode?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BatchReturnAvgOrderByAggregateInput = {
+    qtyReturned?: SortOrder
+  }
+
+  export type BatchReturnMaxOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    qtyReturned?: SortOrder
+    vendor?: SortOrder
+    reason?: SortOrder
+    settlementMode?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BatchReturnMinOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    qtyReturned?: SortOrder
+    vendor?: SortOrder
+    reason?: SortOrder
+    settlementMode?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BatchReturnSumOrderByAggregateInput = {
+    qtyReturned?: SortOrder
   }
 
   export type AdmissionCreateNestedManyWithoutDoctorInput = {
@@ -44242,11 +45755,25 @@ export namespace Prisma {
     connect?: StockHistoryWhereUniqueInput | StockHistoryWhereUniqueInput[]
   }
 
+  export type BatchReturnCreateNestedManyWithoutItemInput = {
+    create?: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput> | BatchReturnCreateWithoutItemInput[] | BatchReturnUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: BatchReturnCreateOrConnectWithoutItemInput | BatchReturnCreateOrConnectWithoutItemInput[]
+    createMany?: BatchReturnCreateManyItemInputEnvelope
+    connect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+  }
+
   export type StockHistoryUncheckedCreateNestedManyWithoutItemInput = {
     create?: XOR<StockHistoryCreateWithoutItemInput, StockHistoryUncheckedCreateWithoutItemInput> | StockHistoryCreateWithoutItemInput[] | StockHistoryUncheckedCreateWithoutItemInput[]
     connectOrCreate?: StockHistoryCreateOrConnectWithoutItemInput | StockHistoryCreateOrConnectWithoutItemInput[]
     createMany?: StockHistoryCreateManyItemInputEnvelope
     connect?: StockHistoryWhereUniqueInput | StockHistoryWhereUniqueInput[]
+  }
+
+  export type BatchReturnUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput> | BatchReturnCreateWithoutItemInput[] | BatchReturnUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: BatchReturnCreateOrConnectWithoutItemInput | BatchReturnCreateOrConnectWithoutItemInput[]
+    createMany?: BatchReturnCreateManyItemInputEnvelope
+    connect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
   }
 
   export type StockHistoryUpdateManyWithoutItemNestedInput = {
@@ -44263,6 +45790,20 @@ export namespace Prisma {
     deleteMany?: StockHistoryScalarWhereInput | StockHistoryScalarWhereInput[]
   }
 
+  export type BatchReturnUpdateManyWithoutItemNestedInput = {
+    create?: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput> | BatchReturnCreateWithoutItemInput[] | BatchReturnUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: BatchReturnCreateOrConnectWithoutItemInput | BatchReturnCreateOrConnectWithoutItemInput[]
+    upsert?: BatchReturnUpsertWithWhereUniqueWithoutItemInput | BatchReturnUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: BatchReturnCreateManyItemInputEnvelope
+    set?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    disconnect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    delete?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    connect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    update?: BatchReturnUpdateWithWhereUniqueWithoutItemInput | BatchReturnUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: BatchReturnUpdateManyWithWhereWithoutItemInput | BatchReturnUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: BatchReturnScalarWhereInput | BatchReturnScalarWhereInput[]
+  }
+
   export type StockHistoryUncheckedUpdateManyWithoutItemNestedInput = {
     create?: XOR<StockHistoryCreateWithoutItemInput, StockHistoryUncheckedCreateWithoutItemInput> | StockHistoryCreateWithoutItemInput[] | StockHistoryUncheckedCreateWithoutItemInput[]
     connectOrCreate?: StockHistoryCreateOrConnectWithoutItemInput | StockHistoryCreateOrConnectWithoutItemInput[]
@@ -44277,6 +45818,20 @@ export namespace Prisma {
     deleteMany?: StockHistoryScalarWhereInput | StockHistoryScalarWhereInput[]
   }
 
+  export type BatchReturnUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput> | BatchReturnCreateWithoutItemInput[] | BatchReturnUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: BatchReturnCreateOrConnectWithoutItemInput | BatchReturnCreateOrConnectWithoutItemInput[]
+    upsert?: BatchReturnUpsertWithWhereUniqueWithoutItemInput | BatchReturnUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: BatchReturnCreateManyItemInputEnvelope
+    set?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    disconnect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    delete?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    connect?: BatchReturnWhereUniqueInput | BatchReturnWhereUniqueInput[]
+    update?: BatchReturnUpdateWithWhereUniqueWithoutItemInput | BatchReturnUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: BatchReturnUpdateManyWithWhereWithoutItemInput | BatchReturnUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: BatchReturnScalarWhereInput | BatchReturnScalarWhereInput[]
+  }
+
   export type StockItemCreateNestedOneWithoutStockHistoryInput = {
     create?: XOR<StockItemCreateWithoutStockHistoryInput, StockItemUncheckedCreateWithoutStockHistoryInput>
     connectOrCreate?: StockItemCreateOrConnectWithoutStockHistoryInput
@@ -44289,6 +45844,20 @@ export namespace Prisma {
     upsert?: StockItemUpsertWithoutStockHistoryInput
     connect?: StockItemWhereUniqueInput
     update?: XOR<XOR<StockItemUpdateToOneWithWhereWithoutStockHistoryInput, StockItemUpdateWithoutStockHistoryInput>, StockItemUncheckedUpdateWithoutStockHistoryInput>
+  }
+
+  export type StockItemCreateNestedOneWithoutBatchReturnsInput = {
+    create?: XOR<StockItemCreateWithoutBatchReturnsInput, StockItemUncheckedCreateWithoutBatchReturnsInput>
+    connectOrCreate?: StockItemCreateOrConnectWithoutBatchReturnsInput
+    connect?: StockItemWhereUniqueInput
+  }
+
+  export type StockItemUpdateOneRequiredWithoutBatchReturnsNestedInput = {
+    create?: XOR<StockItemCreateWithoutBatchReturnsInput, StockItemUncheckedCreateWithoutBatchReturnsInput>
+    connectOrCreate?: StockItemCreateOrConnectWithoutBatchReturnsInput
+    upsert?: StockItemUpsertWithoutBatchReturnsInput
+    connect?: StockItemWhereUniqueInput
+    update?: XOR<XOR<StockItemUpdateToOneWithWhereWithoutBatchReturnsInput, StockItemUpdateWithoutBatchReturnsInput>, StockItemUncheckedUpdateWithoutBatchReturnsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -49737,6 +51306,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BatchReturnCreateWithoutItemInput = {
+    id?: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BatchReturnUncheckedCreateWithoutItemInput = {
+    id?: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BatchReturnCreateOrConnectWithoutItemInput = {
+    where: BatchReturnWhereUniqueInput
+    create: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput>
+  }
+
+  export type BatchReturnCreateManyItemInputEnvelope = {
+    data: BatchReturnCreateManyItemInput | BatchReturnCreateManyItemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StockHistoryUpsertWithWhereUniqueWithoutItemInput = {
     where: StockHistoryWhereUniqueInput
     update: XOR<StockHistoryUpdateWithoutItemInput, StockHistoryUncheckedUpdateWithoutItemInput>
@@ -49766,6 +51367,37 @@ export namespace Prisma {
     notes?: StringNullableFilter<"StockHistory"> | string | null
   }
 
+  export type BatchReturnUpsertWithWhereUniqueWithoutItemInput = {
+    where: BatchReturnWhereUniqueInput
+    update: XOR<BatchReturnUpdateWithoutItemInput, BatchReturnUncheckedUpdateWithoutItemInput>
+    create: XOR<BatchReturnCreateWithoutItemInput, BatchReturnUncheckedCreateWithoutItemInput>
+  }
+
+  export type BatchReturnUpdateWithWhereUniqueWithoutItemInput = {
+    where: BatchReturnWhereUniqueInput
+    data: XOR<BatchReturnUpdateWithoutItemInput, BatchReturnUncheckedUpdateWithoutItemInput>
+  }
+
+  export type BatchReturnUpdateManyWithWhereWithoutItemInput = {
+    where: BatchReturnScalarWhereInput
+    data: XOR<BatchReturnUpdateManyMutationInput, BatchReturnUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type BatchReturnScalarWhereInput = {
+    AND?: BatchReturnScalarWhereInput | BatchReturnScalarWhereInput[]
+    OR?: BatchReturnScalarWhereInput[]
+    NOT?: BatchReturnScalarWhereInput | BatchReturnScalarWhereInput[]
+    id?: StringFilter<"BatchReturn"> | string
+    itemId?: StringFilter<"BatchReturn"> | string
+    qtyReturned?: FloatFilter<"BatchReturn"> | number
+    vendor?: StringFilter<"BatchReturn"> | string
+    reason?: StringFilter<"BatchReturn"> | string
+    settlementMode?: StringFilter<"BatchReturn"> | string
+    notes?: StringNullableFilter<"BatchReturn"> | string | null
+    createdAt?: DateTimeFilter<"BatchReturn"> | Date | string
+    updatedAt?: DateTimeFilter<"BatchReturn"> | Date | string
+  }
+
   export type StockItemCreateWithoutStockHistoryInput = {
     id?: string
     name: string
@@ -49780,6 +51412,7 @@ export namespace Prisma {
     unitPrice?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    batchReturns?: BatchReturnCreateNestedManyWithoutItemInput
   }
 
   export type StockItemUncheckedCreateWithoutStockHistoryInput = {
@@ -49796,6 +51429,7 @@ export namespace Prisma {
     unitPrice?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    batchReturns?: BatchReturnUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type StockItemCreateOrConnectWithoutStockHistoryInput = {
@@ -49828,6 +51462,7 @@ export namespace Prisma {
     unitPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batchReturns?: BatchReturnUpdateManyWithoutItemNestedInput
   }
 
   export type StockItemUncheckedUpdateWithoutStockHistoryInput = {
@@ -49844,6 +51479,91 @@ export namespace Prisma {
     unitPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batchReturns?: BatchReturnUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type StockItemCreateWithoutBatchReturnsInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stockHistory?: StockHistoryCreateNestedManyWithoutItemInput
+  }
+
+  export type StockItemUncheckedCreateWithoutBatchReturnsInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stockHistory?: StockHistoryUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type StockItemCreateOrConnectWithoutBatchReturnsInput = {
+    where: StockItemWhereUniqueInput
+    create: XOR<StockItemCreateWithoutBatchReturnsInput, StockItemUncheckedCreateWithoutBatchReturnsInput>
+  }
+
+  export type StockItemUpsertWithoutBatchReturnsInput = {
+    update: XOR<StockItemUpdateWithoutBatchReturnsInput, StockItemUncheckedUpdateWithoutBatchReturnsInput>
+    create: XOR<StockItemCreateWithoutBatchReturnsInput, StockItemUncheckedCreateWithoutBatchReturnsInput>
+    where?: StockItemWhereInput
+  }
+
+  export type StockItemUpdateToOneWithWhereWithoutBatchReturnsInput = {
+    where?: StockItemWhereInput
+    data: XOR<StockItemUpdateWithoutBatchReturnsInput, StockItemUncheckedUpdateWithoutBatchReturnsInput>
+  }
+
+  export type StockItemUpdateWithoutBatchReturnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: StockHistoryUpdateManyWithoutItemNestedInput
+  }
+
+  export type StockItemUncheckedUpdateWithoutBatchReturnsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: StockHistoryUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type AdmissionCreateManyDoctorInput = {
@@ -51305,6 +53025,17 @@ export namespace Prisma {
     notes?: string | null
   }
 
+  export type BatchReturnCreateManyItemInput = {
+    id?: string
+    qtyReturned: number
+    vendor: string
+    reason: string
+    settlementMode: string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type StockHistoryUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51330,6 +53061,39 @@ export namespace Prisma {
     qtyChanged?: StringFieldUpdateOperationsInput | string
     user?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BatchReturnUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BatchReturnUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BatchReturnUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    qtyReturned?: FloatFieldUpdateOperationsInput | number
+    vendor?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    settlementMode?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
