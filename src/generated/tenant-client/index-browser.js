@@ -528,6 +528,23 @@ exports.Prisma.BatchReturnScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  poNumber: 'poNumber',
+  vendor: 'vendor',
+  orderDate: 'orderDate',
+  expectedDelivery: 'expectedDelivery',
+  totalAmount: 'totalAmount',
+  payment: 'payment',
+  orderStatus: 'orderStatus',
+  items: 'items',
+  justification: 'justification',
+  deliveryStore: 'deliveryStore',
+  shippingUrgency: 'shippingUrgency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -586,7 +603,8 @@ exports.Prisma.ModelName = {
   StockItem: 'StockItem',
   StockHistory: 'StockHistory',
   StockTransfer: 'StockTransfer',
-  BatchReturn: 'BatchReturn'
+  BatchReturn: 'BatchReturn',
+  PurchaseOrder: 'PurchaseOrder'
 };
 
 /**

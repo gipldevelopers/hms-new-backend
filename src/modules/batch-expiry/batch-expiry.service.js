@@ -6,7 +6,7 @@ const crypto = require("crypto");
  */
 const parseExpiryDate = (expiryStr, createdAt) => {
   const createdDate = new Date(createdAt || Date.now());
-  
+
   if (!expiryStr) {
     const d = new Date(createdDate);
     d.setMonth(d.getMonth() + 12);
@@ -18,7 +18,7 @@ const parseExpiryDate = (expiryStr, createdAt) => {
   if (monthMatch) {
     const months = parseInt(monthMatch[1], 10);
     const d = new Date(createdDate);
-    d.setMonth(d.getMonth() + months);
+    d.setDate(d.getDate() + (months * 30));
     return d;
   }
 
@@ -45,7 +45,7 @@ const getBatches = async (branchId) => {
   });
 
   const now = new Date();
-  
+
   const expired = [];
   const expiring30 = [];
   const expiring60 = [];
@@ -53,7 +53,7 @@ const getBatches = async (branchId) => {
 
   for (const item of items) {
     const expiryDate = parseExpiryDate(item.expiry, item.createdAt);
-    
+
     // Days diff
     const diffTime = expiryDate.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -69,7 +69,7 @@ const getBatches = async (branchId) => {
 
     // Expiry date format
     const formattedExpiryDate = expiryDate.toISOString().substring(0, 7);
-    
+
     // MFG Date format
     const mfgDate = new Date(item.createdAt);
     const formattedMfgDate = mfgDate.toISOString().substring(0, 7);

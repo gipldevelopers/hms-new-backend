@@ -93,6 +93,7 @@ model Branch {
   stockHistories          StockHistory[]
   stockTransfers          StockTransfer[]
   batchReturns            BatchReturn[]
+  purchaseOrders          PurchaseOrder[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -549,4 +550,26 @@ model BatchReturn {
 
   @@map("batch_returns")
 }
+
+model PurchaseOrder {
+  id               String   @id @default(uuid())
+  branchId         String
+  branch           Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  poNumber         String   @unique
+  vendor           String
+  orderDate        String
+  expectedDelivery String   @default("Pending")
+  totalAmount      String
+  payment          String   @default("PENDING")
+  orderStatus      String   @default("ORDERED")
+  items            Json
+  justification    String?
+  deliveryStore    String?
+  shippingUrgency  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("purchase_orders")
+}
+
 
