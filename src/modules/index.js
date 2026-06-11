@@ -30,6 +30,7 @@ const labInventoryRoutes = require('./lab-inventory/lab-inventory.routes');
 const stockInventoryRoutes = require('./stock-inventory/stock-inventory.routes');
 const stockTransferRoutes = require('./stock-transfer/stock-transfer.routes');
 const batchExpiryRoutes = require('./batch-expiry/batch-expiry.routes');
+const purchaseRoutes = require('./purchase/purchase.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -60,6 +61,8 @@ router.use('/lab-inventory', labInventoryRoutes);
 router.use('/stock-inventory', stockInventoryRoutes);
 router.use('/stock-transfer', stockTransferRoutes);
 router.use('/batch-expiry', batchExpiryRoutes);
+router.use('/purchase', purchaseRoutes);
 
 module.exports = router;
 // Trigger restart for newly generated Prisma tenant client 1234
+
