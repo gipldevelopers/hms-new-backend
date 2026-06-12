@@ -94,6 +94,7 @@ model Branch {
   stockTransfers          StockTransfer[]
   batchReturns            BatchReturn[]
   purchaseOrders          PurchaseOrder[]
+  suppliers               Supplier[]
 
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -572,4 +573,41 @@ model PurchaseOrder {
   @@map("purchase_orders")
 }
 
+model Supplier {
+  id            String   @id @default(uuid())
+  branchId      String
+  branch        Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  name          String
+  sku           String   @unique
+  category      String
+  supplierType  String?
+  contactPerson String?
+  designation   String?
+  phone1        String?
+  phone2        String?
+  email         String?
+  website       String?
+  gstNumber     String?
+  panNumber     String?
+  address       String?
+  
+  // Payment Info
+  bankName      String?
+  accountNumber String?
+  ifscCode      String?
+  accountType   String?
+  branchName    String?
+  paymentType   String?
+  taxCategory   String?
 
+  // Additional fields
+  rating        Int      @default(5)
+  status        String   @default("Active")
+  lastOrder     String   @default("N/A")
+  documents     Json?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("suppliers")
+}

@@ -545,6 +545,36 @@ exports.Prisma.PurchaseOrderScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SupplierScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  category: 'category',
+  supplierType: 'supplierType',
+  contactPerson: 'contactPerson',
+  designation: 'designation',
+  phone1: 'phone1',
+  phone2: 'phone2',
+  email: 'email',
+  website: 'website',
+  gstNumber: 'gstNumber',
+  panNumber: 'panNumber',
+  address: 'address',
+  bankName: 'bankName',
+  accountNumber: 'accountNumber',
+  ifscCode: 'ifscCode',
+  accountType: 'accountType',
+  branchName: 'branchName',
+  paymentType: 'paymentType',
+  taxCategory: 'taxCategory',
+  rating: 'rating',
+  status: 'status',
+  lastOrder: 'lastOrder',
+  documents: 'documents',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -604,7 +634,8 @@ exports.Prisma.ModelName = {
   StockHistory: 'StockHistory',
   StockTransfer: 'StockTransfer',
   BatchReturn: 'BatchReturn',
-  PurchaseOrder: 'PurchaseOrder'
+  PurchaseOrder: 'PurchaseOrder',
+  Supplier: 'Supplier'
 };
 
 /**
