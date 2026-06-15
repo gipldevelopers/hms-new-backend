@@ -103,14 +103,14 @@ const getOPDBillingRecords = async (branchId) => {
       }
     }
 
-    const opdFee = appt.fee || 577.50; // default to book/confirm billing total
+    const opdFee = appt.fee || 0;
     const otherCharge = pharmacyCharges + labCharges;
-    const amountReceived = opdFee; // only show doctor consultation fee + registration fee paid at reception
+    const amountReceived = opdFee;
 
     records.push({
       uhid: uhidStr,
       patientId: p.id,
-      patient: `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.name || "Sarah Connor",
+      patient: `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.name || "Unknown Patient",
       doctor: appt.doctorName || "Dr. Attending",
       opdCharge: `₹${opdFee.toFixed(2)}`,
       otherCharge: `₹${otherCharge.toFixed(2)}`,
@@ -122,14 +122,7 @@ const getOPDBillingRecords = async (branchId) => {
     seenPatientIds.add(p.id);
   }
 
-  // Fallback for demonstration/testing if no actual records in db
-  if (records.length === 0) {
-    return [
-      { uhid: "UHID-12A4F", patientId: "mock-1", patient: "Sarah Connor", doctor: "Dr. John Doe", opdCharge: "₹450.00", otherCharge: "₹720.00", amountReceived: "₹1170.00", paymentMethod: "UPI", status: "PENDING" },
-      { uhid: "UHID-89F3B", patientId: "mock-2", patient: "James Wilson", doctor: "Dr. Sarah Jenkins", opdCharge: "₹500.00", otherCharge: "₹0.00", amountReceived: "₹500.00", paymentMethod: "Cash", status: "PENDING" }
-    ];
-  }
-
+  // Return empty array when no records exist — no mock fallback
   return records;
 };
 
@@ -155,25 +148,11 @@ const getOPDBillingDetails = async (branchId, query) => {
     patient = patients.find(p => `${p.firstName || ""} ${p.lastName || ""}`.trim().toLowerCase() === patientName.toLowerCase() || p.name?.toLowerCase() === patientName.toLowerCase());
   }
 
-  // Fallback mock patient if not found in db
   if (!patient) {
-    patient = {
-      id: "mock-sarah-connor-id",
-      firstName: "Sarah",
-      lastName: "Connor",
-      name: "Sarah Connor",
-      age: 32,
-      gender: "Female",
-      contact: "+91 9876543210",
-      bloodGroup: "O-positive",
-      address: "123 Resistance Way",
-      city: "Los Angeles",
-      state: "California",
-      status: "Complete"
-    };
+    throw Object.assign(new Error("Patient not found"), { statusCode: 404 });
   }
 
-  const patientFullName = `${patient.firstName || ""} ${patient.lastName || ""}`.trim() || patient.name || "Sarah Connor";
+  const patientFullName = `${patient.firstName || ""} ${patient.lastName || ""}`.trim() || patient.name || "Unknown Patient";
   const formattedUhid = `UHID-${patient.id.substring(0, 6).toUpperCase()}`;
 
   // 1. Doctor Consultation Fee (Paid at reception)
@@ -183,8 +162,8 @@ const getOPDBillingDetails = async (branchId, query) => {
     orderBy: { dateTime: "desc" }
   });
   const latestAppt = appointments[0];
-  const consultFee = latestAppt?.fee || 450;
-  const doctorName = latestAppt?.doctorName || "Dr. John Doe";
+  const consultFee = latestAppt?.fee || 0;
+  const doctorName = latestAppt?.doctorName || "—";
 
   const doctorConsultationItem = {
     name: "Doctor Consultation Fee",
@@ -209,6 +188,7 @@ const getOPDBillingDetails = async (branchId, query) => {
     orderBy: { createdAt: "desc" }
   });
 
+  // No mock lab items — return real data or empty array
   const labItems = [];
   for (const order of labOrders) {
     const tests = Array.isArray(order.tests) ? order.tests : [];
@@ -227,13 +207,7 @@ const getOPDBillingDetails = async (branchId, query) => {
     }
   }
 
-  // Fallback mock lab tests if none in db for testing OPD patient Sarah Connor
-  if (labItems.length === 0 && patientFullName === "Sarah Connor") {
-    labItems.push(
-      { name: "Complete Blood Count (CBC)", category: "Pathology", qty: "1", price: "₹250.00", total: "₹250.00", isSystem: true, source: "Lab (Completed)" },
-      { name: "Lipid Profile", category: "Pathology", qty: "1", price: "₹450.00", total: "₹450.00", isSystem: true, source: "Lab (Completed)" }
-    );
-  }
+  // lab items are populated from real lab orders above — no mock fallback
 
   // 3. Pharmacy Medicines (Paid: fetched from DISPENSED prescriptions)
   const prescriptions = await tenantDb.prescription.findMany({
@@ -272,13 +246,7 @@ const getOPDBillingDetails = async (branchId, query) => {
     }
   }
 
-  // Fallback mock pharmacy items if none in db for testing OPD patient Sarah Connor
-  if (pharmacyItems.length === 0 && patientFullName === "Sarah Connor") {
-    pharmacyItems.push(
-      { name: "Paracetamol 500mg", category: "Medicine", qty: "10", price: "₹2.00", total: "₹20.00", isSystem: true, source: "Pharmacy (Paid)" },
-      { name: "Amoxicillin 250mg", category: "Medicine", qty: "15", price: "₹10.00", total: "₹150.00", isSystem: true, source: "Pharmacy (Paid)" }
-    );
-  }
+  // pharmacy items are populated from real prescriptions above — no mock fallback
 
   // 4. Room Charges & Attending Doctor Visits are null / N/A for OPD
   const roomCharges = [];
@@ -294,16 +262,13 @@ const getOPDBillingDetails = async (branchId, query) => {
   const tax = (subtotal - discount) * 0.05; // 5% GST
   const netPayable = subtotal - discount + tax;
   // Check if a bill has been paid/generated in the database
-  let existingBills = [];
-  if (patient && patient.id !== "mock-sarah-connor-id") {
-    existingBills = await tenantDb.bill.findMany({
-      where: {
-        patientId: patient.id,
-        type: "OPD"
-      },
-      orderBy: { createdAt: "desc" }
-    });
-  }
+  const existingBills = await tenantDb.bill.findMany({
+    where: {
+      patientId: patient.id,
+      type: "OPD"
+    },
+    orderBy: { createdAt: "desc" }
+  });
   const latestBill = existingBills[0];
   const isPaid = latestBill?.status === "PAID";
 
@@ -376,9 +341,230 @@ const collectOPDPayment = async (branchId, billData) => {
   return bill;
 };
 
+/**
+ * Get a single bill by ID for the invoice page
+ * Returns full patient + line items + billing totals
+ */
+const getInvoiceById = async (branchId, billId) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  const bill = await tenantDb.bill.findFirst({
+    where: { id: billId },
+    include: { patient: true }
+  });
+
+  if (!bill) {
+    throw Object.assign(new Error("Invoice not found"), { statusCode: 404 });
+  }
+
+  const p = bill.patient;
+  const patientName = p
+    ? `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.name || "Unknown Patient"
+    : "Unknown Patient";
+  const uhid = p ? `UHID-${p.id.substring(0, 6).toUpperCase()}` : "—";
+
+  // Fetch branch info for invoice header
+  const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+
+  // Build line items from stored JSON charges if present, otherwise from bill fields
+  const lineItems = [];
+
+  if (bill.consultationFee > 0) {
+    lineItems.push({
+      name: "Doctor Consultation Fee",
+      doc: "Consultation",
+      qty: 1,
+      price: bill.consultationFee,
+      total: bill.consultationFee
+    });
+  }
+
+  if (bill.labCharges > 0) {
+    lineItems.push({
+      name: "Lab Investigations",
+      doc: "Pathology",
+      qty: 1,
+      price: bill.labCharges,
+      total: bill.labCharges
+    });
+  }
+
+  if (bill.pharmacyCharges > 0) {
+    lineItems.push({
+      name: "Pharmacy Charges",
+      doc: "Pharmacy",
+      qty: 1,
+      price: bill.pharmacyCharges,
+      total: bill.pharmacyCharges
+    });
+  }
+
+  if (bill.roomCharges > 0) {
+    lineItems.push({
+      name: "Room / Ward Charges",
+      doc: "Accommodation",
+      qty: 1,
+      price: bill.roomCharges,
+      total: bill.roomCharges
+    });
+  }
+
+  if (bill.otherCharges > 0) {
+    lineItems.push({
+      name: "Other Charges",
+      doc: "Miscellaneous",
+      qty: 1,
+      price: bill.otherCharges,
+      total: bill.otherCharges
+    });
+  }
+
+  const invoiceNo = `INV-${bill.id.substring(0, 8).toUpperCase()}`;
+  const invoiceDate = new Date(bill.createdAt).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+
+  return {
+    billId: bill.id,
+    invoiceNo,
+    invoiceDate,
+    patient: {
+      name: patientName,
+      uhid,
+      address: p?.address || "",
+      city: p?.city || "",
+      state: p?.state || "",
+      contact: p?.contact || ""
+    },
+    hospital: {
+      name: branch?.name || "HMS Hospital",
+      address: branch?.address || "",
+      city: branch?.city || "",
+      state: branch?.state || "",
+      contact: branch?.contact || ""
+    },
+    lineItems,
+    billing: {
+      subtotal: bill.subtotal,
+      discount: bill.discount,
+      tax: bill.tax,
+      netPayable: bill.netPayable,
+      amountPaid: bill.amountPaid,
+      balanceDue: Math.max(0, bill.netPayable - bill.amountPaid),
+      status: bill.status,
+      paymentMethod: bill.paymentMethod || "—",
+      type: bill.type
+    }
+  };
+};
+
+/**
+ * Get all payments / bills across all patients for the payment management page
+ */
+const getAllPayments = async (branchId) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  const bills = await tenantDb.bill.findMany({
+    include: { patient: true },
+    orderBy: { createdAt: "desc" }
+  });
+
+  return bills.map((bill) => {
+    const p = bill.patient;
+    const patientName = p
+      ? `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.name || "Unknown"
+      : "Unknown";
+    const uhid = p ? `UHID-${p.id.substring(0, 6).toUpperCase()}` : "—";
+
+    // Map internal status to UI display status
+    let displayStatus = bill.status;
+    if (bill.status === "PAID") displayStatus = "Paid";
+    else if (bill.status === "PARTIAL") displayStatus = "Pending";
+    else if (bill.status === "PENDING") displayStatus = "Pending";
+
+    const balanceDue = Math.max(0, bill.netPayable - bill.amountPaid);
+    const isOverdue =
+      displayStatus === "Pending" &&
+      new Date(bill.createdAt) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    if (isOverdue) displayStatus = "Overdue";
+
+    const invoiceDate = new Date(bill.createdAt).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+
+    return {
+      billId: bill.id,
+      invoiceId: `INV-${bill.id.substring(0, 8).toUpperCase()}`,
+      patient: patientName,
+      uhid,
+      totalAmount: `₹${bill.netPayable.toFixed(2)}`,
+      dueAmount: `₹${balanceDue.toFixed(2)}`,
+      date: invoiceDate,
+      status: displayStatus,
+      paymentMethod: bill.paymentMethod || "—",
+      type: bill.type
+    };
+  });
+};
+
+/**
+ * Get aggregated payment summary stats for the payment page stat cards
+ */
+const getPaymentSummary = async (branchId) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayEnd = new Date();
+  todayEnd.setHours(23, 59, 59, 999);
+
+  const [todayBills, allBills] = await Promise.all([
+    tenantDb.bill.findMany({
+      where: {
+        createdAt: { gte: todayStart, lte: todayEnd }
+      }
+    }),
+    tenantDb.bill.findMany()
+  ]);
+
+  // Today's collection — sum of amountPaid for bills created today
+  const todayCollection = todayBills.reduce((sum, b) => sum + (b.amountPaid || 0), 0);
+
+  // Pending payments — total balance due across all PENDING/PARTIAL bills
+  const pendingTotal = allBills
+    .filter((b) => b.status === "PENDING" || b.status === "PARTIAL")
+    .reduce((sum, b) => sum + Math.max(0, b.netPayable - b.amountPaid), 0);
+
+  // Insurance settlements (count of bills with any insurance-related notes — approximated)
+  // In a full system this would join an InsuranceClaim model; here we count bills with 0 balance
+  const insurancePending = allBills.filter(
+    (b) => b.status === "PENDING" || b.status === "PARTIAL"
+  ).length;
+
+  // Refunds today — bills marked REFUNDED created today (no Refund model yet)
+  const refundsToday = todayBills
+    .filter((b) => b.status === "REFUNDED")
+    .reduce((sum, b) => sum + (b.amountPaid || 0), 0);
+
+  return {
+    todayCollection,
+    pendingTotal,
+    insurancePending,
+    refundsToday
+  };
+};
+
 module.exports = {
   resolveBranchId,
   getOPDBillingRecords,
   getOPDBillingDetails,
-  collectOPDPayment
+  collectOPDPayment,
+  getInvoiceById,
+  getAllPayments,
+  getPaymentSummary
 };
