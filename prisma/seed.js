@@ -1,5 +1,6 @@
 const prisma = require('../src/database/prisma');
 const bcrypt = require('bcryptjs');
+const { createBranchDatabase, initializeTenantSchema } = require('../src/database/tenant-manager');
 
 async function main() {
   try {
@@ -64,10 +65,47 @@ async function main() {
         });
 
         if (!existingBranch) {
-          existingBranch = await prisma.branch.create({ data: branch });
-          console.log(`✅ Added: Branch - ${branch.name} (${branch.code})`);
-        } else {
-          console.log(`ℹ️ Skipped: Branch - ${branch.name} (${branch.code}) (Already exists)`);
+          const cleanName = branch.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+          const shortId = Math.random().toString(36).substring(2, 7);
+          const generatedDbName = `ghms_${cleanName}_${shortId}`;
+          const generatedDbUser = `user_${cleanName}_${shortId}`;
+          const generatedDbPassword = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+          existingBranch = await prisma.branch.create({
+            data: {
+              ...branch,
+              dbName: generatedDbName,
+              dbUser: generatedDbUser,
+              dbPassword: generatedDbPassword,
+              isDbInitialized: false
+            }
+          });
+
+          console.log(`🛠️ Provisioning isolated infrastructure for seed branch: ${branch.name}...`);
+          await createBranchDatabase(branch.name, generatedDbName, generatedDbUser, generatedDbPassword);
+          await initializeTenantSchema(existingBranch.id);
+          console.log(`✅ Added & Initialized: Branch - ${branch.name} (${branch.code})`);
+        } else if (!existingBranch.dbName) {
+          const cleanName = branch.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+          const shortId = Math.random().toString(36).substring(2, 7);
+          const generatedDbName = `ghms_${cleanName}_${shortId}`;
+          const generatedDbUser = `user_${cleanName}_${shortId}`;
+          const generatedDbPassword = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+          existingBranch = await prisma.branch.update({
+            where: { id: existingBranch.id },
+            data: {
+              dbName: generatedDbName,
+              dbUser: generatedDbUser,
+              dbPassword: generatedDbPassword,
+              isDbInitialized: false
+            }
+          });
+
+          console.log(`🛠️ Provisioning isolated infrastructure for existing seed branch: ${branch.name}...`);
+          await createBranchDatabase(branch.name, generatedDbName, generatedDbUser, generatedDbPassword);
+          await initializeTenantSchema(existingBranch.id);
+          console.log(`✅ Initialized: Branch - ${branch.name} (${branch.code})`);
         }
         if (!firstBranchId) firstBranchId = existingBranch.id;
       } catch (branchError) {
