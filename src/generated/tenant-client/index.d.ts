@@ -158,6 +158,16 @@ export type PurchaseOrder = $Result.DefaultSelection<Prisma.$PurchaseOrderPayloa
  * 
  */
 export type Supplier = $Result.DefaultSelection<Prisma.$SupplierPayload>
+/**
+ * Model DepartmentInventory
+ * 
+ */
+export type DepartmentInventory = $Result.DefaultSelection<Prisma.$DepartmentInventoryPayload>
+/**
+ * Model DepartmentInventoryHistory
+ * 
+ */
+export type DepartmentInventoryHistory = $Result.DefaultSelection<Prisma.$DepartmentInventoryHistoryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -569,6 +579,26 @@ export class PrismaClient<
     * ```
     */
   get supplier(): Prisma.SupplierDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.departmentInventory`: Exposes CRUD operations for the **DepartmentInventory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DepartmentInventories
+    * const departmentInventories = await prisma.departmentInventory.findMany()
+    * ```
+    */
+  get departmentInventory(): Prisma.DepartmentInventoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.departmentInventoryHistory`: Exposes CRUD operations for the **DepartmentInventoryHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DepartmentInventoryHistories
+    * const departmentInventoryHistories = await prisma.departmentInventoryHistory.findMany()
+    * ```
+    */
+  get departmentInventoryHistory(): Prisma.DepartmentInventoryHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1031,7 +1061,9 @@ export namespace Prisma {
     StockTransfer: 'StockTransfer',
     BatchReturn: 'BatchReturn',
     PurchaseOrder: 'PurchaseOrder',
-    Supplier: 'Supplier'
+    Supplier: 'Supplier',
+    DepartmentInventory: 'DepartmentInventory',
+    DepartmentInventoryHistory: 'DepartmentInventoryHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1047,7 +1079,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier"
+      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier" | "departmentInventory" | "departmentInventoryHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3197,6 +3229,154 @@ export namespace Prisma {
           }
         }
       }
+      DepartmentInventory: {
+        payload: Prisma.$DepartmentInventoryPayload<ExtArgs>
+        fields: Prisma.DepartmentInventoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DepartmentInventoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DepartmentInventoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          findFirst: {
+            args: Prisma.DepartmentInventoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DepartmentInventoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          findMany: {
+            args: Prisma.DepartmentInventoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>[]
+          }
+          create: {
+            args: Prisma.DepartmentInventoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          createMany: {
+            args: Prisma.DepartmentInventoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DepartmentInventoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>[]
+          }
+          delete: {
+            args: Prisma.DepartmentInventoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          update: {
+            args: Prisma.DepartmentInventoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.DepartmentInventoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DepartmentInventoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DepartmentInventoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.DepartmentInventoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryPayload>
+          }
+          aggregate: {
+            args: Prisma.DepartmentInventoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDepartmentInventory>
+          }
+          groupBy: {
+            args: Prisma.DepartmentInventoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentInventoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DepartmentInventoryCountArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentInventoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      DepartmentInventoryHistory: {
+        payload: Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>
+        fields: Prisma.DepartmentInventoryHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DepartmentInventoryHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DepartmentInventoryHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.DepartmentInventoryHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DepartmentInventoryHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.DepartmentInventoryHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.DepartmentInventoryHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.DepartmentInventoryHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DepartmentInventoryHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.DepartmentInventoryHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          update: {
+            args: Prisma.DepartmentInventoryHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.DepartmentInventoryHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DepartmentInventoryHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DepartmentInventoryHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.DepartmentInventoryHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentInventoryHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.DepartmentInventoryHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDepartmentInventoryHistory>
+          }
+          groupBy: {
+            args: Prisma.DepartmentInventoryHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentInventoryHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DepartmentInventoryHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentInventoryHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3334,6 +3514,8 @@ export namespace Prisma {
     batchReturn?: BatchReturnOmit
     purchaseOrder?: PurchaseOrderOmit
     supplier?: SupplierOmit
+    departmentInventory?: DepartmentInventoryOmit
+    departmentInventoryHistory?: DepartmentInventoryHistoryOmit
   }
 
   /* Types for Logging */
@@ -3891,6 +4073,37 @@ export namespace Prisma {
    */
   export type StockItemCountOutputTypeCountBatchReturnsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BatchReturnWhereInput
+  }
+
+
+  /**
+   * Count Type DepartmentInventoryCountOutputType
+   */
+
+  export type DepartmentInventoryCountOutputType = {
+    stockHistory: number
+  }
+
+  export type DepartmentInventoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stockHistory?: boolean | DepartmentInventoryCountOutputTypeCountStockHistoryArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DepartmentInventoryCountOutputType without action
+   */
+  export type DepartmentInventoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryCountOutputType
+     */
+    select?: DepartmentInventoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DepartmentInventoryCountOutputType without action
+   */
+  export type DepartmentInventoryCountOutputTypeCountStockHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentInventoryHistoryWhereInput
   }
 
 
@@ -38756,6 +38969,2321 @@ export namespace Prisma {
 
 
   /**
+   * Model DepartmentInventory
+   */
+
+  export type AggregateDepartmentInventory = {
+    _count: DepartmentInventoryCountAggregateOutputType | null
+    _avg: DepartmentInventoryAvgAggregateOutputType | null
+    _sum: DepartmentInventorySumAggregateOutputType | null
+    _min: DepartmentInventoryMinAggregateOutputType | null
+    _max: DepartmentInventoryMaxAggregateOutputType | null
+  }
+
+  export type DepartmentInventoryAvgAggregateOutputType = {
+    unitPrice: number | null
+  }
+
+  export type DepartmentInventorySumAggregateOutputType = {
+    unitPrice: number | null
+  }
+
+  export type DepartmentInventoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sku: string | null
+    category: string | null
+    qty: string | null
+    expiry: string | null
+    status: string | null
+    supplier: string | null
+    minThreshold: string | null
+    notes: string | null
+    unitPrice: number | null
+    unit: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DepartmentInventoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sku: string | null
+    category: string | null
+    qty: string | null
+    expiry: string | null
+    status: string | null
+    supplier: string | null
+    minThreshold: string | null
+    notes: string | null
+    unitPrice: number | null
+    unit: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DepartmentInventoryCountAggregateOutputType = {
+    id: number
+    name: number
+    sku: number
+    category: number
+    qty: number
+    expiry: number
+    status: number
+    supplier: number
+    minThreshold: number
+    notes: number
+    unitPrice: number
+    unit: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DepartmentInventoryAvgAggregateInputType = {
+    unitPrice?: true
+  }
+
+  export type DepartmentInventorySumAggregateInputType = {
+    unitPrice?: true
+  }
+
+  export type DepartmentInventoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    expiry?: true
+    status?: true
+    supplier?: true
+    minThreshold?: true
+    notes?: true
+    unitPrice?: true
+    unit?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DepartmentInventoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    expiry?: true
+    status?: true
+    supplier?: true
+    minThreshold?: true
+    notes?: true
+    unitPrice?: true
+    unit?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DepartmentInventoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    expiry?: true
+    status?: true
+    supplier?: true
+    minThreshold?: true
+    notes?: true
+    unitPrice?: true
+    unit?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DepartmentInventoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DepartmentInventory to aggregate.
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventories to fetch.
+     */
+    orderBy?: DepartmentInventoryOrderByWithRelationInput | DepartmentInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DepartmentInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DepartmentInventories
+    **/
+    _count?: true | DepartmentInventoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DepartmentInventoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DepartmentInventorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DepartmentInventoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DepartmentInventoryMaxAggregateInputType
+  }
+
+  export type GetDepartmentInventoryAggregateType<T extends DepartmentInventoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateDepartmentInventory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDepartmentInventory[P]>
+      : GetScalarType<T[P], AggregateDepartmentInventory[P]>
+  }
+
+
+
+
+  export type DepartmentInventoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentInventoryWhereInput
+    orderBy?: DepartmentInventoryOrderByWithAggregationInput | DepartmentInventoryOrderByWithAggregationInput[]
+    by: DepartmentInventoryScalarFieldEnum[] | DepartmentInventoryScalarFieldEnum
+    having?: DepartmentInventoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DepartmentInventoryCountAggregateInputType | true
+    _avg?: DepartmentInventoryAvgAggregateInputType
+    _sum?: DepartmentInventorySumAggregateInputType
+    _min?: DepartmentInventoryMinAggregateInputType
+    _max?: DepartmentInventoryMaxAggregateInputType
+  }
+
+  export type DepartmentInventoryGroupByOutputType = {
+    id: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status: string
+    supplier: string | null
+    minThreshold: string | null
+    notes: string | null
+    unitPrice: number
+    unit: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DepartmentInventoryCountAggregateOutputType | null
+    _avg: DepartmentInventoryAvgAggregateOutputType | null
+    _sum: DepartmentInventorySumAggregateOutputType | null
+    _min: DepartmentInventoryMinAggregateOutputType | null
+    _max: DepartmentInventoryMaxAggregateOutputType | null
+  }
+
+  type GetDepartmentInventoryGroupByPayload<T extends DepartmentInventoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DepartmentInventoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DepartmentInventoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DepartmentInventoryGroupByOutputType[P]>
+            : GetScalarType<T[P], DepartmentInventoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DepartmentInventorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    expiry?: boolean
+    status?: boolean
+    supplier?: boolean
+    minThreshold?: boolean
+    notes?: boolean
+    unitPrice?: boolean
+    unit?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    stockHistory?: boolean | DepartmentInventory$stockHistoryArgs<ExtArgs>
+    _count?: boolean | DepartmentInventoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["departmentInventory"]>
+
+  export type DepartmentInventorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    expiry?: boolean
+    status?: boolean
+    supplier?: boolean
+    minThreshold?: boolean
+    notes?: boolean
+    unitPrice?: boolean
+    unit?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["departmentInventory"]>
+
+  export type DepartmentInventorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    expiry?: boolean
+    status?: boolean
+    supplier?: boolean
+    minThreshold?: boolean
+    notes?: boolean
+    unitPrice?: boolean
+    unit?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["departmentInventory"]>
+
+  export type DepartmentInventorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    expiry?: boolean
+    status?: boolean
+    supplier?: boolean
+    minThreshold?: boolean
+    notes?: boolean
+    unitPrice?: boolean
+    unit?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DepartmentInventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "category" | "qty" | "expiry" | "status" | "supplier" | "minThreshold" | "notes" | "unitPrice" | "unit" | "createdAt" | "updatedAt", ExtArgs["result"]["departmentInventory"]>
+  export type DepartmentInventoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stockHistory?: boolean | DepartmentInventory$stockHistoryArgs<ExtArgs>
+    _count?: boolean | DepartmentInventoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DepartmentInventoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type DepartmentInventoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $DepartmentInventoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DepartmentInventory"
+    objects: {
+      stockHistory: Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      sku: string
+      category: string
+      qty: string
+      expiry: string
+      status: string
+      supplier: string | null
+      minThreshold: string | null
+      notes: string | null
+      unitPrice: number
+      unit: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["departmentInventory"]>
+    composites: {}
+  }
+
+  type DepartmentInventoryGetPayload<S extends boolean | null | undefined | DepartmentInventoryDefaultArgs> = $Result.GetResult<Prisma.$DepartmentInventoryPayload, S>
+
+  type DepartmentInventoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DepartmentInventoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DepartmentInventoryCountAggregateInputType | true
+    }
+
+  export interface DepartmentInventoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DepartmentInventory'], meta: { name: 'DepartmentInventory' } }
+    /**
+     * Find zero or one DepartmentInventory that matches the filter.
+     * @param {DepartmentInventoryFindUniqueArgs} args - Arguments to find a DepartmentInventory
+     * @example
+     * // Get one DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DepartmentInventoryFindUniqueArgs>(args: SelectSubset<T, DepartmentInventoryFindUniqueArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DepartmentInventory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DepartmentInventoryFindUniqueOrThrowArgs} args - Arguments to find a DepartmentInventory
+     * @example
+     * // Get one DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DepartmentInventoryFindUniqueOrThrowArgs>(args: SelectSubset<T, DepartmentInventoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DepartmentInventory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryFindFirstArgs} args - Arguments to find a DepartmentInventory
+     * @example
+     * // Get one DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DepartmentInventoryFindFirstArgs>(args?: SelectSubset<T, DepartmentInventoryFindFirstArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DepartmentInventory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryFindFirstOrThrowArgs} args - Arguments to find a DepartmentInventory
+     * @example
+     * // Get one DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DepartmentInventoryFindFirstOrThrowArgs>(args?: SelectSubset<T, DepartmentInventoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DepartmentInventories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DepartmentInventories
+     * const departmentInventories = await prisma.departmentInventory.findMany()
+     * 
+     * // Get first 10 DepartmentInventories
+     * const departmentInventories = await prisma.departmentInventory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const departmentInventoryWithIdOnly = await prisma.departmentInventory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DepartmentInventoryFindManyArgs>(args?: SelectSubset<T, DepartmentInventoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DepartmentInventory.
+     * @param {DepartmentInventoryCreateArgs} args - Arguments to create a DepartmentInventory.
+     * @example
+     * // Create one DepartmentInventory
+     * const DepartmentInventory = await prisma.departmentInventory.create({
+     *   data: {
+     *     // ... data to create a DepartmentInventory
+     *   }
+     * })
+     * 
+     */
+    create<T extends DepartmentInventoryCreateArgs>(args: SelectSubset<T, DepartmentInventoryCreateArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DepartmentInventories.
+     * @param {DepartmentInventoryCreateManyArgs} args - Arguments to create many DepartmentInventories.
+     * @example
+     * // Create many DepartmentInventories
+     * const departmentInventory = await prisma.departmentInventory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DepartmentInventoryCreateManyArgs>(args?: SelectSubset<T, DepartmentInventoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DepartmentInventories and returns the data saved in the database.
+     * @param {DepartmentInventoryCreateManyAndReturnArgs} args - Arguments to create many DepartmentInventories.
+     * @example
+     * // Create many DepartmentInventories
+     * const departmentInventory = await prisma.departmentInventory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DepartmentInventories and only return the `id`
+     * const departmentInventoryWithIdOnly = await prisma.departmentInventory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DepartmentInventoryCreateManyAndReturnArgs>(args?: SelectSubset<T, DepartmentInventoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DepartmentInventory.
+     * @param {DepartmentInventoryDeleteArgs} args - Arguments to delete one DepartmentInventory.
+     * @example
+     * // Delete one DepartmentInventory
+     * const DepartmentInventory = await prisma.departmentInventory.delete({
+     *   where: {
+     *     // ... filter to delete one DepartmentInventory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DepartmentInventoryDeleteArgs>(args: SelectSubset<T, DepartmentInventoryDeleteArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DepartmentInventory.
+     * @param {DepartmentInventoryUpdateArgs} args - Arguments to update one DepartmentInventory.
+     * @example
+     * // Update one DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DepartmentInventoryUpdateArgs>(args: SelectSubset<T, DepartmentInventoryUpdateArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DepartmentInventories.
+     * @param {DepartmentInventoryDeleteManyArgs} args - Arguments to filter DepartmentInventories to delete.
+     * @example
+     * // Delete a few DepartmentInventories
+     * const { count } = await prisma.departmentInventory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DepartmentInventoryDeleteManyArgs>(args?: SelectSubset<T, DepartmentInventoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DepartmentInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DepartmentInventories
+     * const departmentInventory = await prisma.departmentInventory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DepartmentInventoryUpdateManyArgs>(args: SelectSubset<T, DepartmentInventoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DepartmentInventories and returns the data updated in the database.
+     * @param {DepartmentInventoryUpdateManyAndReturnArgs} args - Arguments to update many DepartmentInventories.
+     * @example
+     * // Update many DepartmentInventories
+     * const departmentInventory = await prisma.departmentInventory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DepartmentInventories and only return the `id`
+     * const departmentInventoryWithIdOnly = await prisma.departmentInventory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DepartmentInventoryUpdateManyAndReturnArgs>(args: SelectSubset<T, DepartmentInventoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DepartmentInventory.
+     * @param {DepartmentInventoryUpsertArgs} args - Arguments to update or create a DepartmentInventory.
+     * @example
+     * // Update or create a DepartmentInventory
+     * const departmentInventory = await prisma.departmentInventory.upsert({
+     *   create: {
+     *     // ... data to create a DepartmentInventory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DepartmentInventory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DepartmentInventoryUpsertArgs>(args: SelectSubset<T, DepartmentInventoryUpsertArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DepartmentInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryCountArgs} args - Arguments to filter DepartmentInventories to count.
+     * @example
+     * // Count the number of DepartmentInventories
+     * const count = await prisma.departmentInventory.count({
+     *   where: {
+     *     // ... the filter for the DepartmentInventories we want to count
+     *   }
+     * })
+    **/
+    count<T extends DepartmentInventoryCountArgs>(
+      args?: Subset<T, DepartmentInventoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DepartmentInventoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DepartmentInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DepartmentInventoryAggregateArgs>(args: Subset<T, DepartmentInventoryAggregateArgs>): Prisma.PrismaPromise<GetDepartmentInventoryAggregateType<T>>
+
+    /**
+     * Group by DepartmentInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DepartmentInventoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DepartmentInventoryGroupByArgs['orderBy'] }
+        : { orderBy?: DepartmentInventoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DepartmentInventoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDepartmentInventoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DepartmentInventory model
+   */
+  readonly fields: DepartmentInventoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DepartmentInventory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DepartmentInventoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    stockHistory<T extends DepartmentInventory$stockHistoryArgs<ExtArgs> = {}>(args?: Subset<T, DepartmentInventory$stockHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DepartmentInventory model
+   */
+  interface DepartmentInventoryFieldRefs {
+    readonly id: FieldRef<"DepartmentInventory", 'String'>
+    readonly name: FieldRef<"DepartmentInventory", 'String'>
+    readonly sku: FieldRef<"DepartmentInventory", 'String'>
+    readonly category: FieldRef<"DepartmentInventory", 'String'>
+    readonly qty: FieldRef<"DepartmentInventory", 'String'>
+    readonly expiry: FieldRef<"DepartmentInventory", 'String'>
+    readonly status: FieldRef<"DepartmentInventory", 'String'>
+    readonly supplier: FieldRef<"DepartmentInventory", 'String'>
+    readonly minThreshold: FieldRef<"DepartmentInventory", 'String'>
+    readonly notes: FieldRef<"DepartmentInventory", 'String'>
+    readonly unitPrice: FieldRef<"DepartmentInventory", 'Float'>
+    readonly unit: FieldRef<"DepartmentInventory", 'String'>
+    readonly createdAt: FieldRef<"DepartmentInventory", 'DateTime'>
+    readonly updatedAt: FieldRef<"DepartmentInventory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DepartmentInventory findUnique
+   */
+  export type DepartmentInventoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventory to fetch.
+     */
+    where: DepartmentInventoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventory findUniqueOrThrow
+   */
+  export type DepartmentInventoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventory to fetch.
+     */
+    where: DepartmentInventoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventory findFirst
+   */
+  export type DepartmentInventoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventory to fetch.
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventories to fetch.
+     */
+    orderBy?: DepartmentInventoryOrderByWithRelationInput | DepartmentInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DepartmentInventories.
+     */
+    cursor?: DepartmentInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventories.
+     */
+    distinct?: DepartmentInventoryScalarFieldEnum | DepartmentInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventory findFirstOrThrow
+   */
+  export type DepartmentInventoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventory to fetch.
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventories to fetch.
+     */
+    orderBy?: DepartmentInventoryOrderByWithRelationInput | DepartmentInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DepartmentInventories.
+     */
+    cursor?: DepartmentInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventories.
+     */
+    distinct?: DepartmentInventoryScalarFieldEnum | DepartmentInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventory findMany
+   */
+  export type DepartmentInventoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventories to fetch.
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventories to fetch.
+     */
+    orderBy?: DepartmentInventoryOrderByWithRelationInput | DepartmentInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DepartmentInventories.
+     */
+    cursor?: DepartmentInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventories.
+     */
+    distinct?: DepartmentInventoryScalarFieldEnum | DepartmentInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventory create
+   */
+  export type DepartmentInventoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DepartmentInventory.
+     */
+    data: XOR<DepartmentInventoryCreateInput, DepartmentInventoryUncheckedCreateInput>
+  }
+
+  /**
+   * DepartmentInventory createMany
+   */
+  export type DepartmentInventoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DepartmentInventories.
+     */
+    data: DepartmentInventoryCreateManyInput | DepartmentInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DepartmentInventory createManyAndReturn
+   */
+  export type DepartmentInventoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many DepartmentInventories.
+     */
+    data: DepartmentInventoryCreateManyInput | DepartmentInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DepartmentInventory update
+   */
+  export type DepartmentInventoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DepartmentInventory.
+     */
+    data: XOR<DepartmentInventoryUpdateInput, DepartmentInventoryUncheckedUpdateInput>
+    /**
+     * Choose, which DepartmentInventory to update.
+     */
+    where: DepartmentInventoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventory updateMany
+   */
+  export type DepartmentInventoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DepartmentInventories.
+     */
+    data: XOR<DepartmentInventoryUpdateManyMutationInput, DepartmentInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which DepartmentInventories to update
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * Limit how many DepartmentInventories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DepartmentInventory updateManyAndReturn
+   */
+  export type DepartmentInventoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to update DepartmentInventories.
+     */
+    data: XOR<DepartmentInventoryUpdateManyMutationInput, DepartmentInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which DepartmentInventories to update
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * Limit how many DepartmentInventories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DepartmentInventory upsert
+   */
+  export type DepartmentInventoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DepartmentInventory to update in case it exists.
+     */
+    where: DepartmentInventoryWhereUniqueInput
+    /**
+     * In case the DepartmentInventory found by the `where` argument doesn't exist, create a new DepartmentInventory with this data.
+     */
+    create: XOR<DepartmentInventoryCreateInput, DepartmentInventoryUncheckedCreateInput>
+    /**
+     * In case the DepartmentInventory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DepartmentInventoryUpdateInput, DepartmentInventoryUncheckedUpdateInput>
+  }
+
+  /**
+   * DepartmentInventory delete
+   */
+  export type DepartmentInventoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+    /**
+     * Filter which DepartmentInventory to delete.
+     */
+    where: DepartmentInventoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventory deleteMany
+   */
+  export type DepartmentInventoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DepartmentInventories to delete
+     */
+    where?: DepartmentInventoryWhereInput
+    /**
+     * Limit how many DepartmentInventories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DepartmentInventory.stockHistory
+   */
+  export type DepartmentInventory$stockHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    where?: DepartmentInventoryHistoryWhereInput
+    orderBy?: DepartmentInventoryHistoryOrderByWithRelationInput | DepartmentInventoryHistoryOrderByWithRelationInput[]
+    cursor?: DepartmentInventoryHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DepartmentInventoryHistoryScalarFieldEnum | DepartmentInventoryHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventory without action
+   */
+  export type DepartmentInventoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventory
+     */
+    select?: DepartmentInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventory
+     */
+    omit?: DepartmentInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DepartmentInventoryHistory
+   */
+
+  export type AggregateDepartmentInventoryHistory = {
+    _count: DepartmentInventoryHistoryCountAggregateOutputType | null
+    _min: DepartmentInventoryHistoryMinAggregateOutputType | null
+    _max: DepartmentInventoryHistoryMaxAggregateOutputType | null
+  }
+
+  export type DepartmentInventoryHistoryMinAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    dateTime: Date | null
+    type: string | null
+    qtyChanged: string | null
+    user: string | null
+    notes: string | null
+  }
+
+  export type DepartmentInventoryHistoryMaxAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    dateTime: Date | null
+    type: string | null
+    qtyChanged: string | null
+    user: string | null
+    notes: string | null
+  }
+
+  export type DepartmentInventoryHistoryCountAggregateOutputType = {
+    id: number
+    itemId: number
+    dateTime: number
+    type: number
+    qtyChanged: number
+    user: number
+    notes: number
+    _all: number
+  }
+
+
+  export type DepartmentInventoryHistoryMinAggregateInputType = {
+    id?: true
+    itemId?: true
+    dateTime?: true
+    type?: true
+    qtyChanged?: true
+    user?: true
+    notes?: true
+  }
+
+  export type DepartmentInventoryHistoryMaxAggregateInputType = {
+    id?: true
+    itemId?: true
+    dateTime?: true
+    type?: true
+    qtyChanged?: true
+    user?: true
+    notes?: true
+  }
+
+  export type DepartmentInventoryHistoryCountAggregateInputType = {
+    id?: true
+    itemId?: true
+    dateTime?: true
+    type?: true
+    qtyChanged?: true
+    user?: true
+    notes?: true
+    _all?: true
+  }
+
+  export type DepartmentInventoryHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DepartmentInventoryHistory to aggregate.
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventoryHistories to fetch.
+     */
+    orderBy?: DepartmentInventoryHistoryOrderByWithRelationInput | DepartmentInventoryHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DepartmentInventoryHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventoryHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventoryHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DepartmentInventoryHistories
+    **/
+    _count?: true | DepartmentInventoryHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DepartmentInventoryHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DepartmentInventoryHistoryMaxAggregateInputType
+  }
+
+  export type GetDepartmentInventoryHistoryAggregateType<T extends DepartmentInventoryHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateDepartmentInventoryHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDepartmentInventoryHistory[P]>
+      : GetScalarType<T[P], AggregateDepartmentInventoryHistory[P]>
+  }
+
+
+
+
+  export type DepartmentInventoryHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentInventoryHistoryWhereInput
+    orderBy?: DepartmentInventoryHistoryOrderByWithAggregationInput | DepartmentInventoryHistoryOrderByWithAggregationInput[]
+    by: DepartmentInventoryHistoryScalarFieldEnum[] | DepartmentInventoryHistoryScalarFieldEnum
+    having?: DepartmentInventoryHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DepartmentInventoryHistoryCountAggregateInputType | true
+    _min?: DepartmentInventoryHistoryMinAggregateInputType
+    _max?: DepartmentInventoryHistoryMaxAggregateInputType
+  }
+
+  export type DepartmentInventoryHistoryGroupByOutputType = {
+    id: string
+    itemId: string
+    dateTime: Date
+    type: string
+    qtyChanged: string
+    user: string
+    notes: string | null
+    _count: DepartmentInventoryHistoryCountAggregateOutputType | null
+    _min: DepartmentInventoryHistoryMinAggregateOutputType | null
+    _max: DepartmentInventoryHistoryMaxAggregateOutputType | null
+  }
+
+  type GetDepartmentInventoryHistoryGroupByPayload<T extends DepartmentInventoryHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DepartmentInventoryHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DepartmentInventoryHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DepartmentInventoryHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], DepartmentInventoryHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DepartmentInventoryHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    dateTime?: boolean
+    type?: boolean
+    qtyChanged?: boolean
+    user?: boolean
+    notes?: boolean
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["departmentInventoryHistory"]>
+
+  export type DepartmentInventoryHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    dateTime?: boolean
+    type?: boolean
+    qtyChanged?: boolean
+    user?: boolean
+    notes?: boolean
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["departmentInventoryHistory"]>
+
+  export type DepartmentInventoryHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    dateTime?: boolean
+    type?: boolean
+    qtyChanged?: boolean
+    user?: boolean
+    notes?: boolean
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["departmentInventoryHistory"]>
+
+  export type DepartmentInventoryHistorySelectScalar = {
+    id?: boolean
+    itemId?: boolean
+    dateTime?: boolean
+    type?: boolean
+    qtyChanged?: boolean
+    user?: boolean
+    notes?: boolean
+  }
+
+  export type DepartmentInventoryHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itemId" | "dateTime" | "type" | "qtyChanged" | "user" | "notes", ExtArgs["result"]["departmentInventoryHistory"]>
+  export type DepartmentInventoryHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }
+  export type DepartmentInventoryHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }
+  export type DepartmentInventoryHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | DepartmentInventoryDefaultArgs<ExtArgs>
+  }
+
+  export type $DepartmentInventoryHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DepartmentInventoryHistory"
+    objects: {
+      item: Prisma.$DepartmentInventoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      itemId: string
+      dateTime: Date
+      type: string
+      qtyChanged: string
+      user: string
+      notes: string | null
+    }, ExtArgs["result"]["departmentInventoryHistory"]>
+    composites: {}
+  }
+
+  type DepartmentInventoryHistoryGetPayload<S extends boolean | null | undefined | DepartmentInventoryHistoryDefaultArgs> = $Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload, S>
+
+  type DepartmentInventoryHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DepartmentInventoryHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DepartmentInventoryHistoryCountAggregateInputType | true
+    }
+
+  export interface DepartmentInventoryHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DepartmentInventoryHistory'], meta: { name: 'DepartmentInventoryHistory' } }
+    /**
+     * Find zero or one DepartmentInventoryHistory that matches the filter.
+     * @param {DepartmentInventoryHistoryFindUniqueArgs} args - Arguments to find a DepartmentInventoryHistory
+     * @example
+     * // Get one DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DepartmentInventoryHistoryFindUniqueArgs>(args: SelectSubset<T, DepartmentInventoryHistoryFindUniqueArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DepartmentInventoryHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DepartmentInventoryHistoryFindUniqueOrThrowArgs} args - Arguments to find a DepartmentInventoryHistory
+     * @example
+     * // Get one DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DepartmentInventoryHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, DepartmentInventoryHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DepartmentInventoryHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryFindFirstArgs} args - Arguments to find a DepartmentInventoryHistory
+     * @example
+     * // Get one DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DepartmentInventoryHistoryFindFirstArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryFindFirstArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DepartmentInventoryHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryFindFirstOrThrowArgs} args - Arguments to find a DepartmentInventoryHistory
+     * @example
+     * // Get one DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DepartmentInventoryHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DepartmentInventoryHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DepartmentInventoryHistories
+     * const departmentInventoryHistories = await prisma.departmentInventoryHistory.findMany()
+     * 
+     * // Get first 10 DepartmentInventoryHistories
+     * const departmentInventoryHistories = await prisma.departmentInventoryHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const departmentInventoryHistoryWithIdOnly = await prisma.departmentInventoryHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DepartmentInventoryHistoryFindManyArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DepartmentInventoryHistory.
+     * @param {DepartmentInventoryHistoryCreateArgs} args - Arguments to create a DepartmentInventoryHistory.
+     * @example
+     * // Create one DepartmentInventoryHistory
+     * const DepartmentInventoryHistory = await prisma.departmentInventoryHistory.create({
+     *   data: {
+     *     // ... data to create a DepartmentInventoryHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends DepartmentInventoryHistoryCreateArgs>(args: SelectSubset<T, DepartmentInventoryHistoryCreateArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DepartmentInventoryHistories.
+     * @param {DepartmentInventoryHistoryCreateManyArgs} args - Arguments to create many DepartmentInventoryHistories.
+     * @example
+     * // Create many DepartmentInventoryHistories
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DepartmentInventoryHistoryCreateManyArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DepartmentInventoryHistories and returns the data saved in the database.
+     * @param {DepartmentInventoryHistoryCreateManyAndReturnArgs} args - Arguments to create many DepartmentInventoryHistories.
+     * @example
+     * // Create many DepartmentInventoryHistories
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DepartmentInventoryHistories and only return the `id`
+     * const departmentInventoryHistoryWithIdOnly = await prisma.departmentInventoryHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DepartmentInventoryHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DepartmentInventoryHistory.
+     * @param {DepartmentInventoryHistoryDeleteArgs} args - Arguments to delete one DepartmentInventoryHistory.
+     * @example
+     * // Delete one DepartmentInventoryHistory
+     * const DepartmentInventoryHistory = await prisma.departmentInventoryHistory.delete({
+     *   where: {
+     *     // ... filter to delete one DepartmentInventoryHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DepartmentInventoryHistoryDeleteArgs>(args: SelectSubset<T, DepartmentInventoryHistoryDeleteArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DepartmentInventoryHistory.
+     * @param {DepartmentInventoryHistoryUpdateArgs} args - Arguments to update one DepartmentInventoryHistory.
+     * @example
+     * // Update one DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DepartmentInventoryHistoryUpdateArgs>(args: SelectSubset<T, DepartmentInventoryHistoryUpdateArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DepartmentInventoryHistories.
+     * @param {DepartmentInventoryHistoryDeleteManyArgs} args - Arguments to filter DepartmentInventoryHistories to delete.
+     * @example
+     * // Delete a few DepartmentInventoryHistories
+     * const { count } = await prisma.departmentInventoryHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DepartmentInventoryHistoryDeleteManyArgs>(args?: SelectSubset<T, DepartmentInventoryHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DepartmentInventoryHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DepartmentInventoryHistories
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DepartmentInventoryHistoryUpdateManyArgs>(args: SelectSubset<T, DepartmentInventoryHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DepartmentInventoryHistories and returns the data updated in the database.
+     * @param {DepartmentInventoryHistoryUpdateManyAndReturnArgs} args - Arguments to update many DepartmentInventoryHistories.
+     * @example
+     * // Update many DepartmentInventoryHistories
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DepartmentInventoryHistories and only return the `id`
+     * const departmentInventoryHistoryWithIdOnly = await prisma.departmentInventoryHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DepartmentInventoryHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, DepartmentInventoryHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DepartmentInventoryHistory.
+     * @param {DepartmentInventoryHistoryUpsertArgs} args - Arguments to update or create a DepartmentInventoryHistory.
+     * @example
+     * // Update or create a DepartmentInventoryHistory
+     * const departmentInventoryHistory = await prisma.departmentInventoryHistory.upsert({
+     *   create: {
+     *     // ... data to create a DepartmentInventoryHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DepartmentInventoryHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DepartmentInventoryHistoryUpsertArgs>(args: SelectSubset<T, DepartmentInventoryHistoryUpsertArgs<ExtArgs>>): Prisma__DepartmentInventoryHistoryClient<$Result.GetResult<Prisma.$DepartmentInventoryHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DepartmentInventoryHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryCountArgs} args - Arguments to filter DepartmentInventoryHistories to count.
+     * @example
+     * // Count the number of DepartmentInventoryHistories
+     * const count = await prisma.departmentInventoryHistory.count({
+     *   where: {
+     *     // ... the filter for the DepartmentInventoryHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends DepartmentInventoryHistoryCountArgs>(
+      args?: Subset<T, DepartmentInventoryHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DepartmentInventoryHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DepartmentInventoryHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DepartmentInventoryHistoryAggregateArgs>(args: Subset<T, DepartmentInventoryHistoryAggregateArgs>): Prisma.PrismaPromise<GetDepartmentInventoryHistoryAggregateType<T>>
+
+    /**
+     * Group by DepartmentInventoryHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentInventoryHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DepartmentInventoryHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DepartmentInventoryHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: DepartmentInventoryHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DepartmentInventoryHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDepartmentInventoryHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DepartmentInventoryHistory model
+   */
+  readonly fields: DepartmentInventoryHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DepartmentInventoryHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DepartmentInventoryHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends DepartmentInventoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DepartmentInventoryDefaultArgs<ExtArgs>>): Prisma__DepartmentInventoryClient<$Result.GetResult<Prisma.$DepartmentInventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DepartmentInventoryHistory model
+   */
+  interface DepartmentInventoryHistoryFieldRefs {
+    readonly id: FieldRef<"DepartmentInventoryHistory", 'String'>
+    readonly itemId: FieldRef<"DepartmentInventoryHistory", 'String'>
+    readonly dateTime: FieldRef<"DepartmentInventoryHistory", 'DateTime'>
+    readonly type: FieldRef<"DepartmentInventoryHistory", 'String'>
+    readonly qtyChanged: FieldRef<"DepartmentInventoryHistory", 'String'>
+    readonly user: FieldRef<"DepartmentInventoryHistory", 'String'>
+    readonly notes: FieldRef<"DepartmentInventoryHistory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DepartmentInventoryHistory findUnique
+   */
+  export type DepartmentInventoryHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventoryHistory to fetch.
+     */
+    where: DepartmentInventoryHistoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventoryHistory findUniqueOrThrow
+   */
+  export type DepartmentInventoryHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventoryHistory to fetch.
+     */
+    where: DepartmentInventoryHistoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventoryHistory findFirst
+   */
+  export type DepartmentInventoryHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventoryHistory to fetch.
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventoryHistories to fetch.
+     */
+    orderBy?: DepartmentInventoryHistoryOrderByWithRelationInput | DepartmentInventoryHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DepartmentInventoryHistories.
+     */
+    cursor?: DepartmentInventoryHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventoryHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventoryHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventoryHistories.
+     */
+    distinct?: DepartmentInventoryHistoryScalarFieldEnum | DepartmentInventoryHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventoryHistory findFirstOrThrow
+   */
+  export type DepartmentInventoryHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventoryHistory to fetch.
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventoryHistories to fetch.
+     */
+    orderBy?: DepartmentInventoryHistoryOrderByWithRelationInput | DepartmentInventoryHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DepartmentInventoryHistories.
+     */
+    cursor?: DepartmentInventoryHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventoryHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventoryHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventoryHistories.
+     */
+    distinct?: DepartmentInventoryHistoryScalarFieldEnum | DepartmentInventoryHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventoryHistory findMany
+   */
+  export type DepartmentInventoryHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which DepartmentInventoryHistories to fetch.
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DepartmentInventoryHistories to fetch.
+     */
+    orderBy?: DepartmentInventoryHistoryOrderByWithRelationInput | DepartmentInventoryHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DepartmentInventoryHistories.
+     */
+    cursor?: DepartmentInventoryHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DepartmentInventoryHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DepartmentInventoryHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DepartmentInventoryHistories.
+     */
+    distinct?: DepartmentInventoryHistoryScalarFieldEnum | DepartmentInventoryHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * DepartmentInventoryHistory create
+   */
+  export type DepartmentInventoryHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DepartmentInventoryHistory.
+     */
+    data: XOR<DepartmentInventoryHistoryCreateInput, DepartmentInventoryHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * DepartmentInventoryHistory createMany
+   */
+  export type DepartmentInventoryHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DepartmentInventoryHistories.
+     */
+    data: DepartmentInventoryHistoryCreateManyInput | DepartmentInventoryHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DepartmentInventoryHistory createManyAndReturn
+   */
+  export type DepartmentInventoryHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many DepartmentInventoryHistories.
+     */
+    data: DepartmentInventoryHistoryCreateManyInput | DepartmentInventoryHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DepartmentInventoryHistory update
+   */
+  export type DepartmentInventoryHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DepartmentInventoryHistory.
+     */
+    data: XOR<DepartmentInventoryHistoryUpdateInput, DepartmentInventoryHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which DepartmentInventoryHistory to update.
+     */
+    where: DepartmentInventoryHistoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventoryHistory updateMany
+   */
+  export type DepartmentInventoryHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DepartmentInventoryHistories.
+     */
+    data: XOR<DepartmentInventoryHistoryUpdateManyMutationInput, DepartmentInventoryHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which DepartmentInventoryHistories to update
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * Limit how many DepartmentInventoryHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DepartmentInventoryHistory updateManyAndReturn
+   */
+  export type DepartmentInventoryHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update DepartmentInventoryHistories.
+     */
+    data: XOR<DepartmentInventoryHistoryUpdateManyMutationInput, DepartmentInventoryHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which DepartmentInventoryHistories to update
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * Limit how many DepartmentInventoryHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DepartmentInventoryHistory upsert
+   */
+  export type DepartmentInventoryHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DepartmentInventoryHistory to update in case it exists.
+     */
+    where: DepartmentInventoryHistoryWhereUniqueInput
+    /**
+     * In case the DepartmentInventoryHistory found by the `where` argument doesn't exist, create a new DepartmentInventoryHistory with this data.
+     */
+    create: XOR<DepartmentInventoryHistoryCreateInput, DepartmentInventoryHistoryUncheckedCreateInput>
+    /**
+     * In case the DepartmentInventoryHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DepartmentInventoryHistoryUpdateInput, DepartmentInventoryHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * DepartmentInventoryHistory delete
+   */
+  export type DepartmentInventoryHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which DepartmentInventoryHistory to delete.
+     */
+    where: DepartmentInventoryHistoryWhereUniqueInput
+  }
+
+  /**
+   * DepartmentInventoryHistory deleteMany
+   */
+  export type DepartmentInventoryHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DepartmentInventoryHistories to delete
+     */
+    where?: DepartmentInventoryHistoryWhereInput
+    /**
+     * Limit how many DepartmentInventoryHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DepartmentInventoryHistory without action
+   */
+  export type DepartmentInventoryHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentInventoryHistory
+     */
+    select?: DepartmentInventoryHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DepartmentInventoryHistory
+     */
+    omit?: DepartmentInventoryHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInventoryHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -39309,6 +41837,39 @@ export namespace Prisma {
   };
 
   export type SupplierScalarFieldEnum = (typeof SupplierScalarFieldEnum)[keyof typeof SupplierScalarFieldEnum]
+
+
+  export const DepartmentInventoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sku: 'sku',
+    category: 'category',
+    qty: 'qty',
+    expiry: 'expiry',
+    status: 'status',
+    supplier: 'supplier',
+    minThreshold: 'minThreshold',
+    notes: 'notes',
+    unitPrice: 'unitPrice',
+    unit: 'unit',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DepartmentInventoryScalarFieldEnum = (typeof DepartmentInventoryScalarFieldEnum)[keyof typeof DepartmentInventoryScalarFieldEnum]
+
+
+  export const DepartmentInventoryHistoryScalarFieldEnum: {
+    id: 'id',
+    itemId: 'itemId',
+    dateTime: 'dateTime',
+    type: 'type',
+    qtyChanged: 'qtyChanged',
+    user: 'user',
+    notes: 'notes'
+  };
+
+  export type DepartmentInventoryHistoryScalarFieldEnum = (typeof DepartmentInventoryHistoryScalarFieldEnum)[keyof typeof DepartmentInventoryHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -42257,6 +44818,173 @@ export namespace Prisma {
     documents?: JsonNullableWithAggregatesFilter<"Supplier">
     createdAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
+  }
+
+  export type DepartmentInventoryWhereInput = {
+    AND?: DepartmentInventoryWhereInput | DepartmentInventoryWhereInput[]
+    OR?: DepartmentInventoryWhereInput[]
+    NOT?: DepartmentInventoryWhereInput | DepartmentInventoryWhereInput[]
+    id?: StringFilter<"DepartmentInventory"> | string
+    name?: StringFilter<"DepartmentInventory"> | string
+    sku?: StringFilter<"DepartmentInventory"> | string
+    category?: StringFilter<"DepartmentInventory"> | string
+    qty?: StringFilter<"DepartmentInventory"> | string
+    expiry?: StringFilter<"DepartmentInventory"> | string
+    status?: StringFilter<"DepartmentInventory"> | string
+    supplier?: StringNullableFilter<"DepartmentInventory"> | string | null
+    minThreshold?: StringNullableFilter<"DepartmentInventory"> | string | null
+    notes?: StringNullableFilter<"DepartmentInventory"> | string | null
+    unitPrice?: FloatFilter<"DepartmentInventory"> | number
+    unit?: StringNullableFilter<"DepartmentInventory"> | string | null
+    createdAt?: DateTimeFilter<"DepartmentInventory"> | Date | string
+    updatedAt?: DateTimeFilter<"DepartmentInventory"> | Date | string
+    stockHistory?: DepartmentInventoryHistoryListRelationFilter
+  }
+
+  export type DepartmentInventoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    supplier?: SortOrderInput | SortOrder
+    minThreshold?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    unitPrice?: SortOrder
+    unit?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    stockHistory?: DepartmentInventoryHistoryOrderByRelationAggregateInput
+  }
+
+  export type DepartmentInventoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DepartmentInventoryWhereInput | DepartmentInventoryWhereInput[]
+    OR?: DepartmentInventoryWhereInput[]
+    NOT?: DepartmentInventoryWhereInput | DepartmentInventoryWhereInput[]
+    name?: StringFilter<"DepartmentInventory"> | string
+    sku?: StringFilter<"DepartmentInventory"> | string
+    category?: StringFilter<"DepartmentInventory"> | string
+    qty?: StringFilter<"DepartmentInventory"> | string
+    expiry?: StringFilter<"DepartmentInventory"> | string
+    status?: StringFilter<"DepartmentInventory"> | string
+    supplier?: StringNullableFilter<"DepartmentInventory"> | string | null
+    minThreshold?: StringNullableFilter<"DepartmentInventory"> | string | null
+    notes?: StringNullableFilter<"DepartmentInventory"> | string | null
+    unitPrice?: FloatFilter<"DepartmentInventory"> | number
+    unit?: StringNullableFilter<"DepartmentInventory"> | string | null
+    createdAt?: DateTimeFilter<"DepartmentInventory"> | Date | string
+    updatedAt?: DateTimeFilter<"DepartmentInventory"> | Date | string
+    stockHistory?: DepartmentInventoryHistoryListRelationFilter
+  }, "id">
+
+  export type DepartmentInventoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    supplier?: SortOrderInput | SortOrder
+    minThreshold?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    unitPrice?: SortOrder
+    unit?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DepartmentInventoryCountOrderByAggregateInput
+    _avg?: DepartmentInventoryAvgOrderByAggregateInput
+    _max?: DepartmentInventoryMaxOrderByAggregateInput
+    _min?: DepartmentInventoryMinOrderByAggregateInput
+    _sum?: DepartmentInventorySumOrderByAggregateInput
+  }
+
+  export type DepartmentInventoryScalarWhereWithAggregatesInput = {
+    AND?: DepartmentInventoryScalarWhereWithAggregatesInput | DepartmentInventoryScalarWhereWithAggregatesInput[]
+    OR?: DepartmentInventoryScalarWhereWithAggregatesInput[]
+    NOT?: DepartmentInventoryScalarWhereWithAggregatesInput | DepartmentInventoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    name?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    sku?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    category?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    qty?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    expiry?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    status?: StringWithAggregatesFilter<"DepartmentInventory"> | string
+    supplier?: StringNullableWithAggregatesFilter<"DepartmentInventory"> | string | null
+    minThreshold?: StringNullableWithAggregatesFilter<"DepartmentInventory"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"DepartmentInventory"> | string | null
+    unitPrice?: FloatWithAggregatesFilter<"DepartmentInventory"> | number
+    unit?: StringNullableWithAggregatesFilter<"DepartmentInventory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DepartmentInventory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DepartmentInventory"> | Date | string
+  }
+
+  export type DepartmentInventoryHistoryWhereInput = {
+    AND?: DepartmentInventoryHistoryWhereInput | DepartmentInventoryHistoryWhereInput[]
+    OR?: DepartmentInventoryHistoryWhereInput[]
+    NOT?: DepartmentInventoryHistoryWhereInput | DepartmentInventoryHistoryWhereInput[]
+    id?: StringFilter<"DepartmentInventoryHistory"> | string
+    itemId?: StringFilter<"DepartmentInventoryHistory"> | string
+    dateTime?: DateTimeFilter<"DepartmentInventoryHistory"> | Date | string
+    type?: StringFilter<"DepartmentInventoryHistory"> | string
+    qtyChanged?: StringFilter<"DepartmentInventoryHistory"> | string
+    user?: StringFilter<"DepartmentInventoryHistory"> | string
+    notes?: StringNullableFilter<"DepartmentInventoryHistory"> | string | null
+    item?: XOR<DepartmentInventoryScalarRelationFilter, DepartmentInventoryWhereInput>
+  }
+
+  export type DepartmentInventoryHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    dateTime?: SortOrder
+    type?: SortOrder
+    qtyChanged?: SortOrder
+    user?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    item?: DepartmentInventoryOrderByWithRelationInput
+  }
+
+  export type DepartmentInventoryHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DepartmentInventoryHistoryWhereInput | DepartmentInventoryHistoryWhereInput[]
+    OR?: DepartmentInventoryHistoryWhereInput[]
+    NOT?: DepartmentInventoryHistoryWhereInput | DepartmentInventoryHistoryWhereInput[]
+    itemId?: StringFilter<"DepartmentInventoryHistory"> | string
+    dateTime?: DateTimeFilter<"DepartmentInventoryHistory"> | Date | string
+    type?: StringFilter<"DepartmentInventoryHistory"> | string
+    qtyChanged?: StringFilter<"DepartmentInventoryHistory"> | string
+    user?: StringFilter<"DepartmentInventoryHistory"> | string
+    notes?: StringNullableFilter<"DepartmentInventoryHistory"> | string | null
+    item?: XOR<DepartmentInventoryScalarRelationFilter, DepartmentInventoryWhereInput>
+  }, "id">
+
+  export type DepartmentInventoryHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    dateTime?: SortOrder
+    type?: SortOrder
+    qtyChanged?: SortOrder
+    user?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    _count?: DepartmentInventoryHistoryCountOrderByAggregateInput
+    _max?: DepartmentInventoryHistoryMaxOrderByAggregateInput
+    _min?: DepartmentInventoryHistoryMinOrderByAggregateInput
+  }
+
+  export type DepartmentInventoryHistoryScalarWhereWithAggregatesInput = {
+    AND?: DepartmentInventoryHistoryScalarWhereWithAggregatesInput | DepartmentInventoryHistoryScalarWhereWithAggregatesInput[]
+    OR?: DepartmentInventoryHistoryScalarWhereWithAggregatesInput[]
+    NOT?: DepartmentInventoryHistoryScalarWhereWithAggregatesInput | DepartmentInventoryHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
+    itemId?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
+    dateTime?: DateTimeWithAggregatesFilter<"DepartmentInventoryHistory"> | Date | string
+    type?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
+    qtyChanged?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
+    user?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
+    notes?: StringNullableWithAggregatesFilter<"DepartmentInventoryHistory"> | string | null
   }
 
   export type TenantUserCreateInput = {
@@ -45533,6 +48261,198 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DepartmentInventoryCreateInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    unit?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stockHistory?: DepartmentInventoryHistoryCreateNestedManyWithoutItemInput
+  }
+
+  export type DepartmentInventoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    unit?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stockHistory?: DepartmentInventoryHistoryUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type DepartmentInventoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: DepartmentInventoryHistoryUpdateManyWithoutItemNestedInput
+  }
+
+  export type DepartmentInventoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stockHistory?: DepartmentInventoryHistoryUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type DepartmentInventoryCreateManyInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    unit?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentInventoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentInventoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentInventoryHistoryCreateInput = {
+    id?: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+    item: DepartmentInventoryCreateNestedOneWithoutStockHistoryInput
+  }
+
+  export type DepartmentInventoryHistoryUncheckedCreateInput = {
+    id?: string
+    itemId: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+  }
+
+  export type DepartmentInventoryHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    item?: DepartmentInventoryUpdateOneRequiredWithoutStockHistoryNestedInput
+  }
+
+  export type DepartmentInventoryHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DepartmentInventoryHistoryCreateManyInput = {
+    id?: string
+    itemId: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+  }
+
+  export type DepartmentInventoryHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DepartmentInventoryHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -47627,6 +50547,110 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
+  export type DepartmentInventoryHistoryListRelationFilter = {
+    every?: DepartmentInventoryHistoryWhereInput
+    some?: DepartmentInventoryHistoryWhereInput
+    none?: DepartmentInventoryHistoryWhereInput
+  }
+
+  export type DepartmentInventoryHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DepartmentInventoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    supplier?: SortOrder
+    minThreshold?: SortOrder
+    notes?: SortOrder
+    unitPrice?: SortOrder
+    unit?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentInventoryAvgOrderByAggregateInput = {
+    unitPrice?: SortOrder
+  }
+
+  export type DepartmentInventoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    supplier?: SortOrder
+    minThreshold?: SortOrder
+    notes?: SortOrder
+    unitPrice?: SortOrder
+    unit?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentInventoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    expiry?: SortOrder
+    status?: SortOrder
+    supplier?: SortOrder
+    minThreshold?: SortOrder
+    notes?: SortOrder
+    unitPrice?: SortOrder
+    unit?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentInventorySumOrderByAggregateInput = {
+    unitPrice?: SortOrder
+  }
+
+  export type DepartmentInventoryScalarRelationFilter = {
+    is?: DepartmentInventoryWhereInput
+    isNot?: DepartmentInventoryWhereInput
+  }
+
+  export type DepartmentInventoryHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    dateTime?: SortOrder
+    type?: SortOrder
+    qtyChanged?: SortOrder
+    user?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type DepartmentInventoryHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    dateTime?: SortOrder
+    type?: SortOrder
+    qtyChanged?: SortOrder
+    user?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type DepartmentInventoryHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    dateTime?: SortOrder
+    type?: SortOrder
+    qtyChanged?: SortOrder
+    user?: SortOrder
+    notes?: SortOrder
+  }
+
   export type AdmissionCreateNestedManyWithoutDoctorInput = {
     create?: XOR<AdmissionCreateWithoutDoctorInput, AdmissionUncheckedCreateWithoutDoctorInput> | AdmissionCreateWithoutDoctorInput[] | AdmissionUncheckedCreateWithoutDoctorInput[]
     connectOrCreate?: AdmissionCreateOrConnectWithoutDoctorInput | AdmissionCreateOrConnectWithoutDoctorInput[]
@@ -49257,6 +52281,62 @@ export namespace Prisma {
     upsert?: StockItemUpsertWithoutBatchReturnsInput
     connect?: StockItemWhereUniqueInput
     update?: XOR<XOR<StockItemUpdateToOneWithWhereWithoutBatchReturnsInput, StockItemUpdateWithoutBatchReturnsInput>, StockItemUncheckedUpdateWithoutBatchReturnsInput>
+  }
+
+  export type DepartmentInventoryHistoryCreateNestedManyWithoutItemInput = {
+    create?: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput> | DepartmentInventoryHistoryCreateWithoutItemInput[] | DepartmentInventoryHistoryUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: DepartmentInventoryHistoryCreateOrConnectWithoutItemInput | DepartmentInventoryHistoryCreateOrConnectWithoutItemInput[]
+    createMany?: DepartmentInventoryHistoryCreateManyItemInputEnvelope
+    connect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+  }
+
+  export type DepartmentInventoryHistoryUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput> | DepartmentInventoryHistoryCreateWithoutItemInput[] | DepartmentInventoryHistoryUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: DepartmentInventoryHistoryCreateOrConnectWithoutItemInput | DepartmentInventoryHistoryCreateOrConnectWithoutItemInput[]
+    createMany?: DepartmentInventoryHistoryCreateManyItemInputEnvelope
+    connect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+  }
+
+  export type DepartmentInventoryHistoryUpdateManyWithoutItemNestedInput = {
+    create?: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput> | DepartmentInventoryHistoryCreateWithoutItemInput[] | DepartmentInventoryHistoryUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: DepartmentInventoryHistoryCreateOrConnectWithoutItemInput | DepartmentInventoryHistoryCreateOrConnectWithoutItemInput[]
+    upsert?: DepartmentInventoryHistoryUpsertWithWhereUniqueWithoutItemInput | DepartmentInventoryHistoryUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: DepartmentInventoryHistoryCreateManyItemInputEnvelope
+    set?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    disconnect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    delete?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    connect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    update?: DepartmentInventoryHistoryUpdateWithWhereUniqueWithoutItemInput | DepartmentInventoryHistoryUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: DepartmentInventoryHistoryUpdateManyWithWhereWithoutItemInput | DepartmentInventoryHistoryUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: DepartmentInventoryHistoryScalarWhereInput | DepartmentInventoryHistoryScalarWhereInput[]
+  }
+
+  export type DepartmentInventoryHistoryUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput> | DepartmentInventoryHistoryCreateWithoutItemInput[] | DepartmentInventoryHistoryUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: DepartmentInventoryHistoryCreateOrConnectWithoutItemInput | DepartmentInventoryHistoryCreateOrConnectWithoutItemInput[]
+    upsert?: DepartmentInventoryHistoryUpsertWithWhereUniqueWithoutItemInput | DepartmentInventoryHistoryUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: DepartmentInventoryHistoryCreateManyItemInputEnvelope
+    set?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    disconnect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    delete?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    connect?: DepartmentInventoryHistoryWhereUniqueInput | DepartmentInventoryHistoryWhereUniqueInput[]
+    update?: DepartmentInventoryHistoryUpdateWithWhereUniqueWithoutItemInput | DepartmentInventoryHistoryUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: DepartmentInventoryHistoryUpdateManyWithWhereWithoutItemInput | DepartmentInventoryHistoryUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: DepartmentInventoryHistoryScalarWhereInput | DepartmentInventoryHistoryScalarWhereInput[]
+  }
+
+  export type DepartmentInventoryCreateNestedOneWithoutStockHistoryInput = {
+    create?: XOR<DepartmentInventoryCreateWithoutStockHistoryInput, DepartmentInventoryUncheckedCreateWithoutStockHistoryInput>
+    connectOrCreate?: DepartmentInventoryCreateOrConnectWithoutStockHistoryInput
+    connect?: DepartmentInventoryWhereUniqueInput
+  }
+
+  export type DepartmentInventoryUpdateOneRequiredWithoutStockHistoryNestedInput = {
+    create?: XOR<DepartmentInventoryCreateWithoutStockHistoryInput, DepartmentInventoryUncheckedCreateWithoutStockHistoryInput>
+    connectOrCreate?: DepartmentInventoryCreateOrConnectWithoutStockHistoryInput
+    upsert?: DepartmentInventoryUpsertWithoutStockHistoryInput
+    connect?: DepartmentInventoryWhereUniqueInput
+    update?: XOR<XOR<DepartmentInventoryUpdateToOneWithWhereWithoutStockHistoryInput, DepartmentInventoryUpdateWithoutStockHistoryInput>, DepartmentInventoryUncheckedUpdateWithoutStockHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -54965,6 +58045,147 @@ export namespace Prisma {
     stockHistory?: StockHistoryUncheckedUpdateManyWithoutItemNestedInput
   }
 
+  export type DepartmentInventoryHistoryCreateWithoutItemInput = {
+    id?: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+  }
+
+  export type DepartmentInventoryHistoryUncheckedCreateWithoutItemInput = {
+    id?: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+  }
+
+  export type DepartmentInventoryHistoryCreateOrConnectWithoutItemInput = {
+    where: DepartmentInventoryHistoryWhereUniqueInput
+    create: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput>
+  }
+
+  export type DepartmentInventoryHistoryCreateManyItemInputEnvelope = {
+    data: DepartmentInventoryHistoryCreateManyItemInput | DepartmentInventoryHistoryCreateManyItemInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DepartmentInventoryHistoryUpsertWithWhereUniqueWithoutItemInput = {
+    where: DepartmentInventoryHistoryWhereUniqueInput
+    update: XOR<DepartmentInventoryHistoryUpdateWithoutItemInput, DepartmentInventoryHistoryUncheckedUpdateWithoutItemInput>
+    create: XOR<DepartmentInventoryHistoryCreateWithoutItemInput, DepartmentInventoryHistoryUncheckedCreateWithoutItemInput>
+  }
+
+  export type DepartmentInventoryHistoryUpdateWithWhereUniqueWithoutItemInput = {
+    where: DepartmentInventoryHistoryWhereUniqueInput
+    data: XOR<DepartmentInventoryHistoryUpdateWithoutItemInput, DepartmentInventoryHistoryUncheckedUpdateWithoutItemInput>
+  }
+
+  export type DepartmentInventoryHistoryUpdateManyWithWhereWithoutItemInput = {
+    where: DepartmentInventoryHistoryScalarWhereInput
+    data: XOR<DepartmentInventoryHistoryUpdateManyMutationInput, DepartmentInventoryHistoryUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type DepartmentInventoryHistoryScalarWhereInput = {
+    AND?: DepartmentInventoryHistoryScalarWhereInput | DepartmentInventoryHistoryScalarWhereInput[]
+    OR?: DepartmentInventoryHistoryScalarWhereInput[]
+    NOT?: DepartmentInventoryHistoryScalarWhereInput | DepartmentInventoryHistoryScalarWhereInput[]
+    id?: StringFilter<"DepartmentInventoryHistory"> | string
+    itemId?: StringFilter<"DepartmentInventoryHistory"> | string
+    dateTime?: DateTimeFilter<"DepartmentInventoryHistory"> | Date | string
+    type?: StringFilter<"DepartmentInventoryHistory"> | string
+    qtyChanged?: StringFilter<"DepartmentInventoryHistory"> | string
+    user?: StringFilter<"DepartmentInventoryHistory"> | string
+    notes?: StringNullableFilter<"DepartmentInventoryHistory"> | string | null
+  }
+
+  export type DepartmentInventoryCreateWithoutStockHistoryInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    unit?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentInventoryUncheckedCreateWithoutStockHistoryInput = {
+    id?: string
+    name: string
+    sku: string
+    category: string
+    qty: string
+    expiry: string
+    status?: string
+    supplier?: string | null
+    minThreshold?: string | null
+    notes?: string | null
+    unitPrice?: number
+    unit?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentInventoryCreateOrConnectWithoutStockHistoryInput = {
+    where: DepartmentInventoryWhereUniqueInput
+    create: XOR<DepartmentInventoryCreateWithoutStockHistoryInput, DepartmentInventoryUncheckedCreateWithoutStockHistoryInput>
+  }
+
+  export type DepartmentInventoryUpsertWithoutStockHistoryInput = {
+    update: XOR<DepartmentInventoryUpdateWithoutStockHistoryInput, DepartmentInventoryUncheckedUpdateWithoutStockHistoryInput>
+    create: XOR<DepartmentInventoryCreateWithoutStockHistoryInput, DepartmentInventoryUncheckedCreateWithoutStockHistoryInput>
+    where?: DepartmentInventoryWhereInput
+  }
+
+  export type DepartmentInventoryUpdateToOneWithWhereWithoutStockHistoryInput = {
+    where?: DepartmentInventoryWhereInput
+    data: XOR<DepartmentInventoryUpdateWithoutStockHistoryInput, DepartmentInventoryUncheckedUpdateWithoutStockHistoryInput>
+  }
+
+  export type DepartmentInventoryUpdateWithoutStockHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentInventoryUncheckedUpdateWithoutStockHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    expiry?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    supplier?: NullableStringFieldUpdateOperationsInput | string | null
+    minThreshold?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    unit?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AdmissionCreateManyDoctorInput = {
     id?: string
     patientId: string
@@ -56493,6 +59714,42 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentInventoryHistoryCreateManyItemInput = {
+    id?: string
+    dateTime?: Date | string
+    type: string
+    qtyChanged: string
+    user: string
+    notes?: string | null
+  }
+
+  export type DepartmentInventoryHistoryUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DepartmentInventoryHistoryUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DepartmentInventoryHistoryUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    qtyChanged?: StringFieldUpdateOperationsInput | string
+    user?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
