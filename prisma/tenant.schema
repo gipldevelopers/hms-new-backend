@@ -622,3 +622,38 @@ model Supplier {
 
   @@map("suppliers")
 }
+
+model DepartmentInventory {
+  id            String    @id @default(uuid())
+  name          String
+  sku           String
+  category      String
+  qty           String
+  expiry        String
+  status        String    @default("In Stock")
+  supplier      String?
+  minThreshold  String?
+  notes         String?
+  unitPrice     Float     @default(0.0)
+  unit          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  stockHistory DepartmentInventoryHistory[]
+
+  @@map("department_inventories")
+}
+
+model DepartmentInventoryHistory {
+  id            String              @id @default(uuid())
+  itemId        String
+  item          DepartmentInventory @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  dateTime      DateTime            @default(now())
+  type          String              // e.g. "Addition", "Usage", "Initial Stock"
+  qtyChanged    String              // e.g. "+20", "-5"
+  user          String
+  notes         String?
+
+  @@map("department_inventory_histories")
+}
+
