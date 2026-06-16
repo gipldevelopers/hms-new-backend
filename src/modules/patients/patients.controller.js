@@ -191,6 +191,18 @@ const createPatientNoteRecord = async (req, res) => {
   }
 };
 
+const searchPatients = async (req, res) => {
+  try {
+    const branchId = await resolveBranchId(req);
+    if (!branchId) return res.json({ success: true, data: [] });
+    const q = req.query.q || "";
+    const data = await patientsService.searchPatients(branchId, q);
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getPatientsList,
   getPatientDetails,
@@ -199,5 +211,6 @@ module.exports = {
   deletePatient,
   getPatientPrescription,
   getPatientNotesList,
-  createPatientNoteRecord
+  createPatientNoteRecord,
+  searchPatients
 };

@@ -4,8 +4,9 @@ const patientsController = require("./patients.controller");
 const { auth, authorize } = require("../../middleware/auth");
 
 router.use(auth);
-router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF", "RECEPTION", "DOCTOR"));
+router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF", "RECEPTION", "DOCTOR", "FINANCE"));
 
+router.get("/search", patientsController.searchPatients);
 router.get("/", patientsController.getPatientsList);
 router.get("/:id", patientsController.getPatientDetails);
 router.get("/:id/prescription", patientsController.getPatientPrescription);

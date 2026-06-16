@@ -100,11 +100,86 @@ const getPaymentSummary = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/billing/ipd-records
+ * Returns all IPD admissions with billing summary for the branch
+ */
+const getIPDBillingRecords = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+
+    const data = await svc.getIPDBillingRecords(branchId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getIPDBillingRecords error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * GET /api/billing/ipd-details/:admissionId
+ * Returns full IPD billing detail for a single admission
+ */
+const getIPDBillingDetails = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+
+    const { admissionId } = req.params;
+    if (!admissionId) return res.status(400).json({ success: false, message: "admissionId is required." });
+
+    const data = await svc.getIPDBillingDetails(branchId, admissionId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getIPDBillingDetails error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * GET /api/billing/service-catalog
+ * Returns all billable services for the Create Bill form
+ */
+const getServiceCatalog = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.getServiceCatalog(branchId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getServiceCatalog error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * POST /api/billing/create
+ * Creates a new OPD or IPD bill record
+ */
+const createBill = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.createBill(branchId, req.body);
+    res.status(201).json({ success: true, data });
+  } catch (e) {
+    console.error("createBill error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   getOPDBillingRecords,
   getOPDBillingDetails,
   collectOPDPayment,
   getInvoiceById,
   getAllPayments,
-  getPaymentSummary
+  getPaymentSummary,
+  getIPDBillingRecords,
+  getIPDBillingDetails,
+  getServiceCatalog,
+  createBill
 };

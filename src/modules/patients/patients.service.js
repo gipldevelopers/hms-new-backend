@@ -15,6 +15,63 @@ const getAllPatients = async (branchId) => {
   });
 };
 
+/**
+ * Search patients by name, UHID prefix, or contact number.
+ * Returns up to 10 matches for the autocomplete dropdown.
+ */
+const searchPatients = async (branchId, q) => {
+  if (!q || q.trim().length < 1) return [];
+  const tenantDb = await getTenantClient(branchId);
+  const term = q.trim();
+
+  // Derive a clean UHID prefix: "UHID-ABC123" → "abc123", or raw query
+  const uhidClean = term.toUpperCase().replace(/^UHID-?/, "");
+
+  const patients = await tenantDb.patient.findMany({
+    where: {
+      OR: [
+        { firstName:  { contains: term, mode: "insensitive" } },
+        { lastName:   { contains: term, mode: "insensitive" } },
+        { name:       { contains: term, mode: "insensitive" } },
+        { contact:    { contains: term } },
+      ]
+    },
+    orderBy: { createdAt: "desc" },
+    take: 10,
+    include: {
+      admissions: {
+        where: { status: "In Progress" },
+        select: { id: true }
+      }
+    }
+  });
+
+  // Also attempt an ID-prefix match (UHID lookup) without crashing
+  let uhidMatches = [];
+  if (uhidClean.length >= 3) {
+    const all = await tenantDb.patient.findMany({ take: 200, select: { id: true, firstName: true, lastName: true, name: true, age: true, gender: true, contact: true, admissions: { where: { status: "In Progress" }, select: { id: true } } }, include: { admissions: { where: { status: "In Progress" }, select: { id: true } } } });
+    uhidMatches = all.filter(p => p.id.substring(0, uhidClean.length).toUpperCase() === uhidClean);
+  }
+
+  // Merge, deduplicate by id
+  const seen = new Set();
+  const merged = [...patients, ...uhidMatches].filter(p => {
+    if (seen.has(p.id)) return false;
+    seen.add(p.id);
+    return true;
+  });
+
+  return merged.slice(0, 10).map(p => ({
+    id:     p.id,
+    name:   `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.name || "Unknown",
+    uhid:   `UHID-${p.id.substring(0, 6).toUpperCase()}`,
+    age:    p.age || null,
+    gender: p.gender || null,
+    contact: p.contact || null,
+    isAdmitted: (p.admissions?.length || 0) > 0
+  }));
+};
+
 const getPatientById = async (branchId, patientId) => {
   const tenantDb = await getTenantClient(branchId);
   return await tenantDb.patient.findUnique({
@@ -281,6 +338,7 @@ const createPatientNote = async (branchId, patientId, noteData) => {
 
 module.exports = {
   getAllPatients,
+  searchPatients,
   getPatientById,
   createPatient,
   updatePatient,
