@@ -27,8 +27,8 @@ const createTransfer = async (branchId, payload, userName) => {
 
   // 1. Process each item: update quantity in both tenantDb and mainDb
   for (const transferItem of items) {
-    // Find the item in tenant DB by ID or SKU
-    const dbItem = await tenantDb.stockItem.findFirst({
+    // Try to find in stockItem first
+    let dbItem = await tenantDb.stockItem.findFirst({
       where: {
         OR: [
           { id: transferItem.id },
@@ -36,6 +36,22 @@ const createTransfer = async (branchId, payload, userName) => {
         ]
       }
     });
+
+    let isDepartmentItem = false;
+    if (!dbItem) {
+      // Try to find in departmentInventory
+      dbItem = await tenantDb.departmentInventory.findFirst({
+        where: {
+          OR: [
+            { id: transferItem.id },
+            { sku: transferItem.sku }
+          ]
+        }
+      });
+      if (dbItem) {
+        isDepartmentItem = true;
+      }
+    }
 
     if (!dbItem) {
       throw new Error(`Stock item not found: ${transferItem.name || transferItem.sku}`);
@@ -68,46 +84,89 @@ const createTransfer = async (branchId, payload, userName) => {
       computedStatus = "LOW";
     }
 
-    // Update in Tenant DB
-    await tenantDb.stockItem.update({
-      where: { id: dbItem.id },
-      data: {
-        qty: newQtyString,
-        status: computedStatus
-      }
-    });
+    if (isDepartmentItem) {
+      // Update in Tenant DB
+      await tenantDb.departmentInventory.update({
+        where: { id: dbItem.id },
+        data: {
+          qty: newQtyString,
+          status: computedStatus
+        }
+      });
 
-    // Update in Main DB
-    await mainDb.stockItem.update({
-      where: { id: dbItem.id },
-      data: {
-        qty: newQtyString,
-        status: computedStatus
-      }
-    });
+      // Update in Main DB
+      await mainDb.departmentInventory.update({
+        where: { id: dbItem.id },
+        data: {
+          qty: newQtyString,
+          status: computedStatus
+        }
+      });
 
-    // Log Stock History in Tenant DB
-    const historyId = crypto.randomUUID();
-    const historyData = {
-      id: historyId,
-      itemId: dbItem.id,
-      type: "Usage",
-      qtyChanged: `-${transferQtyVal}`,
-      user: userName || "System Admin",
-      notes: notes || `Transferred ${transferQtyVal} ${unit} to ${destination}`
-    };
+      // Log History in Tenant DB
+      const historyId = crypto.randomUUID();
+      const historyData = {
+        id: historyId,
+        itemId: dbItem.id,
+        type: "Usage",
+        qtyChanged: `-${transferQtyVal}`,
+        user: userName || "System Admin",
+        notes: notes || `Transferred ${transferQtyVal} ${unit} to ${destination}`
+      };
 
-    await tenantDb.stockHistory.create({
-      data: historyData
-    });
+      await tenantDb.departmentInventoryHistory.create({
+        data: historyData
+      });
 
-    // Log Stock History in Main DB
-    await mainDb.stockHistory.create({
-      data: {
-        ...historyData,
-        branchId
-      }
-    });
+      // Log History in Main DB
+      await mainDb.departmentInventoryHistory.create({
+        data: {
+          ...historyData,
+          branchId
+        }
+      });
+    } else {
+      // Update in Tenant DB
+      await tenantDb.stockItem.update({
+        where: { id: dbItem.id },
+        data: {
+          qty: newQtyString,
+          status: computedStatus
+        }
+      });
+
+      // Update in Main DB
+      await mainDb.stockItem.update({
+        where: { id: dbItem.id },
+        data: {
+          qty: newQtyString,
+          status: computedStatus
+        }
+      });
+
+      // Log Stock History in Tenant DB
+      const historyId = crypto.randomUUID();
+      const historyData = {
+        id: historyId,
+        itemId: dbItem.id,
+        type: "Usage",
+        qtyChanged: `-${transferQtyVal}`,
+        user: userName || "System Admin",
+        notes: notes || `Transferred ${transferQtyVal} ${unit} to ${destination}`
+      };
+
+      await tenantDb.stockHistory.create({
+        data: historyData
+      });
+
+      // Log Stock History in Main DB
+      await mainDb.stockHistory.create({
+        data: {
+          ...historyData,
+          branchId
+        }
+      });
+    }
   }
 
   // 2. Create the StockTransfer entry

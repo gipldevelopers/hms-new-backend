@@ -575,6 +575,67 @@ exports.Prisma.SupplierScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DepartmentInventoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  category: 'category',
+  qty: 'qty',
+  expiry: 'expiry',
+  status: 'status',
+  supplier: 'supplier',
+  minThreshold: 'minThreshold',
+  notes: 'notes',
+  unitPrice: 'unitPrice',
+  unit: 'unit',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DepartmentInventoryHistoryScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  dateTime: 'dateTime',
+  type: 'type',
+  qtyChanged: 'qtyChanged',
+  user: 'user',
+  notes: 'notes'
+};
+
+exports.Prisma.OTSupplyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  category: 'category',
+  qty: 'qty',
+  batch: 'batch',
+  unit: 'unit',
+  unitPrice: 'unitPrice',
+  expiry: 'expiry',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OTSupplyConsumptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  ref: 'ref',
+  batch: 'batch',
+  usedQty: 'usedQty',
+  unit: 'unit',
+  remainingStock: 'remainingStock',
+  stockStatus: 'stockStatus',
+  usedBy: 'usedBy',
+  usedById: 'usedById',
+  status: 'status',
+  date: 'date',
+  department: 'department',
+  procedureType: 'procedureType',
+  patientId: 'patientId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -635,7 +696,11 @@ exports.Prisma.ModelName = {
   StockTransfer: 'StockTransfer',
   BatchReturn: 'BatchReturn',
   PurchaseOrder: 'PurchaseOrder',
-  Supplier: 'Supplier'
+  Supplier: 'Supplier',
+  DepartmentInventory: 'DepartmentInventory',
+  DepartmentInventoryHistory: 'DepartmentInventoryHistory',
+  OTSupply: 'OTSupply',
+  OTSupplyConsumption: 'OTSupplyConsumption'
 };
 
 /**
