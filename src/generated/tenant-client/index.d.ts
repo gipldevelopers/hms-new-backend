@@ -168,6 +168,16 @@ export type DepartmentInventory = $Result.DefaultSelection<Prisma.$DepartmentInv
  * 
  */
 export type DepartmentInventoryHistory = $Result.DefaultSelection<Prisma.$DepartmentInventoryHistoryPayload>
+/**
+ * Model OTSupply
+ * 
+ */
+export type OTSupply = $Result.DefaultSelection<Prisma.$OTSupplyPayload>
+/**
+ * Model OTSupplyConsumption
+ * 
+ */
+export type OTSupplyConsumption = $Result.DefaultSelection<Prisma.$OTSupplyConsumptionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -599,6 +609,26 @@ export class PrismaClient<
     * ```
     */
   get departmentInventoryHistory(): Prisma.DepartmentInventoryHistoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.oTSupply`: Exposes CRUD operations for the **OTSupply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OTSupplies
+    * const oTSupplies = await prisma.oTSupply.findMany()
+    * ```
+    */
+  get oTSupply(): Prisma.OTSupplyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.oTSupplyConsumption`: Exposes CRUD operations for the **OTSupplyConsumption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OTSupplyConsumptions
+    * const oTSupplyConsumptions = await prisma.oTSupplyConsumption.findMany()
+    * ```
+    */
+  get oTSupplyConsumption(): Prisma.OTSupplyConsumptionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1063,7 +1093,9 @@ export namespace Prisma {
     PurchaseOrder: 'PurchaseOrder',
     Supplier: 'Supplier',
     DepartmentInventory: 'DepartmentInventory',
-    DepartmentInventoryHistory: 'DepartmentInventoryHistory'
+    DepartmentInventoryHistory: 'DepartmentInventoryHistory',
+    OTSupply: 'OTSupply',
+    OTSupplyConsumption: 'OTSupplyConsumption'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1079,7 +1111,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier" | "departmentInventory" | "departmentInventoryHistory"
+      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier" | "departmentInventory" | "departmentInventoryHistory" | "oTSupply" | "oTSupplyConsumption"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3377,6 +3409,154 @@ export namespace Prisma {
           }
         }
       }
+      OTSupply: {
+        payload: Prisma.$OTSupplyPayload<ExtArgs>
+        fields: Prisma.OTSupplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OTSupplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OTSupplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          findFirst: {
+            args: Prisma.OTSupplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OTSupplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          findMany: {
+            args: Prisma.OTSupplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>[]
+          }
+          create: {
+            args: Prisma.OTSupplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          createMany: {
+            args: Prisma.OTSupplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OTSupplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>[]
+          }
+          delete: {
+            args: Prisma.OTSupplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          update: {
+            args: Prisma.OTSupplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.OTSupplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OTSupplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OTSupplyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>[]
+          }
+          upsert: {
+            args: Prisma.OTSupplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyPayload>
+          }
+          aggregate: {
+            args: Prisma.OTSupplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOTSupply>
+          }
+          groupBy: {
+            args: Prisma.OTSupplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OTSupplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OTSupplyCountArgs<ExtArgs>
+            result: $Utils.Optional<OTSupplyCountAggregateOutputType> | number
+          }
+        }
+      }
+      OTSupplyConsumption: {
+        payload: Prisma.$OTSupplyConsumptionPayload<ExtArgs>
+        fields: Prisma.OTSupplyConsumptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OTSupplyConsumptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OTSupplyConsumptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          findFirst: {
+            args: Prisma.OTSupplyConsumptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OTSupplyConsumptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          findMany: {
+            args: Prisma.OTSupplyConsumptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>[]
+          }
+          create: {
+            args: Prisma.OTSupplyConsumptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          createMany: {
+            args: Prisma.OTSupplyConsumptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OTSupplyConsumptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>[]
+          }
+          delete: {
+            args: Prisma.OTSupplyConsumptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          update: {
+            args: Prisma.OTSupplyConsumptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.OTSupplyConsumptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OTSupplyConsumptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OTSupplyConsumptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.OTSupplyConsumptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OTSupplyConsumptionPayload>
+          }
+          aggregate: {
+            args: Prisma.OTSupplyConsumptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOTSupplyConsumption>
+          }
+          groupBy: {
+            args: Prisma.OTSupplyConsumptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OTSupplyConsumptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OTSupplyConsumptionCountArgs<ExtArgs>
+            result: $Utils.Optional<OTSupplyConsumptionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3516,6 +3696,8 @@ export namespace Prisma {
     supplier?: SupplierOmit
     departmentInventory?: DepartmentInventoryOmit
     departmentInventoryHistory?: DepartmentInventoryHistoryOmit
+    oTSupply?: OTSupplyOmit
+    oTSupplyConsumption?: OTSupplyConsumptionOmit
   }
 
   /* Types for Logging */
@@ -41284,6 +41466,2312 @@ export namespace Prisma {
 
 
   /**
+   * Model OTSupply
+   */
+
+  export type AggregateOTSupply = {
+    _count: OTSupplyCountAggregateOutputType | null
+    _avg: OTSupplyAvgAggregateOutputType | null
+    _sum: OTSupplySumAggregateOutputType | null
+    _min: OTSupplyMinAggregateOutputType | null
+    _max: OTSupplyMaxAggregateOutputType | null
+  }
+
+  export type OTSupplyAvgAggregateOutputType = {
+    unitPrice: number | null
+  }
+
+  export type OTSupplySumAggregateOutputType = {
+    unitPrice: number | null
+  }
+
+  export type OTSupplyMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sku: string | null
+    category: string | null
+    qty: string | null
+    batch: string | null
+    unit: string | null
+    unitPrice: number | null
+    expiry: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OTSupplyMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sku: string | null
+    category: string | null
+    qty: string | null
+    batch: string | null
+    unit: string | null
+    unitPrice: number | null
+    expiry: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OTSupplyCountAggregateOutputType = {
+    id: number
+    name: number
+    sku: number
+    category: number
+    qty: number
+    batch: number
+    unit: number
+    unitPrice: number
+    expiry: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OTSupplyAvgAggregateInputType = {
+    unitPrice?: true
+  }
+
+  export type OTSupplySumAggregateInputType = {
+    unitPrice?: true
+  }
+
+  export type OTSupplyMinAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    batch?: true
+    unit?: true
+    unitPrice?: true
+    expiry?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OTSupplyMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    batch?: true
+    unit?: true
+    unitPrice?: true
+    expiry?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OTSupplyCountAggregateInputType = {
+    id?: true
+    name?: true
+    sku?: true
+    category?: true
+    qty?: true
+    batch?: true
+    unit?: true
+    unitPrice?: true
+    expiry?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OTSupplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OTSupply to aggregate.
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplies to fetch.
+     */
+    orderBy?: OTSupplyOrderByWithRelationInput | OTSupplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OTSupplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OTSupplies
+    **/
+    _count?: true | OTSupplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OTSupplyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OTSupplySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OTSupplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OTSupplyMaxAggregateInputType
+  }
+
+  export type GetOTSupplyAggregateType<T extends OTSupplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateOTSupply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOTSupply[P]>
+      : GetScalarType<T[P], AggregateOTSupply[P]>
+  }
+
+
+
+
+  export type OTSupplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OTSupplyWhereInput
+    orderBy?: OTSupplyOrderByWithAggregationInput | OTSupplyOrderByWithAggregationInput[]
+    by: OTSupplyScalarFieldEnum[] | OTSupplyScalarFieldEnum
+    having?: OTSupplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OTSupplyCountAggregateInputType | true
+    _avg?: OTSupplyAvgAggregateInputType
+    _sum?: OTSupplySumAggregateInputType
+    _min?: OTSupplyMinAggregateInputType
+    _max?: OTSupplyMaxAggregateInputType
+  }
+
+  export type OTSupplyGroupByOutputType = {
+    id: string
+    name: string
+    sku: string | null
+    category: string
+    qty: string
+    batch: string
+    unit: string
+    unitPrice: number
+    expiry: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OTSupplyCountAggregateOutputType | null
+    _avg: OTSupplyAvgAggregateOutputType | null
+    _sum: OTSupplySumAggregateOutputType | null
+    _min: OTSupplyMinAggregateOutputType | null
+    _max: OTSupplyMaxAggregateOutputType | null
+  }
+
+  type GetOTSupplyGroupByPayload<T extends OTSupplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OTSupplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OTSupplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OTSupplyGroupByOutputType[P]>
+            : GetScalarType<T[P], OTSupplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OTSupplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    batch?: boolean
+    unit?: boolean
+    unitPrice?: boolean
+    expiry?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupply"]>
+
+  export type OTSupplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    batch?: boolean
+    unit?: boolean
+    unitPrice?: boolean
+    expiry?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupply"]>
+
+  export type OTSupplySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    batch?: boolean
+    unit?: boolean
+    unitPrice?: boolean
+    expiry?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupply"]>
+
+  export type OTSupplySelectScalar = {
+    id?: boolean
+    name?: boolean
+    sku?: boolean
+    category?: boolean
+    qty?: boolean
+    batch?: boolean
+    unit?: boolean
+    unitPrice?: boolean
+    expiry?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OTSupplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "category" | "qty" | "batch" | "unit" | "unitPrice" | "expiry" | "createdAt" | "updatedAt", ExtArgs["result"]["oTSupply"]>
+
+  export type $OTSupplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OTSupply"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      sku: string | null
+      category: string
+      qty: string
+      batch: string
+      unit: string
+      unitPrice: number
+      expiry: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["oTSupply"]>
+    composites: {}
+  }
+
+  type OTSupplyGetPayload<S extends boolean | null | undefined | OTSupplyDefaultArgs> = $Result.GetResult<Prisma.$OTSupplyPayload, S>
+
+  type OTSupplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OTSupplyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OTSupplyCountAggregateInputType | true
+    }
+
+  export interface OTSupplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OTSupply'], meta: { name: 'OTSupply' } }
+    /**
+     * Find zero or one OTSupply that matches the filter.
+     * @param {OTSupplyFindUniqueArgs} args - Arguments to find a OTSupply
+     * @example
+     * // Get one OTSupply
+     * const oTSupply = await prisma.oTSupply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OTSupplyFindUniqueArgs>(args: SelectSubset<T, OTSupplyFindUniqueArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OTSupply that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OTSupplyFindUniqueOrThrowArgs} args - Arguments to find a OTSupply
+     * @example
+     * // Get one OTSupply
+     * const oTSupply = await prisma.oTSupply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OTSupplyFindUniqueOrThrowArgs>(args: SelectSubset<T, OTSupplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OTSupply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyFindFirstArgs} args - Arguments to find a OTSupply
+     * @example
+     * // Get one OTSupply
+     * const oTSupply = await prisma.oTSupply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OTSupplyFindFirstArgs>(args?: SelectSubset<T, OTSupplyFindFirstArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OTSupply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyFindFirstOrThrowArgs} args - Arguments to find a OTSupply
+     * @example
+     * // Get one OTSupply
+     * const oTSupply = await prisma.oTSupply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OTSupplyFindFirstOrThrowArgs>(args?: SelectSubset<T, OTSupplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OTSupplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OTSupplies
+     * const oTSupplies = await prisma.oTSupply.findMany()
+     * 
+     * // Get first 10 OTSupplies
+     * const oTSupplies = await prisma.oTSupply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const oTSupplyWithIdOnly = await prisma.oTSupply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OTSupplyFindManyArgs>(args?: SelectSubset<T, OTSupplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OTSupply.
+     * @param {OTSupplyCreateArgs} args - Arguments to create a OTSupply.
+     * @example
+     * // Create one OTSupply
+     * const OTSupply = await prisma.oTSupply.create({
+     *   data: {
+     *     // ... data to create a OTSupply
+     *   }
+     * })
+     * 
+     */
+    create<T extends OTSupplyCreateArgs>(args: SelectSubset<T, OTSupplyCreateArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OTSupplies.
+     * @param {OTSupplyCreateManyArgs} args - Arguments to create many OTSupplies.
+     * @example
+     * // Create many OTSupplies
+     * const oTSupply = await prisma.oTSupply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OTSupplyCreateManyArgs>(args?: SelectSubset<T, OTSupplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OTSupplies and returns the data saved in the database.
+     * @param {OTSupplyCreateManyAndReturnArgs} args - Arguments to create many OTSupplies.
+     * @example
+     * // Create many OTSupplies
+     * const oTSupply = await prisma.oTSupply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OTSupplies and only return the `id`
+     * const oTSupplyWithIdOnly = await prisma.oTSupply.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OTSupplyCreateManyAndReturnArgs>(args?: SelectSubset<T, OTSupplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OTSupply.
+     * @param {OTSupplyDeleteArgs} args - Arguments to delete one OTSupply.
+     * @example
+     * // Delete one OTSupply
+     * const OTSupply = await prisma.oTSupply.delete({
+     *   where: {
+     *     // ... filter to delete one OTSupply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OTSupplyDeleteArgs>(args: SelectSubset<T, OTSupplyDeleteArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OTSupply.
+     * @param {OTSupplyUpdateArgs} args - Arguments to update one OTSupply.
+     * @example
+     * // Update one OTSupply
+     * const oTSupply = await prisma.oTSupply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OTSupplyUpdateArgs>(args: SelectSubset<T, OTSupplyUpdateArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OTSupplies.
+     * @param {OTSupplyDeleteManyArgs} args - Arguments to filter OTSupplies to delete.
+     * @example
+     * // Delete a few OTSupplies
+     * const { count } = await prisma.oTSupply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OTSupplyDeleteManyArgs>(args?: SelectSubset<T, OTSupplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OTSupplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OTSupplies
+     * const oTSupply = await prisma.oTSupply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OTSupplyUpdateManyArgs>(args: SelectSubset<T, OTSupplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OTSupplies and returns the data updated in the database.
+     * @param {OTSupplyUpdateManyAndReturnArgs} args - Arguments to update many OTSupplies.
+     * @example
+     * // Update many OTSupplies
+     * const oTSupply = await prisma.oTSupply.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OTSupplies and only return the `id`
+     * const oTSupplyWithIdOnly = await prisma.oTSupply.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OTSupplyUpdateManyAndReturnArgs>(args: SelectSubset<T, OTSupplyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OTSupply.
+     * @param {OTSupplyUpsertArgs} args - Arguments to update or create a OTSupply.
+     * @example
+     * // Update or create a OTSupply
+     * const oTSupply = await prisma.oTSupply.upsert({
+     *   create: {
+     *     // ... data to create a OTSupply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OTSupply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OTSupplyUpsertArgs>(args: SelectSubset<T, OTSupplyUpsertArgs<ExtArgs>>): Prisma__OTSupplyClient<$Result.GetResult<Prisma.$OTSupplyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OTSupplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyCountArgs} args - Arguments to filter OTSupplies to count.
+     * @example
+     * // Count the number of OTSupplies
+     * const count = await prisma.oTSupply.count({
+     *   where: {
+     *     // ... the filter for the OTSupplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends OTSupplyCountArgs>(
+      args?: Subset<T, OTSupplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OTSupplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OTSupply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OTSupplyAggregateArgs>(args: Subset<T, OTSupplyAggregateArgs>): Prisma.PrismaPromise<GetOTSupplyAggregateType<T>>
+
+    /**
+     * Group by OTSupply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OTSupplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OTSupplyGroupByArgs['orderBy'] }
+        : { orderBy?: OTSupplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OTSupplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOTSupplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OTSupply model
+   */
+  readonly fields: OTSupplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OTSupply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OTSupplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OTSupply model
+   */
+  interface OTSupplyFieldRefs {
+    readonly id: FieldRef<"OTSupply", 'String'>
+    readonly name: FieldRef<"OTSupply", 'String'>
+    readonly sku: FieldRef<"OTSupply", 'String'>
+    readonly category: FieldRef<"OTSupply", 'String'>
+    readonly qty: FieldRef<"OTSupply", 'String'>
+    readonly batch: FieldRef<"OTSupply", 'String'>
+    readonly unit: FieldRef<"OTSupply", 'String'>
+    readonly unitPrice: FieldRef<"OTSupply", 'Float'>
+    readonly expiry: FieldRef<"OTSupply", 'String'>
+    readonly createdAt: FieldRef<"OTSupply", 'DateTime'>
+    readonly updatedAt: FieldRef<"OTSupply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OTSupply findUnique
+   */
+  export type OTSupplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupply to fetch.
+     */
+    where: OTSupplyWhereUniqueInput
+  }
+
+  /**
+   * OTSupply findUniqueOrThrow
+   */
+  export type OTSupplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupply to fetch.
+     */
+    where: OTSupplyWhereUniqueInput
+  }
+
+  /**
+   * OTSupply findFirst
+   */
+  export type OTSupplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupply to fetch.
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplies to fetch.
+     */
+    orderBy?: OTSupplyOrderByWithRelationInput | OTSupplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OTSupplies.
+     */
+    cursor?: OTSupplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplies.
+     */
+    distinct?: OTSupplyScalarFieldEnum | OTSupplyScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupply findFirstOrThrow
+   */
+  export type OTSupplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupply to fetch.
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplies to fetch.
+     */
+    orderBy?: OTSupplyOrderByWithRelationInput | OTSupplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OTSupplies.
+     */
+    cursor?: OTSupplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplies.
+     */
+    distinct?: OTSupplyScalarFieldEnum | OTSupplyScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupply findMany
+   */
+  export type OTSupplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplies to fetch.
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplies to fetch.
+     */
+    orderBy?: OTSupplyOrderByWithRelationInput | OTSupplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OTSupplies.
+     */
+    cursor?: OTSupplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplies.
+     */
+    distinct?: OTSupplyScalarFieldEnum | OTSupplyScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupply create
+   */
+  export type OTSupplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * The data needed to create a OTSupply.
+     */
+    data: XOR<OTSupplyCreateInput, OTSupplyUncheckedCreateInput>
+  }
+
+  /**
+   * OTSupply createMany
+   */
+  export type OTSupplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OTSupplies.
+     */
+    data: OTSupplyCreateManyInput | OTSupplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OTSupply createManyAndReturn
+   */
+  export type OTSupplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * The data used to create many OTSupplies.
+     */
+    data: OTSupplyCreateManyInput | OTSupplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OTSupply update
+   */
+  export type OTSupplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * The data needed to update a OTSupply.
+     */
+    data: XOR<OTSupplyUpdateInput, OTSupplyUncheckedUpdateInput>
+    /**
+     * Choose, which OTSupply to update.
+     */
+    where: OTSupplyWhereUniqueInput
+  }
+
+  /**
+   * OTSupply updateMany
+   */
+  export type OTSupplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OTSupplies.
+     */
+    data: XOR<OTSupplyUpdateManyMutationInput, OTSupplyUncheckedUpdateManyInput>
+    /**
+     * Filter which OTSupplies to update
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * Limit how many OTSupplies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupply updateManyAndReturn
+   */
+  export type OTSupplyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * The data used to update OTSupplies.
+     */
+    data: XOR<OTSupplyUpdateManyMutationInput, OTSupplyUncheckedUpdateManyInput>
+    /**
+     * Filter which OTSupplies to update
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * Limit how many OTSupplies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupply upsert
+   */
+  export type OTSupplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * The filter to search for the OTSupply to update in case it exists.
+     */
+    where: OTSupplyWhereUniqueInput
+    /**
+     * In case the OTSupply found by the `where` argument doesn't exist, create a new OTSupply with this data.
+     */
+    create: XOR<OTSupplyCreateInput, OTSupplyUncheckedCreateInput>
+    /**
+     * In case the OTSupply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OTSupplyUpdateInput, OTSupplyUncheckedUpdateInput>
+  }
+
+  /**
+   * OTSupply delete
+   */
+  export type OTSupplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+    /**
+     * Filter which OTSupply to delete.
+     */
+    where: OTSupplyWhereUniqueInput
+  }
+
+  /**
+   * OTSupply deleteMany
+   */
+  export type OTSupplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OTSupplies to delete
+     */
+    where?: OTSupplyWhereInput
+    /**
+     * Limit how many OTSupplies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupply without action
+   */
+  export type OTSupplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupply
+     */
+    select?: OTSupplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupply
+     */
+    omit?: OTSupplyOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OTSupplyConsumption
+   */
+
+  export type AggregateOTSupplyConsumption = {
+    _count: OTSupplyConsumptionCountAggregateOutputType | null
+    _avg: OTSupplyConsumptionAvgAggregateOutputType | null
+    _sum: OTSupplyConsumptionSumAggregateOutputType | null
+    _min: OTSupplyConsumptionMinAggregateOutputType | null
+    _max: OTSupplyConsumptionMaxAggregateOutputType | null
+  }
+
+  export type OTSupplyConsumptionAvgAggregateOutputType = {
+    usedQty: number | null
+    remainingStock: number | null
+  }
+
+  export type OTSupplyConsumptionSumAggregateOutputType = {
+    usedQty: number | null
+    remainingStock: number | null
+  }
+
+  export type OTSupplyConsumptionMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    ref: string | null
+    batch: string | null
+    usedQty: number | null
+    unit: string | null
+    remainingStock: number | null
+    stockStatus: string | null
+    usedBy: string | null
+    usedById: string | null
+    status: string | null
+    date: string | null
+    department: string | null
+    procedureType: string | null
+    patientId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OTSupplyConsumptionMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    ref: string | null
+    batch: string | null
+    usedQty: number | null
+    unit: string | null
+    remainingStock: number | null
+    stockStatus: string | null
+    usedBy: string | null
+    usedById: string | null
+    status: string | null
+    date: string | null
+    department: string | null
+    procedureType: string | null
+    patientId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OTSupplyConsumptionCountAggregateOutputType = {
+    id: number
+    name: number
+    ref: number
+    batch: number
+    usedQty: number
+    unit: number
+    remainingStock: number
+    stockStatus: number
+    usedBy: number
+    usedById: number
+    status: number
+    date: number
+    department: number
+    procedureType: number
+    patientId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OTSupplyConsumptionAvgAggregateInputType = {
+    usedQty?: true
+    remainingStock?: true
+  }
+
+  export type OTSupplyConsumptionSumAggregateInputType = {
+    usedQty?: true
+    remainingStock?: true
+  }
+
+  export type OTSupplyConsumptionMinAggregateInputType = {
+    id?: true
+    name?: true
+    ref?: true
+    batch?: true
+    usedQty?: true
+    unit?: true
+    remainingStock?: true
+    stockStatus?: true
+    usedBy?: true
+    usedById?: true
+    status?: true
+    date?: true
+    department?: true
+    procedureType?: true
+    patientId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OTSupplyConsumptionMaxAggregateInputType = {
+    id?: true
+    name?: true
+    ref?: true
+    batch?: true
+    usedQty?: true
+    unit?: true
+    remainingStock?: true
+    stockStatus?: true
+    usedBy?: true
+    usedById?: true
+    status?: true
+    date?: true
+    department?: true
+    procedureType?: true
+    patientId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OTSupplyConsumptionCountAggregateInputType = {
+    id?: true
+    name?: true
+    ref?: true
+    batch?: true
+    usedQty?: true
+    unit?: true
+    remainingStock?: true
+    stockStatus?: true
+    usedBy?: true
+    usedById?: true
+    status?: true
+    date?: true
+    department?: true
+    procedureType?: true
+    patientId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OTSupplyConsumptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OTSupplyConsumption to aggregate.
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplyConsumptions to fetch.
+     */
+    orderBy?: OTSupplyConsumptionOrderByWithRelationInput | OTSupplyConsumptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OTSupplyConsumptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplyConsumptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplyConsumptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OTSupplyConsumptions
+    **/
+    _count?: true | OTSupplyConsumptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OTSupplyConsumptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OTSupplyConsumptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OTSupplyConsumptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OTSupplyConsumptionMaxAggregateInputType
+  }
+
+  export type GetOTSupplyConsumptionAggregateType<T extends OTSupplyConsumptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateOTSupplyConsumption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOTSupplyConsumption[P]>
+      : GetScalarType<T[P], AggregateOTSupplyConsumption[P]>
+  }
+
+
+
+
+  export type OTSupplyConsumptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OTSupplyConsumptionWhereInput
+    orderBy?: OTSupplyConsumptionOrderByWithAggregationInput | OTSupplyConsumptionOrderByWithAggregationInput[]
+    by: OTSupplyConsumptionScalarFieldEnum[] | OTSupplyConsumptionScalarFieldEnum
+    having?: OTSupplyConsumptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OTSupplyConsumptionCountAggregateInputType | true
+    _avg?: OTSupplyConsumptionAvgAggregateInputType
+    _sum?: OTSupplyConsumptionSumAggregateInputType
+    _min?: OTSupplyConsumptionMinAggregateInputType
+    _max?: OTSupplyConsumptionMaxAggregateInputType
+  }
+
+  export type OTSupplyConsumptionGroupByOutputType = {
+    id: string
+    name: string
+    ref: string
+    batch: string
+    usedQty: number
+    unit: string
+    remainingStock: number
+    stockStatus: string
+    usedBy: string
+    usedById: string | null
+    status: string
+    date: string | null
+    department: string | null
+    procedureType: string | null
+    patientId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OTSupplyConsumptionCountAggregateOutputType | null
+    _avg: OTSupplyConsumptionAvgAggregateOutputType | null
+    _sum: OTSupplyConsumptionSumAggregateOutputType | null
+    _min: OTSupplyConsumptionMinAggregateOutputType | null
+    _max: OTSupplyConsumptionMaxAggregateOutputType | null
+  }
+
+  type GetOTSupplyConsumptionGroupByPayload<T extends OTSupplyConsumptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OTSupplyConsumptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OTSupplyConsumptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OTSupplyConsumptionGroupByOutputType[P]>
+            : GetScalarType<T[P], OTSupplyConsumptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OTSupplyConsumptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    ref?: boolean
+    batch?: boolean
+    usedQty?: boolean
+    unit?: boolean
+    remainingStock?: boolean
+    stockStatus?: boolean
+    usedBy?: boolean
+    usedById?: boolean
+    status?: boolean
+    date?: boolean
+    department?: boolean
+    procedureType?: boolean
+    patientId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupplyConsumption"]>
+
+  export type OTSupplyConsumptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    ref?: boolean
+    batch?: boolean
+    usedQty?: boolean
+    unit?: boolean
+    remainingStock?: boolean
+    stockStatus?: boolean
+    usedBy?: boolean
+    usedById?: boolean
+    status?: boolean
+    date?: boolean
+    department?: boolean
+    procedureType?: boolean
+    patientId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupplyConsumption"]>
+
+  export type OTSupplyConsumptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    ref?: boolean
+    batch?: boolean
+    usedQty?: boolean
+    unit?: boolean
+    remainingStock?: boolean
+    stockStatus?: boolean
+    usedBy?: boolean
+    usedById?: boolean
+    status?: boolean
+    date?: boolean
+    department?: boolean
+    procedureType?: boolean
+    patientId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["oTSupplyConsumption"]>
+
+  export type OTSupplyConsumptionSelectScalar = {
+    id?: boolean
+    name?: boolean
+    ref?: boolean
+    batch?: boolean
+    usedQty?: boolean
+    unit?: boolean
+    remainingStock?: boolean
+    stockStatus?: boolean
+    usedBy?: boolean
+    usedById?: boolean
+    status?: boolean
+    date?: boolean
+    department?: boolean
+    procedureType?: boolean
+    patientId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OTSupplyConsumptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ref" | "batch" | "usedQty" | "unit" | "remainingStock" | "stockStatus" | "usedBy" | "usedById" | "status" | "date" | "department" | "procedureType" | "patientId" | "createdAt" | "updatedAt", ExtArgs["result"]["oTSupplyConsumption"]>
+
+  export type $OTSupplyConsumptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OTSupplyConsumption"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      ref: string
+      batch: string
+      usedQty: number
+      unit: string
+      remainingStock: number
+      stockStatus: string
+      usedBy: string
+      usedById: string | null
+      status: string
+      date: string | null
+      department: string | null
+      procedureType: string | null
+      patientId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["oTSupplyConsumption"]>
+    composites: {}
+  }
+
+  type OTSupplyConsumptionGetPayload<S extends boolean | null | undefined | OTSupplyConsumptionDefaultArgs> = $Result.GetResult<Prisma.$OTSupplyConsumptionPayload, S>
+
+  type OTSupplyConsumptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OTSupplyConsumptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OTSupplyConsumptionCountAggregateInputType | true
+    }
+
+  export interface OTSupplyConsumptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OTSupplyConsumption'], meta: { name: 'OTSupplyConsumption' } }
+    /**
+     * Find zero or one OTSupplyConsumption that matches the filter.
+     * @param {OTSupplyConsumptionFindUniqueArgs} args - Arguments to find a OTSupplyConsumption
+     * @example
+     * // Get one OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OTSupplyConsumptionFindUniqueArgs>(args: SelectSubset<T, OTSupplyConsumptionFindUniqueArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OTSupplyConsumption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OTSupplyConsumptionFindUniqueOrThrowArgs} args - Arguments to find a OTSupplyConsumption
+     * @example
+     * // Get one OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OTSupplyConsumptionFindUniqueOrThrowArgs>(args: SelectSubset<T, OTSupplyConsumptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OTSupplyConsumption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionFindFirstArgs} args - Arguments to find a OTSupplyConsumption
+     * @example
+     * // Get one OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OTSupplyConsumptionFindFirstArgs>(args?: SelectSubset<T, OTSupplyConsumptionFindFirstArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OTSupplyConsumption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionFindFirstOrThrowArgs} args - Arguments to find a OTSupplyConsumption
+     * @example
+     * // Get one OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OTSupplyConsumptionFindFirstOrThrowArgs>(args?: SelectSubset<T, OTSupplyConsumptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OTSupplyConsumptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OTSupplyConsumptions
+     * const oTSupplyConsumptions = await prisma.oTSupplyConsumption.findMany()
+     * 
+     * // Get first 10 OTSupplyConsumptions
+     * const oTSupplyConsumptions = await prisma.oTSupplyConsumption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const oTSupplyConsumptionWithIdOnly = await prisma.oTSupplyConsumption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OTSupplyConsumptionFindManyArgs>(args?: SelectSubset<T, OTSupplyConsumptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OTSupplyConsumption.
+     * @param {OTSupplyConsumptionCreateArgs} args - Arguments to create a OTSupplyConsumption.
+     * @example
+     * // Create one OTSupplyConsumption
+     * const OTSupplyConsumption = await prisma.oTSupplyConsumption.create({
+     *   data: {
+     *     // ... data to create a OTSupplyConsumption
+     *   }
+     * })
+     * 
+     */
+    create<T extends OTSupplyConsumptionCreateArgs>(args: SelectSubset<T, OTSupplyConsumptionCreateArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OTSupplyConsumptions.
+     * @param {OTSupplyConsumptionCreateManyArgs} args - Arguments to create many OTSupplyConsumptions.
+     * @example
+     * // Create many OTSupplyConsumptions
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OTSupplyConsumptionCreateManyArgs>(args?: SelectSubset<T, OTSupplyConsumptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OTSupplyConsumptions and returns the data saved in the database.
+     * @param {OTSupplyConsumptionCreateManyAndReturnArgs} args - Arguments to create many OTSupplyConsumptions.
+     * @example
+     * // Create many OTSupplyConsumptions
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OTSupplyConsumptions and only return the `id`
+     * const oTSupplyConsumptionWithIdOnly = await prisma.oTSupplyConsumption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OTSupplyConsumptionCreateManyAndReturnArgs>(args?: SelectSubset<T, OTSupplyConsumptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OTSupplyConsumption.
+     * @param {OTSupplyConsumptionDeleteArgs} args - Arguments to delete one OTSupplyConsumption.
+     * @example
+     * // Delete one OTSupplyConsumption
+     * const OTSupplyConsumption = await prisma.oTSupplyConsumption.delete({
+     *   where: {
+     *     // ... filter to delete one OTSupplyConsumption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OTSupplyConsumptionDeleteArgs>(args: SelectSubset<T, OTSupplyConsumptionDeleteArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OTSupplyConsumption.
+     * @param {OTSupplyConsumptionUpdateArgs} args - Arguments to update one OTSupplyConsumption.
+     * @example
+     * // Update one OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OTSupplyConsumptionUpdateArgs>(args: SelectSubset<T, OTSupplyConsumptionUpdateArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OTSupplyConsumptions.
+     * @param {OTSupplyConsumptionDeleteManyArgs} args - Arguments to filter OTSupplyConsumptions to delete.
+     * @example
+     * // Delete a few OTSupplyConsumptions
+     * const { count } = await prisma.oTSupplyConsumption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OTSupplyConsumptionDeleteManyArgs>(args?: SelectSubset<T, OTSupplyConsumptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OTSupplyConsumptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OTSupplyConsumptions
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OTSupplyConsumptionUpdateManyArgs>(args: SelectSubset<T, OTSupplyConsumptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OTSupplyConsumptions and returns the data updated in the database.
+     * @param {OTSupplyConsumptionUpdateManyAndReturnArgs} args - Arguments to update many OTSupplyConsumptions.
+     * @example
+     * // Update many OTSupplyConsumptions
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OTSupplyConsumptions and only return the `id`
+     * const oTSupplyConsumptionWithIdOnly = await prisma.oTSupplyConsumption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OTSupplyConsumptionUpdateManyAndReturnArgs>(args: SelectSubset<T, OTSupplyConsumptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OTSupplyConsumption.
+     * @param {OTSupplyConsumptionUpsertArgs} args - Arguments to update or create a OTSupplyConsumption.
+     * @example
+     * // Update or create a OTSupplyConsumption
+     * const oTSupplyConsumption = await prisma.oTSupplyConsumption.upsert({
+     *   create: {
+     *     // ... data to create a OTSupplyConsumption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OTSupplyConsumption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OTSupplyConsumptionUpsertArgs>(args: SelectSubset<T, OTSupplyConsumptionUpsertArgs<ExtArgs>>): Prisma__OTSupplyConsumptionClient<$Result.GetResult<Prisma.$OTSupplyConsumptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OTSupplyConsumptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionCountArgs} args - Arguments to filter OTSupplyConsumptions to count.
+     * @example
+     * // Count the number of OTSupplyConsumptions
+     * const count = await prisma.oTSupplyConsumption.count({
+     *   where: {
+     *     // ... the filter for the OTSupplyConsumptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends OTSupplyConsumptionCountArgs>(
+      args?: Subset<T, OTSupplyConsumptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OTSupplyConsumptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OTSupplyConsumption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OTSupplyConsumptionAggregateArgs>(args: Subset<T, OTSupplyConsumptionAggregateArgs>): Prisma.PrismaPromise<GetOTSupplyConsumptionAggregateType<T>>
+
+    /**
+     * Group by OTSupplyConsumption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OTSupplyConsumptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OTSupplyConsumptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OTSupplyConsumptionGroupByArgs['orderBy'] }
+        : { orderBy?: OTSupplyConsumptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OTSupplyConsumptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOTSupplyConsumptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OTSupplyConsumption model
+   */
+  readonly fields: OTSupplyConsumptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OTSupplyConsumption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OTSupplyConsumptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OTSupplyConsumption model
+   */
+  interface OTSupplyConsumptionFieldRefs {
+    readonly id: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly name: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly ref: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly batch: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly usedQty: FieldRef<"OTSupplyConsumption", 'Int'>
+    readonly unit: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly remainingStock: FieldRef<"OTSupplyConsumption", 'Int'>
+    readonly stockStatus: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly usedBy: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly usedById: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly status: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly date: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly department: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly procedureType: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly patientId: FieldRef<"OTSupplyConsumption", 'String'>
+    readonly createdAt: FieldRef<"OTSupplyConsumption", 'DateTime'>
+    readonly updatedAt: FieldRef<"OTSupplyConsumption", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OTSupplyConsumption findUnique
+   */
+  export type OTSupplyConsumptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplyConsumption to fetch.
+     */
+    where: OTSupplyConsumptionWhereUniqueInput
+  }
+
+  /**
+   * OTSupplyConsumption findUniqueOrThrow
+   */
+  export type OTSupplyConsumptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplyConsumption to fetch.
+     */
+    where: OTSupplyConsumptionWhereUniqueInput
+  }
+
+  /**
+   * OTSupplyConsumption findFirst
+   */
+  export type OTSupplyConsumptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplyConsumption to fetch.
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplyConsumptions to fetch.
+     */
+    orderBy?: OTSupplyConsumptionOrderByWithRelationInput | OTSupplyConsumptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OTSupplyConsumptions.
+     */
+    cursor?: OTSupplyConsumptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplyConsumptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplyConsumptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplyConsumptions.
+     */
+    distinct?: OTSupplyConsumptionScalarFieldEnum | OTSupplyConsumptionScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupplyConsumption findFirstOrThrow
+   */
+  export type OTSupplyConsumptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplyConsumption to fetch.
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplyConsumptions to fetch.
+     */
+    orderBy?: OTSupplyConsumptionOrderByWithRelationInput | OTSupplyConsumptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OTSupplyConsumptions.
+     */
+    cursor?: OTSupplyConsumptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplyConsumptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplyConsumptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplyConsumptions.
+     */
+    distinct?: OTSupplyConsumptionScalarFieldEnum | OTSupplyConsumptionScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupplyConsumption findMany
+   */
+  export type OTSupplyConsumptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter, which OTSupplyConsumptions to fetch.
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OTSupplyConsumptions to fetch.
+     */
+    orderBy?: OTSupplyConsumptionOrderByWithRelationInput | OTSupplyConsumptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OTSupplyConsumptions.
+     */
+    cursor?: OTSupplyConsumptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OTSupplyConsumptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OTSupplyConsumptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTSupplyConsumptions.
+     */
+    distinct?: OTSupplyConsumptionScalarFieldEnum | OTSupplyConsumptionScalarFieldEnum[]
+  }
+
+  /**
+   * OTSupplyConsumption create
+   */
+  export type OTSupplyConsumptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a OTSupplyConsumption.
+     */
+    data: XOR<OTSupplyConsumptionCreateInput, OTSupplyConsumptionUncheckedCreateInput>
+  }
+
+  /**
+   * OTSupplyConsumption createMany
+   */
+  export type OTSupplyConsumptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OTSupplyConsumptions.
+     */
+    data: OTSupplyConsumptionCreateManyInput | OTSupplyConsumptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OTSupplyConsumption createManyAndReturn
+   */
+  export type OTSupplyConsumptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many OTSupplyConsumptions.
+     */
+    data: OTSupplyConsumptionCreateManyInput | OTSupplyConsumptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OTSupplyConsumption update
+   */
+  export type OTSupplyConsumptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a OTSupplyConsumption.
+     */
+    data: XOR<OTSupplyConsumptionUpdateInput, OTSupplyConsumptionUncheckedUpdateInput>
+    /**
+     * Choose, which OTSupplyConsumption to update.
+     */
+    where: OTSupplyConsumptionWhereUniqueInput
+  }
+
+  /**
+   * OTSupplyConsumption updateMany
+   */
+  export type OTSupplyConsumptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OTSupplyConsumptions.
+     */
+    data: XOR<OTSupplyConsumptionUpdateManyMutationInput, OTSupplyConsumptionUncheckedUpdateManyInput>
+    /**
+     * Filter which OTSupplyConsumptions to update
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * Limit how many OTSupplyConsumptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupplyConsumption updateManyAndReturn
+   */
+  export type OTSupplyConsumptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * The data used to update OTSupplyConsumptions.
+     */
+    data: XOR<OTSupplyConsumptionUpdateManyMutationInput, OTSupplyConsumptionUncheckedUpdateManyInput>
+    /**
+     * Filter which OTSupplyConsumptions to update
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * Limit how many OTSupplyConsumptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupplyConsumption upsert
+   */
+  export type OTSupplyConsumptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the OTSupplyConsumption to update in case it exists.
+     */
+    where: OTSupplyConsumptionWhereUniqueInput
+    /**
+     * In case the OTSupplyConsumption found by the `where` argument doesn't exist, create a new OTSupplyConsumption with this data.
+     */
+    create: XOR<OTSupplyConsumptionCreateInput, OTSupplyConsumptionUncheckedCreateInput>
+    /**
+     * In case the OTSupplyConsumption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OTSupplyConsumptionUpdateInput, OTSupplyConsumptionUncheckedUpdateInput>
+  }
+
+  /**
+   * OTSupplyConsumption delete
+   */
+  export type OTSupplyConsumptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+    /**
+     * Filter which OTSupplyConsumption to delete.
+     */
+    where: OTSupplyConsumptionWhereUniqueInput
+  }
+
+  /**
+   * OTSupplyConsumption deleteMany
+   */
+  export type OTSupplyConsumptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OTSupplyConsumptions to delete
+     */
+    where?: OTSupplyConsumptionWhereInput
+    /**
+     * Limit how many OTSupplyConsumptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OTSupplyConsumption without action
+   */
+  export type OTSupplyConsumptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OTSupplyConsumption
+     */
+    select?: OTSupplyConsumptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OTSupplyConsumption
+     */
+    omit?: OTSupplyConsumptionOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -41870,6 +44358,46 @@ export namespace Prisma {
   };
 
   export type DepartmentInventoryHistoryScalarFieldEnum = (typeof DepartmentInventoryHistoryScalarFieldEnum)[keyof typeof DepartmentInventoryHistoryScalarFieldEnum]
+
+
+  export const OTSupplyScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sku: 'sku',
+    category: 'category',
+    qty: 'qty',
+    batch: 'batch',
+    unit: 'unit',
+    unitPrice: 'unitPrice',
+    expiry: 'expiry',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OTSupplyScalarFieldEnum = (typeof OTSupplyScalarFieldEnum)[keyof typeof OTSupplyScalarFieldEnum]
+
+
+  export const OTSupplyConsumptionScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    ref: 'ref',
+    batch: 'batch',
+    usedQty: 'usedQty',
+    unit: 'unit',
+    remainingStock: 'remainingStock',
+    stockStatus: 'stockStatus',
+    usedBy: 'usedBy',
+    usedById: 'usedById',
+    status: 'status',
+    date: 'date',
+    department: 'department',
+    procedureType: 'procedureType',
+    patientId: 'patientId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OTSupplyConsumptionScalarFieldEnum = (typeof OTSupplyConsumptionScalarFieldEnum)[keyof typeof OTSupplyConsumptionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -44985,6 +47513,204 @@ export namespace Prisma {
     qtyChanged?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
     user?: StringWithAggregatesFilter<"DepartmentInventoryHistory"> | string
     notes?: StringNullableWithAggregatesFilter<"DepartmentInventoryHistory"> | string | null
+  }
+
+  export type OTSupplyWhereInput = {
+    AND?: OTSupplyWhereInput | OTSupplyWhereInput[]
+    OR?: OTSupplyWhereInput[]
+    NOT?: OTSupplyWhereInput | OTSupplyWhereInput[]
+    id?: StringFilter<"OTSupply"> | string
+    name?: StringFilter<"OTSupply"> | string
+    sku?: StringNullableFilter<"OTSupply"> | string | null
+    category?: StringFilter<"OTSupply"> | string
+    qty?: StringFilter<"OTSupply"> | string
+    batch?: StringFilter<"OTSupply"> | string
+    unit?: StringFilter<"OTSupply"> | string
+    unitPrice?: FloatFilter<"OTSupply"> | number
+    expiry?: StringNullableFilter<"OTSupply"> | string | null
+    createdAt?: DateTimeFilter<"OTSupply"> | Date | string
+    updatedAt?: DateTimeFilter<"OTSupply"> | Date | string
+  }
+
+  export type OTSupplyOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrderInput | SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    batch?: SortOrder
+    unit?: SortOrder
+    unitPrice?: SortOrder
+    expiry?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OTSupplyWhereInput | OTSupplyWhereInput[]
+    OR?: OTSupplyWhereInput[]
+    NOT?: OTSupplyWhereInput | OTSupplyWhereInput[]
+    name?: StringFilter<"OTSupply"> | string
+    sku?: StringNullableFilter<"OTSupply"> | string | null
+    category?: StringFilter<"OTSupply"> | string
+    qty?: StringFilter<"OTSupply"> | string
+    batch?: StringFilter<"OTSupply"> | string
+    unit?: StringFilter<"OTSupply"> | string
+    unitPrice?: FloatFilter<"OTSupply"> | number
+    expiry?: StringNullableFilter<"OTSupply"> | string | null
+    createdAt?: DateTimeFilter<"OTSupply"> | Date | string
+    updatedAt?: DateTimeFilter<"OTSupply"> | Date | string
+  }, "id">
+
+  export type OTSupplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrderInput | SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    batch?: SortOrder
+    unit?: SortOrder
+    unitPrice?: SortOrder
+    expiry?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OTSupplyCountOrderByAggregateInput
+    _avg?: OTSupplyAvgOrderByAggregateInput
+    _max?: OTSupplyMaxOrderByAggregateInput
+    _min?: OTSupplyMinOrderByAggregateInput
+    _sum?: OTSupplySumOrderByAggregateInput
+  }
+
+  export type OTSupplyScalarWhereWithAggregatesInput = {
+    AND?: OTSupplyScalarWhereWithAggregatesInput | OTSupplyScalarWhereWithAggregatesInput[]
+    OR?: OTSupplyScalarWhereWithAggregatesInput[]
+    NOT?: OTSupplyScalarWhereWithAggregatesInput | OTSupplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OTSupply"> | string
+    name?: StringWithAggregatesFilter<"OTSupply"> | string
+    sku?: StringNullableWithAggregatesFilter<"OTSupply"> | string | null
+    category?: StringWithAggregatesFilter<"OTSupply"> | string
+    qty?: StringWithAggregatesFilter<"OTSupply"> | string
+    batch?: StringWithAggregatesFilter<"OTSupply"> | string
+    unit?: StringWithAggregatesFilter<"OTSupply"> | string
+    unitPrice?: FloatWithAggregatesFilter<"OTSupply"> | number
+    expiry?: StringNullableWithAggregatesFilter<"OTSupply"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OTSupply"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OTSupply"> | Date | string
+  }
+
+  export type OTSupplyConsumptionWhereInput = {
+    AND?: OTSupplyConsumptionWhereInput | OTSupplyConsumptionWhereInput[]
+    OR?: OTSupplyConsumptionWhereInput[]
+    NOT?: OTSupplyConsumptionWhereInput | OTSupplyConsumptionWhereInput[]
+    id?: StringFilter<"OTSupplyConsumption"> | string
+    name?: StringFilter<"OTSupplyConsumption"> | string
+    ref?: StringFilter<"OTSupplyConsumption"> | string
+    batch?: StringFilter<"OTSupplyConsumption"> | string
+    usedQty?: IntFilter<"OTSupplyConsumption"> | number
+    unit?: StringFilter<"OTSupplyConsumption"> | string
+    remainingStock?: IntFilter<"OTSupplyConsumption"> | number
+    stockStatus?: StringFilter<"OTSupplyConsumption"> | string
+    usedBy?: StringFilter<"OTSupplyConsumption"> | string
+    usedById?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    status?: StringFilter<"OTSupplyConsumption"> | string
+    date?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    department?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    procedureType?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    patientId?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    createdAt?: DateTimeFilter<"OTSupplyConsumption"> | Date | string
+    updatedAt?: DateTimeFilter<"OTSupplyConsumption"> | Date | string
+  }
+
+  export type OTSupplyConsumptionOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    ref?: SortOrder
+    batch?: SortOrder
+    usedQty?: SortOrder
+    unit?: SortOrder
+    remainingStock?: SortOrder
+    stockStatus?: SortOrder
+    usedBy?: SortOrder
+    usedById?: SortOrderInput | SortOrder
+    status?: SortOrder
+    date?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    procedureType?: SortOrderInput | SortOrder
+    patientId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyConsumptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OTSupplyConsumptionWhereInput | OTSupplyConsumptionWhereInput[]
+    OR?: OTSupplyConsumptionWhereInput[]
+    NOT?: OTSupplyConsumptionWhereInput | OTSupplyConsumptionWhereInput[]
+    name?: StringFilter<"OTSupplyConsumption"> | string
+    ref?: StringFilter<"OTSupplyConsumption"> | string
+    batch?: StringFilter<"OTSupplyConsumption"> | string
+    usedQty?: IntFilter<"OTSupplyConsumption"> | number
+    unit?: StringFilter<"OTSupplyConsumption"> | string
+    remainingStock?: IntFilter<"OTSupplyConsumption"> | number
+    stockStatus?: StringFilter<"OTSupplyConsumption"> | string
+    usedBy?: StringFilter<"OTSupplyConsumption"> | string
+    usedById?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    status?: StringFilter<"OTSupplyConsumption"> | string
+    date?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    department?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    procedureType?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    patientId?: StringNullableFilter<"OTSupplyConsumption"> | string | null
+    createdAt?: DateTimeFilter<"OTSupplyConsumption"> | Date | string
+    updatedAt?: DateTimeFilter<"OTSupplyConsumption"> | Date | string
+  }, "id">
+
+  export type OTSupplyConsumptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    ref?: SortOrder
+    batch?: SortOrder
+    usedQty?: SortOrder
+    unit?: SortOrder
+    remainingStock?: SortOrder
+    stockStatus?: SortOrder
+    usedBy?: SortOrder
+    usedById?: SortOrderInput | SortOrder
+    status?: SortOrder
+    date?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    procedureType?: SortOrderInput | SortOrder
+    patientId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OTSupplyConsumptionCountOrderByAggregateInput
+    _avg?: OTSupplyConsumptionAvgOrderByAggregateInput
+    _max?: OTSupplyConsumptionMaxOrderByAggregateInput
+    _min?: OTSupplyConsumptionMinOrderByAggregateInput
+    _sum?: OTSupplyConsumptionSumOrderByAggregateInput
+  }
+
+  export type OTSupplyConsumptionScalarWhereWithAggregatesInput = {
+    AND?: OTSupplyConsumptionScalarWhereWithAggregatesInput | OTSupplyConsumptionScalarWhereWithAggregatesInput[]
+    OR?: OTSupplyConsumptionScalarWhereWithAggregatesInput[]
+    NOT?: OTSupplyConsumptionScalarWhereWithAggregatesInput | OTSupplyConsumptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    name?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    ref?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    batch?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    usedQty?: IntWithAggregatesFilter<"OTSupplyConsumption"> | number
+    unit?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    remainingStock?: IntWithAggregatesFilter<"OTSupplyConsumption"> | number
+    stockStatus?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    usedBy?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    usedById?: StringNullableWithAggregatesFilter<"OTSupplyConsumption"> | string | null
+    status?: StringWithAggregatesFilter<"OTSupplyConsumption"> | string
+    date?: StringNullableWithAggregatesFilter<"OTSupplyConsumption"> | string | null
+    department?: StringNullableWithAggregatesFilter<"OTSupplyConsumption"> | string | null
+    procedureType?: StringNullableWithAggregatesFilter<"OTSupplyConsumption"> | string | null
+    patientId?: StringNullableWithAggregatesFilter<"OTSupplyConsumption"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OTSupplyConsumption"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OTSupplyConsumption"> | Date | string
   }
 
   export type TenantUserCreateInput = {
@@ -48453,6 +51179,244 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type OTSupplyCreateInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    category: string
+    qty?: string
+    batch: string
+    unit: string
+    unitPrice?: number
+    expiry?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyUncheckedCreateInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    category: string
+    qty?: string
+    batch: string
+    unit: string
+    unitPrice?: number
+    expiry?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    unit?: StringFieldUpdateOperationsInput | string
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    expiry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    unit?: StringFieldUpdateOperationsInput | string
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    expiry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyCreateManyInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    category: string
+    qty?: string
+    batch: string
+    unit: string
+    unitPrice?: number
+    expiry?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    unit?: StringFieldUpdateOperationsInput | string
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    expiry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    qty?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    unit?: StringFieldUpdateOperationsInput | string
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    expiry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyConsumptionCreateInput = {
+    id?: string
+    name: string
+    ref: string
+    batch: string
+    usedQty: number
+    unit: string
+    remainingStock: number
+    stockStatus: string
+    usedBy: string
+    usedById?: string | null
+    status?: string
+    date?: string | null
+    department?: string | null
+    procedureType?: string | null
+    patientId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyConsumptionUncheckedCreateInput = {
+    id?: string
+    name: string
+    ref: string
+    batch: string
+    usedQty: number
+    unit: string
+    remainingStock: number
+    stockStatus: string
+    usedBy: string
+    usedById?: string | null
+    status?: string
+    date?: string | null
+    department?: string | null
+    procedureType?: string | null
+    patientId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyConsumptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    usedQty?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    remainingStock?: IntFieldUpdateOperationsInput | number
+    stockStatus?: StringFieldUpdateOperationsInput | string
+    usedBy?: StringFieldUpdateOperationsInput | string
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    procedureType?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyConsumptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    usedQty?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    remainingStock?: IntFieldUpdateOperationsInput | number
+    stockStatus?: StringFieldUpdateOperationsInput | string
+    usedBy?: StringFieldUpdateOperationsInput | string
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    procedureType?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyConsumptionCreateManyInput = {
+    id?: string
+    name: string
+    ref: string
+    batch: string
+    usedQty: number
+    unit: string
+    remainingStock: number
+    stockStatus: string
+    usedBy: string
+    usedById?: string | null
+    status?: string
+    date?: string | null
+    department?: string | null
+    procedureType?: string | null
+    patientId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OTSupplyConsumptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    usedQty?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    remainingStock?: IntFieldUpdateOperationsInput | number
+    stockStatus?: StringFieldUpdateOperationsInput | string
+    usedBy?: StringFieldUpdateOperationsInput | string
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    procedureType?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OTSupplyConsumptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
+    batch?: StringFieldUpdateOperationsInput | string
+    usedQty?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    remainingStock?: IntFieldUpdateOperationsInput | number
+    stockStatus?: StringFieldUpdateOperationsInput | string
+    usedBy?: StringFieldUpdateOperationsInput | string
+    usedById?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    date?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    procedureType?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -50649,6 +53613,126 @@ export namespace Prisma {
     qtyChanged?: SortOrder
     user?: SortOrder
     notes?: SortOrder
+  }
+
+  export type OTSupplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    batch?: SortOrder
+    unit?: SortOrder
+    unitPrice?: SortOrder
+    expiry?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyAvgOrderByAggregateInput = {
+    unitPrice?: SortOrder
+  }
+
+  export type OTSupplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    batch?: SortOrder
+    unit?: SortOrder
+    unitPrice?: SortOrder
+    expiry?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sku?: SortOrder
+    category?: SortOrder
+    qty?: SortOrder
+    batch?: SortOrder
+    unit?: SortOrder
+    unitPrice?: SortOrder
+    expiry?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplySumOrderByAggregateInput = {
+    unitPrice?: SortOrder
+  }
+
+  export type OTSupplyConsumptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    ref?: SortOrder
+    batch?: SortOrder
+    usedQty?: SortOrder
+    unit?: SortOrder
+    remainingStock?: SortOrder
+    stockStatus?: SortOrder
+    usedBy?: SortOrder
+    usedById?: SortOrder
+    status?: SortOrder
+    date?: SortOrder
+    department?: SortOrder
+    procedureType?: SortOrder
+    patientId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyConsumptionAvgOrderByAggregateInput = {
+    usedQty?: SortOrder
+    remainingStock?: SortOrder
+  }
+
+  export type OTSupplyConsumptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    ref?: SortOrder
+    batch?: SortOrder
+    usedQty?: SortOrder
+    unit?: SortOrder
+    remainingStock?: SortOrder
+    stockStatus?: SortOrder
+    usedBy?: SortOrder
+    usedById?: SortOrder
+    status?: SortOrder
+    date?: SortOrder
+    department?: SortOrder
+    procedureType?: SortOrder
+    patientId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyConsumptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    ref?: SortOrder
+    batch?: SortOrder
+    usedQty?: SortOrder
+    unit?: SortOrder
+    remainingStock?: SortOrder
+    stockStatus?: SortOrder
+    usedBy?: SortOrder
+    usedById?: SortOrder
+    status?: SortOrder
+    date?: SortOrder
+    department?: SortOrder
+    procedureType?: SortOrder
+    patientId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OTSupplyConsumptionSumOrderByAggregateInput = {
+    usedQty?: SortOrder
+    remainingStock?: SortOrder
   }
 
   export type AdmissionCreateNestedManyWithoutDoctorInput = {

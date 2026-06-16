@@ -654,3 +654,41 @@ model DepartmentInventoryHistory {
 
   @@map("department_inventory_histories")
 }
+
+model OTSupply {
+  id        String   @id @default(uuid())
+  name      String
+  sku       String?  @default("")
+  category  String
+  qty       String   @default("0")
+  batch     String
+  unit      String
+  unitPrice Float    @default(0.0)
+  expiry    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ot_supplies")
+}
+
+model OTSupplyConsumption {
+  id             String   @id @default(uuid())
+  name           String
+  ref            String
+  batch          String
+  usedQty        Int
+  unit           String
+  remainingStock Int
+  stockStatus    String // "STABLE", "CRITICAL"
+  usedBy         String
+  usedById       String?
+  status         String   @default("VERIFIED")
+  date           String?
+  department     String?
+  procedureType  String?
+  patientId      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("ot_supply_consumptions")
+}
