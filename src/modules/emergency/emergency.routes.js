@@ -6,6 +6,10 @@ const auditLogger = require("../../middleware/audit-logger");
 
 // Auth + role guard for all routes
 router.use(auth);
+
+// Emergency Analytics (accessible by Reports Manager as well)
+router.get("/emergency-analytics", authorize("SUPERADMIN", "BRANCH_ADMIN", "RECEPTION", "STAFF", "REPORTS"), emergencyController.getEmergencyAnalytics);
+
 router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "RECEPTION", "STAFF"));
 router.use(auditLogger("EMERGENCY_REGISTRATION"));
 

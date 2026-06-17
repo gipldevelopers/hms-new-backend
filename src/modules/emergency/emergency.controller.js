@@ -133,4 +133,22 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { getList, getStats, getById, create, update, confirm, remove };
+/**
+ * GET /api/emergency/emergency-analytics
+ * Get dynamic metrics, capacity statuses, and triage board for Emergency Analytics.
+ */
+const getEmergencyAnalytics = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+
+    const data = await emergencyService.getEmergencyAnalytics(branchId);
+    res.json({ success: true, data });
+  } catch (error) {
+    console.error("[Emergency] getEmergencyAnalytics error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { getList, getStats, getById, create, update, confirm, remove, getEmergencyAnalytics };
+
