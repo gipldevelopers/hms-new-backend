@@ -636,6 +636,21 @@ exports.Prisma.OTSupplyConsumptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PurchaseRequestScalarFieldEnum = {
+  id: 'id',
+  prNumber: 'prNumber',
+  department: 'department',
+  requestedBy: 'requestedBy',
+  date: 'date',
+  priority: 'priority',
+  totalItems: 'totalItems',
+  status: 'status',
+  items: 'items',
+  poNumber: 'poNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -700,7 +715,8 @@ exports.Prisma.ModelName = {
   DepartmentInventory: 'DepartmentInventory',
   DepartmentInventoryHistory: 'DepartmentInventoryHistory',
   OTSupply: 'OTSupply',
-  OTSupplyConsumption: 'OTSupplyConsumption'
+  OTSupplyConsumption: 'OTSupplyConsumption',
+  PurchaseRequest: 'PurchaseRequest'
 };
 
 /**
