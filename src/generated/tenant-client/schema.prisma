@@ -692,3 +692,20 @@ model OTSupplyConsumption {
 
   @@map("ot_supply_consumptions")
 }
+
+model PurchaseRequest {
+  id          String   @id @default(uuid())
+  prNumber    String   @unique
+  department  String
+  requestedBy String
+  date        String
+  priority    String   @default("Normal")
+  totalItems  Int      @default(0)
+  status      String   @default("Pending Admin") // Pending Admin, Ordered, Rejected
+  items       Json
+  poNumber    String? // Linked PO number if approved
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("purchase_requests")
+}
