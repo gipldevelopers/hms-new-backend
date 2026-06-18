@@ -1,0 +1,5 @@
+Current Hash: 42b235016743
+Saved Hash: 
+Running npx --no-install prisma generate...
+GENERATION ERROR:
+exec is not defined

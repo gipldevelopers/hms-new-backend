@@ -34,6 +34,7 @@ const purchaseRoutes = require('./purchase/purchase.routes');
 const supplierRoutes = require('./supplier/supplier.routes');
 const departmentInventoryRoutes = require('./department-inventory/department-inventory.routes');
 const otSuppliesRoutes = require('./ot-supplies/ot-supplies.routes');
+const financeRoutes = require('./finance/finance.routes');
 
 // Define routes
 router.use('/auth', authRoutes);
@@ -68,6 +69,7 @@ router.use('/purchase', purchaseRoutes);
 router.use('/supplier', supplierRoutes);
 router.use('/department-inventory', departmentInventoryRoutes);
 router.use('/ot-supplies', otSuppliesRoutes);
+router.use('/finance', financeRoutes);
 
 module.exports = router;
 // Trigger restart for newly generated Prisma tenant client 12345

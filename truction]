@@ -1,0 +1,20 @@
+* [33mb292923[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/finance/sheshan[m[33m, [m[1;31morigin/feature/finance/sheshan[m[33m)[m Merge branch 'develop' of https://github.com/gipldevelopers/hms-new-backend into feature/finance/sheshan
+*   [33mb2546e6[m Merge branch 'develop' of https://github.com/gipldevelopers/hms-new-backend into feature/finance/sheshan
+[32m|[m[33m\[m  
+[32m|[m *   [33m82fe155[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #18 from gipldevelopers/feature/hospital-inventory-dashboard
+[32m|[m [34m|[m[35m\[m  
+[32m|[m [34m|[m * [33maaba1ce[m[33m ([m[1;31morigin/feature/hospital-inventory-dashboard[m[33m)[m implemented the inventory, purchase, total stock, etc api
+[32m|[m * [35m|[m   [33m52f68e7[m Merge pull request #19 from gipldevelopers/hospital-inventory
+[32m|[m [36m|[m[1;31m\[m [35m\[m  
+[32m|[m [36m|[m * [35m|[m [33m5caa9f9[m[33m ([m[1;31morigin/hospital-inventory[m[33m)[m feat: implement OT supplies module and add related Prisma schema definitions
+[32m|[m [36m|[m[36m/[m [35m/[m  
+[32m|[m * [35m|[m   [33m4e4aa19[m Merge pull request #17 from gipldevelopers/feature/lab-inventory
+[32m|[m [1;32m|[m[1;33m\[m [35m\[m  
+[32m|[m [1;32m|[m * [35m|[m [33m270c67b[m[33m ([m[1;31morigin/feature/lab-inventory[m[33m)[m lab inventory module completed
+[32m|[m [1;32m|[m [35m|[m[35m/[m  
+[32m|[m * [35m|[m   [33mcb2bf46[m Merge pull request #15 from gipldevelopers/hospital-inventory
+[32m|[m [35m|[m[1;35m\[m [35m\[m  
+[32m|[m [35m|[m [1;35m|[m[35m/[m  
+[32m|[m [35m|[m[35m/[m[1;35m|[m   
+[32m|[m [35m|[m * [33md18def4[m feat: implement department inventory management modules and initialize tenant-specific Prisma client schema
+[32m|[m [35m|[m[35m/[m  

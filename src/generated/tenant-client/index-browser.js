@@ -636,6 +636,76 @@ exports.Prisma.OTSupplyConsumptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentTransactionScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  transactionId: 'transactionId',
+  status: 'status',
+  notes: 'notes',
+  processedBy: 'processedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RefundScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  paymentTransactionId: 'paymentTransactionId',
+  amount: 'amount',
+  reason: 'reason',
+  status: 'status',
+  processedBy: 'processedBy',
+  approvedBy: 'approvedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InsuranceClaimScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  patientId: 'patientId',
+  insuranceProvider: 'insuranceProvider',
+  policyNumber: 'policyNumber',
+  cardNumber: 'cardNumber',
+  preAuthAmount: 'preAuthAmount',
+  claimAmount: 'claimAmount',
+  approvedAmount: 'approvedAmount',
+  status: 'status',
+  notes: 'notes',
+  claimDate: 'claimDate',
+  settlementDate: 'settlementDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscountRequestScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  discountAmount: 'discountAmount',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  reason: 'reason',
+  requestedBy: 'requestedBy',
+  approvedBy: 'approvedBy',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TariffScalarFieldEnum = {
+  id: 'id',
+  category: 'category',
+  serviceCode: 'serviceCode',
+  serviceName: 'serviceName',
+  standardPrice: 'standardPrice',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -700,7 +770,12 @@ exports.Prisma.ModelName = {
   DepartmentInventory: 'DepartmentInventory',
   DepartmentInventoryHistory: 'DepartmentInventoryHistory',
   OTSupply: 'OTSupply',
-  OTSupplyConsumption: 'OTSupplyConsumption'
+  OTSupplyConsumption: 'OTSupplyConsumption',
+  PaymentTransaction: 'PaymentTransaction',
+  Refund: 'Refund',
+  InsuranceClaim: 'InsuranceClaim',
+  DiscountRequest: 'DiscountRequest',
+  Tariff: 'Tariff'
 };
 
 /**
