@@ -36,6 +36,8 @@ const departmentInventoryRoutes = require('./department-inventory/department-inv
 const otSuppliesRoutes = require('./ot-supplies/ot-supplies.routes');
 const approvalsRoutes = require('./approvals/approvals.routes');
 
+const reportsRoutes = require('./reports/reports.routes');
+
 // Define routes
 router.use('/auth', authRoutes);
 router.use('/branches', branchRoutes);
@@ -69,6 +71,7 @@ router.use('/purchase', purchaseRoutes);
 router.use('/supplier', supplierRoutes);
 router.use('/department-inventory', departmentInventoryRoutes);
 router.use('/ot-supplies', otSuppliesRoutes);
+router.use('/reports', reportsRoutes);
 router.use('/approvals', approvalsRoutes);
 
 module.exports = router;
