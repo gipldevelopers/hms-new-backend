@@ -35,6 +35,7 @@ const supplierRoutes = require('./supplier/supplier.routes');
 const departmentInventoryRoutes = require('./department-inventory/department-inventory.routes');
 const otSuppliesRoutes = require('./ot-supplies/ot-supplies.routes');
 const approvalsRoutes = require('./approvals/approvals.routes');
+const inventoryReportsRoutes = require('./inventory-reports/inventory-reports.routes');
 
 const reportsRoutes = require('./reports/reports.routes');
 
@@ -73,6 +74,7 @@ router.use('/department-inventory', departmentInventoryRoutes);
 router.use('/ot-supplies', otSuppliesRoutes);
 router.use('/reports', reportsRoutes);
 router.use('/approvals', approvalsRoutes);
+router.use('/inventory-reports', inventoryReportsRoutes);
 
 module.exports = router;
 // Trigger restart for newly generated Prisma tenant client 1234567
