@@ -342,10 +342,63 @@ const getDashboardStats = async (branchId) => {
   };
 };
 
+const deleteConsumption = async (branchId, id) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  return await tenantDb.$transaction(async (tx) => {
+    // 1. Find the consumption log
+    const log = await tx.oTSupplyConsumption.findUnique({
+      where: { id }
+    });
+
+    if (!log) {
+      throw new Error("Consumption log record not found");
+    }
+
+    // 2. Try to restore the supply quantity
+    if (log.name && log.usedQty > 0) {
+      let matchingSupply = await tx.oTSupply.findFirst({
+        where: { name: { equals: log.name, mode: "insensitive" } }
+      });
+
+      if (matchingSupply) {
+        const currentQty = parseInt(matchingSupply.qty) || 0;
+        const newQty = currentQty + log.usedQty;
+
+        // Update in tenant DB
+        await tx.oTSupply.update({
+          where: { id: matchingSupply.id },
+          data: { qty: String(newQty) }
+        });
+
+        // Update in main DB
+        await mainDb.oTSupply.update({
+          where: { id: matchingSupply.id },
+          data: { qty: String(newQty) }
+        }).catch(() => {});
+      }
+    }
+
+    // 3. Delete from tenant DB
+    await tx.oTSupplyConsumption.delete({
+      where: { id }
+    });
+
+    // 4. Delete from main DB
+    await mainDb.oTSupplyConsumption.deleteMany({
+      where: { id }
+    });
+
+    return { success: true };
+  });
+};
+
 module.exports = {
   getConsumptions,
   getSupplies,
   createSupplyItem,
   logConsumption,
-  getDashboardStats
+  getDashboardStats,
+  deleteConsumption
 };
+

@@ -11,5 +11,6 @@ router.use(auditLogger("HOSPITAL_INVENTORY"));
 
 router.get("/", ctrl.getTransfers);
 router.post("/", ctrl.createTransfer);
+router.delete("/:id", ctrl.deleteTransfer);
 
 module.exports = router;

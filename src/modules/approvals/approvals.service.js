@@ -114,6 +114,24 @@ const createPurchaseRequest = async (branchId, data) => {
     prNumber = `PR-2026-${100 + count}`;
   }
 
+  let exists = await tenantDb.purchaseRequest.findFirst({
+    where: { prNumber }
+  });
+
+  let counter = 1;
+  while (exists) {
+    if (data.prNumber) {
+      prNumber = `${data.prNumber}-${counter}`;
+    } else {
+      const count = await tenantDb.purchaseRequest.count();
+      prNumber = `PR-2026-${100 + count + counter}`;
+    }
+    exists = await tenantDb.purchaseRequest.findFirst({
+      where: { prNumber }
+    });
+    counter++;
+  }
+
   const prData = {
     id: prId,
     prNumber,

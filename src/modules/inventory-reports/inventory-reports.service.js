@@ -21,6 +21,7 @@ const getReportsStats = async (branchId) => {
   const otConsumptions = await tenantDb.oTSupplyConsumption.findMany({
     orderBy: { createdAt: "desc" }
   });
+  const otSupplies = await tenantDb.oTSupply.findMany();
 
   // --- Calculations ---
 
@@ -65,6 +66,7 @@ const getReportsStats = async (branchId) => {
         lowStockCount++;
         const status = qtyVal <= minThresholdVal * 0.2 ? "CRITICAL" : "REORDER SOON";
         lowStockAlerts.push({
+          id: item.id,
           name: item.name,
           department: deptName || item.category || "General",
           status: status,
@@ -127,14 +129,14 @@ const getReportsStats = async (branchId) => {
   for (let i = 0; i < 4; i++) {
     const stockVal = weeklyStockUsage[i];
     const deptVal = weeklyDeptUsage[i];
-    
+
     // Scale to percentages (0 to 100) for rendering
     // Normalization factor: if max usage is 0, provide realistic defaults
     const maxVal = Math.max(...weeklyStockUsage, ...weeklyDeptUsage, 1);
-    
+
     const bottom1 = maxVal > 10 ? Math.round((stockVal / maxVal) * 50) + 20 : [45, 35, 48, 42][i];
     const top1 = Math.round(bottom1 * 0.6); // Projected is subset/stacked or standalone
-    
+
     const bottom2 = maxVal > 10 ? Math.round((deptVal / maxVal) * 50) + 20 : [55, 50, 52, 54][i];
     const top2 = Math.round(bottom2 * 0.5);
 
@@ -149,7 +151,7 @@ const getReportsStats = async (branchId) => {
 
   // 6. Top Usage Depts
   const deptUsageMap = {};
-  
+
   // Parse transfers (source -> destination)
   transfers.forEach(t => {
     const dest = t.destination || "General";
@@ -162,7 +164,7 @@ const getReportsStats = async (branchId) => {
           qty += parseFloat(item.qty) || 0;
         });
       }
-    } catch(e) {}
+    } catch (e) { }
     if (qty > 0) {
       deptUsageMap[dest] = (deptUsageMap[dest] || 0) + qty;
     }
@@ -220,29 +222,33 @@ const getReportsStats = async (branchId) => {
   // Sort departments by percentage descending
   deptsData.sort((a, b) => b.percentage - a.percentage);
 
-  // 7. Resource Allocation
-  let totalUsageVal = 0;
-  stockHistory.forEach(h => {
-    if (h.type === "Usage" || h.qtyChanged.startsWith("-")) {
-      totalUsageVal += Math.abs(parseFloat(h.qtyChanged)) || 0;
-    }
-  });
-  let totalStockVal = 0;
+  // 7. Resource Allocation (Central Store vs Wards & Depts vs Operation Theatre)
+  let centralQty = 0;
   stockItems.forEach(item => {
-    totalStockVal += parseFloat(item.qty) || 0;
+    centralQty += parseFloat(item.qty) || 0;
   });
 
-  const totalSum = (totalUsageVal + totalStockVal) || 1;
-  const consumptionPercent = Math.max(10, Math.round((totalUsageVal / totalSum) * 100)) || 75;
-  const reservesPercent = Math.max(10, 100 - consumptionPercent - 12) || 25; // 12% is 'Other'
-  const otherPercent = 12;
+  let deptQty = 0;
+  deptItems.forEach(item => {
+    deptQty += parseFloat(item.qty) || 0;
+  });
+
+  let otQty = 0;
+  otSupplies.forEach(item => {
+    otQty += parseFloat(item.qty) || 0;
+  });
+
+  const grandTotalQty = (centralQty + deptQty + otQty) || 1;
+  const centralPercent = Math.max(5, Math.round((centralQty / grandTotalQty) * 100));
+  const deptPercent = Math.max(5, Math.round((deptQty / grandTotalQty) * 100));
+  const otPercent = Math.max(5, 100 - centralPercent - deptPercent);
 
   const allocationData = {
     allocatedPercent: 100,
     categories: [
-      { name: "Consumption", percentage: consumptionPercent, colorClass: "bg-violet-500", dotClass: "bg-violet-500" },
-      { name: "Reserves", percentage: reservesPercent, colorClass: "bg-teal-400", dotClass: "bg-teal-400" },
-      { name: "Other", percentage: otherPercent, colorClass: "bg-slate-400", dotClass: "bg-slate-400" }
+      { name: "Central Store", percentage: centralPercent, colorClass: "bg-violet-500", dotClass: "bg-violet-500" },
+      { name: "Wards & Departments", percentage: deptPercent, colorClass: "bg-teal-400", dotClass: "bg-teal-400" },
+      { name: "Operation Theatre", percentage: otPercent, colorClass: "bg-slate-400", dotClass: "bg-slate-400" }
     ]
   };
 

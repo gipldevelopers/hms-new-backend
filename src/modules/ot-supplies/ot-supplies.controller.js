@@ -89,10 +89,28 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
+const deleteConsumption = async (req, res) => {
+  try {
+    const branchId = await resolveBranchId(req);
+    const { id } = req.params;
+
+    if (!branchId) {
+      return res.status(400).json({ success: false, error: "Active branch context required." });
+    }
+
+    const result = await service.deleteConsumption(branchId, id);
+    res.json({ success: true, data: result });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getConsumptions,
   logConsumption,
   getSupplies,
   createSupplyItem,
-  getDashboardStats
+  getDashboardStats,
+  deleteConsumption
 };
+
