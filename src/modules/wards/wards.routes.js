@@ -10,6 +10,8 @@ router.use(auth);
 // Overview and Stats accessible by Staff for clinical operations
 router.get("/overview", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), wardsController.getOverview);
 router.get("/stats", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF"), wardsController.getStats);
+router.get("/occupancy-analytics", authorize("SUPERADMIN", "BRANCH_ADMIN", "STAFF", "REPORTS"), wardsController.getOccupancyAnalytics);
+
 
 // Management routes restricted to Admins
 router.use(authorize("SUPERADMIN", "BRANCH_ADMIN"));

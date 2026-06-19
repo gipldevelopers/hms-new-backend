@@ -540,27 +540,43 @@ const getDashboardStats = async (branchId) => {
   }
 
   // Pending Approvals mapping
-  const pendingPOs = activePOs.filter(po => po.orderStatus === "PENDING" || po.orderStatus === "ORDERED");
-  const approvals = pendingPOs.map(po => {
+  let pendingPRs = await tenantDb.purchaseRequest.findMany({
+    where: { status: "Pending Admin" },
+    orderBy: { createdAt: "desc" }
+  });
+
+  // Ensure PRs are seeded if empty
+  if (pendingPRs.length === 0) {
+    const approvalsService = require("../approvals/approvals.service");
+    await approvalsService.getPurchaseRequests(branchId);
+    pendingPRs = await tenantDb.purchaseRequest.findMany({
+      where: { status: "Pending Admin" },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+
+  const approvals = pendingPRs.map(pr => {
     let itemDesc = "";
     try {
-      const parsedItems = typeof po.items === "string" ? JSON.parse(po.items) : po.items;
+      const parsedItems = typeof pr.items === "string" ? JSON.parse(pr.items) : pr.items;
       if (Array.isArray(parsedItems) && parsedItems.length > 0) {
         itemDesc = parsedItems.map(pi => `${pi.qty} ${pi.name || pi.product || "units"}`).join(", ");
       }
     } catch (e) {
-      itemDesc = "Purchase order items";
+      itemDesc = "Purchase request items";
     }
-    if (!itemDesc) itemDesc = "Surgical / clinical supplies";
+    if (!itemDesc) itemDesc = pr.totalItems + " items";
+
+    const costNum = pr.items ? pr.items.reduce((sum, item) => sum + ((parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)), 0) : 0;
 
     return {
-      id: po.poNumber || po.id,
-      dept: po.deliveryStore || "Central Store",
+      id: pr.prNumber || pr.id,
+      dept: pr.department || "Central Store",
       item: itemDesc,
-      cost: `₹${parseFloat(po.totalAmount || 0).toLocaleString("en-IN")}`,
-      user: "Purchasing Officer",
-      time: po.orderDate || "Recently",
-      urgent: po.shippingUrgency === "Emergency Expedited (24h)" || po.shippingUrgency === "High"
+      cost: `₹${Math.round(costNum).toLocaleString("en-IN")}`,
+      user: pr.requestedBy || "Purchasing Officer",
+      time: pr.date || "Recently",
+      urgent: pr.priority === "Urgent" || pr.priority === "High"
     };
   });
 

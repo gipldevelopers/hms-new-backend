@@ -110,9 +110,24 @@ const createPurchaseOrder = async (branchId, data) => {
   const tenantDb = await getTenantClient(branchId);
   const id = crypto.randomUUID();
 
+  // Handle unique poNumber constraint dynamically
+  let finalPoNumber = data.poNumber;
+  let exists = await tenantDb.purchaseOrder.findFirst({
+    where: { poNumber: finalPoNumber }
+  });
+  
+  let counter = 1;
+  while (exists) {
+    finalPoNumber = `${data.poNumber}-${counter}`;
+    exists = await tenantDb.purchaseOrder.findFirst({
+      where: { poNumber: finalPoNumber }
+    });
+    counter++;
+  }
+
   const orderData = {
     id,
-    poNumber: data.poNumber,
+    poNumber: finalPoNumber,
     vendor: data.vendor,
     orderDate: data.orderDate,
     expectedDelivery: data.expectedDelivery || "Pending",

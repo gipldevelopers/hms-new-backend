@@ -127,10 +127,38 @@ const toggleStatus = async (req, res) => {
   }
 };
 
+const getOccupancyAnalytics = async (req, res) => {
+  try {
+    let branchId = req.query.branchId || req.user.branchId;
+    
+    if (branchId) {
+      const branch = await prisma.branch.findUnique({ where: { id: branchId } });
+      if (!branch || !branch.isDbInitialized) branchId = null;
+    }
+
+    if (!branchId) {
+      const firstBranch = await prisma.branch.findFirst({
+        where: { isDbInitialized: true }
+      });
+      if (firstBranch) branchId = firstBranch.id;
+    }
+    
+    if (!branchId) return res.status(400).json({ error: "Branch ID is required" });
+    
+    const analytics = await wardsService.getOccupancyAnalytics(branchId);
+    res.json(analytics);
+  } catch (error) {
+    console.error("Error in getOccupancyAnalytics:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getOverview,
   syncDepartments,
   getStats,
   deleteDepartment,
-  toggleStatus
+  toggleStatus,
+  getOccupancyAnalytics
 };
+

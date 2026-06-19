@@ -636,72 +636,17 @@ exports.Prisma.OTSupplyConsumptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PaymentTransactionScalarFieldEnum = {
+exports.Prisma.PurchaseRequestScalarFieldEnum = {
   id: 'id',
-  billId: 'billId',
-  amount: 'amount',
-  paymentMethod: 'paymentMethod',
-  transactionId: 'transactionId',
-  status: 'status',
-  notes: 'notes',
-  processedBy: 'processedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.RefundScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  paymentTransactionId: 'paymentTransactionId',
-  amount: 'amount',
-  reason: 'reason',
-  status: 'status',
-  processedBy: 'processedBy',
-  approvedBy: 'approvedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.InsuranceClaimScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  patientId: 'patientId',
-  insuranceProvider: 'insuranceProvider',
-  policyNumber: 'policyNumber',
-  cardNumber: 'cardNumber',
-  preAuthAmount: 'preAuthAmount',
-  claimAmount: 'claimAmount',
-  approvedAmount: 'approvedAmount',
-  status: 'status',
-  notes: 'notes',
-  claimDate: 'claimDate',
-  settlementDate: 'settlementDate',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DiscountRequestScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  discountAmount: 'discountAmount',
-  discountType: 'discountType',
-  discountValue: 'discountValue',
-  reason: 'reason',
+  prNumber: 'prNumber',
+  department: 'department',
   requestedBy: 'requestedBy',
-  approvedBy: 'approvedBy',
+  date: 'date',
+  priority: 'priority',
+  totalItems: 'totalItems',
   status: 'status',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.TariffScalarFieldEnum = {
-  id: 'id',
-  category: 'category',
-  serviceCode: 'serviceCode',
-  serviceName: 'serviceName',
-  standardPrice: 'standardPrice',
-  active: 'active',
+  items: 'items',
+  poNumber: 'poNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -771,11 +716,7 @@ exports.Prisma.ModelName = {
   DepartmentInventoryHistory: 'DepartmentInventoryHistory',
   OTSupply: 'OTSupply',
   OTSupplyConsumption: 'OTSupplyConsumption',
-  PaymentTransaction: 'PaymentTransaction',
-  Refund: 'Refund',
-  InsuranceClaim: 'InsuranceClaim',
-  DiscountRequest: 'DiscountRequest',
-  Tariff: 'Tariff'
+  PurchaseRequest: 'PurchaseRequest'
 };
 
 /**
