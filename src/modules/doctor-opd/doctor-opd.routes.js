@@ -12,6 +12,8 @@ router.use(auditLogger("DOCTOR_OPD"));
 // OPD Patient List
 router.get("/patients", ctrl.getOPDPatients);
 router.get("/stats", ctrl.getStats);
+router.get("/dashboard", ctrl.getDashboardData);
+router.post("/appointments", ctrl.createAppointment);
 
 // Patient Details & Consultation
 router.get("/patients/:appointmentId", ctrl.getPatientDetails);

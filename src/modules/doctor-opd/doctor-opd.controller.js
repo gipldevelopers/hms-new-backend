@@ -306,6 +306,85 @@ const getStats = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/doctor-opd/dashboard - Get comprehensive Doctor Dashboard data
+ */
+const getDashboardData = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "No initialized branch found." 
+      });
+    }
+
+    const doctorId = req.query.doctorId || req.user?.id;
+    if (!doctorId) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor ID is required."
+      });
+    }
+
+    const data = await svc.getDoctorDashboardData(branchId, doctorId);
+    
+    res.json({ 
+      success: true, 
+      data 
+    });
+  } catch (e) {
+    console.error("Error fetching doctor dashboard data:", e);
+    res.status(500).json({ 
+      success: false, 
+      message: e.message 
+    });
+  }
+};
+
+/**
+ * POST /api/doctor-opd/appointments - Create a new appointment/schedule item
+ */
+const createAppointment = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "No initialized branch found." 
+      });
+    }
+
+    const { patientId, dateTime } = req.body;
+    if (!patientId || !dateTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Patient ID and Date/Time are required."
+      });
+    }
+
+    const appointmentData = {
+      ...req.body,
+      doctorId: req.body.doctorId || req.user?.id
+    };
+
+    const appointment = await svc.createAppointment(branchId, appointmentData);
+    
+    res.status(201).json({
+      success: true,
+      data: appointment,
+      message: "Appointment scheduled successfully"
+    });
+  } catch (e) {
+    console.error("Error creating appointment:", e);
+    const status = e.message.includes("not found") ? 404 : 400;
+    res.status(status).json({ 
+      success: false, 
+      message: e.message 
+    });
+  }
+};
+
 module.exports = {
   getOPDPatients,
   getPatientDetails,
@@ -315,5 +394,7 @@ module.exports = {
   updateMedicine,
   deleteMedicine,
   getMedicines,
-  getStats
+  getStats,
+  getDashboardData,
+  createAppointment
 };

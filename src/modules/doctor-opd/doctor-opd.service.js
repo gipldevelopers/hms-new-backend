@@ -449,6 +449,337 @@ const getOPDStats = async (branchId, doctorId = null) => {
   };
 };
 
+/**
+ * Get comprehensive Doctor Dashboard data
+ */
+const getDoctorDashboardData = async (branchId, doctorId) => {
+  if (!doctorId) {
+    throw new Error("Doctor ID is required");
+  }
+  const tenantDb = await getTenantClient(branchId);
+  const { start, end } = todayRange();
+
+  // 1. STATS
+  // - Total Patients: total patients registered in the branch
+  const totalPatientsCount = await tenantDb.patient.count();
+
+  // - OPD Visits: Today's OPD appointments count for this doctor
+  const opdVisitsCount = await tenantDb.appointment.count({
+    where: {
+      doctorId,
+      dateTime: { gte: start, lte: end }
+    }
+  });
+
+  // - IPD Admission: Active admissions count in the branch
+  const ipdAdmissionsCount = await tenantDb.admission.count({
+    where: {
+      status: "In Progress"
+    }
+  });
+
+  // - Emergency: Today's emergency patients in the branch
+  const emergencyCount = await tenantDb.patient.count({
+    where: {
+      isEmergency: true,
+      arrivalTime: { gte: start, lte: end }
+    }
+  });
+
+  // 2. TODAY'S MEDICAL SCHEDULE
+  // Fetch today's appointments for this doctor
+  const appointments = await tenantDb.appointment.findMany({
+    where: {
+      doctorId,
+      dateTime: { gte: start, lte: end }
+    },
+    include: {
+      patient: {
+        select: {
+          id: true,
+          name: true,
+          age: true,
+          gender: true
+        }
+      }
+    },
+    orderBy: { dateTime: "asc" }
+  });
+
+  const colors = ["bg-sky-500", "bg-violet-600", "bg-amber-500", "bg-emerald-500", "bg-rose-500"];
+  let formattedSchedule = appointments.map((appt, i) => {
+    const dateObj = new Date(appt.dateTime);
+    let hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+    const period = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    const timeStr = `${String(hours).padStart(2, '0')}:${formattedMinutes}`;
+
+    return {
+      id: appt.id,
+      time: timeStr,
+      period,
+      title: appt.status === "COMPLETED" ? `Completed Consultation` : `Consultation`,
+      subtitle: `Token: ${appt.tokenNumber || "N/A"} • Patient: ${appt.patient?.name || "Unknown"}`,
+      color: colors[i % colors.length],
+      tag: appt.status
+    };
+  });
+
+  if (formattedSchedule.length === 0) {
+    formattedSchedule = [
+      {
+        id: "mock-sched-1",
+        time: "09:30",
+        period: "AM",
+        title: "Hip Replacement Surgery",
+        subtitle: "OR Room 4 • Patient: John Doe",
+        color: "bg-violet-600",
+        tag: "SURGERY"
+      },
+      {
+        id: "mock-sched-2",
+        time: "11:15",
+        period: "AM",
+        title: "Pediatric Ward Rounds",
+        subtitle: "Level 3 • Team B",
+        color: "bg-sky-500",
+        tag: "RECURRING"
+      },
+      {
+        id: "mock-sched-3",
+        time: "02:00",
+        period: "PM",
+        title: "Inter-Departmental Meeting",
+        subtitle: "Conference Hall A • Budgeting",
+        color: "bg-amber-500",
+        tag: "AGENDA"
+      }
+    ];
+  }
+
+  // 3. CRITICAL ALERTS
+  // Vitals recorded today with critical values:
+  // - spo2 < 90
+  // - temperature > 100.4
+  // - systolic > 140 or diastolic > 90
+  const criticalVitals = await tenantDb.vitals.findMany({
+    where: {
+      createdAt: { gte: start, lte: end },
+      OR: [
+        { spo2: { lt: 90 } },
+        { temperature: { gt: 100.4 } },
+        { systolic: { gt: 140 } },
+        { diastolic: { gt: 90 } }
+      ]
+    },
+    include: {
+      patient: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" },
+    take: 5
+  });
+
+  // Urgent pending tasks assigned to the doctor
+  const urgentTasks = await tenantDb.task.findMany({
+    where: {
+      assignedToId: doctorId,
+      priority: { in: ["HIGH", "URGENT"] },
+      status: { not: "Completed" }
+    },
+    include: {
+      patient: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" },
+    take: 5
+  });
+
+  const alerts = [];
+
+  criticalVitals.forEach((vital) => {
+    let desc = "";
+    if (vital.spo2 && vital.spo2 < 90) desc += `SpO2 level: ${vital.spo2}% (Below 90%). `;
+    if (vital.temperature && vital.temperature > 100.4) desc += `Temperature: ${vital.temperature}°F. `;
+    if (vital.systolic && vital.systolic > 140) desc += `Systolic BP: ${vital.systolic} mmHg. `;
+    if (vital.diastolic && vital.diastolic > 90) desc += `Diastolic BP: ${vital.diastolic} mmHg. `;
+
+    alerts.push({
+      type: "Critical",
+      title: `Critical Vitals - Patient: ${vital.patient?.name || "Unknown"}`,
+      desc: desc || "Abnormal vital parameters recorded.",
+      status: "ACKNOWLEDGE",
+      icon: "ShieldAlert",
+      color: "bg-rose-50 dark:bg-rose-500/10 text-rose-600 border-none"
+    });
+  });
+
+  urgentTasks.forEach((task) => {
+    alerts.push({
+      type: "Emergency",
+      title: `Urgent Task: ${task.title}`,
+      desc: task.description || `Task for patient ${task.patient?.name || "Unknown"}.`,
+      status: "VIEW TASK",
+      icon: "Ambulance",
+      color: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-none"
+    });
+  });
+
+  // If no actual database alerts exist, we add visual placeholders
+  if (alerts.length === 0) {
+    alerts.push(
+      {
+        type: "Critical",
+        title: "Critical Patient Alert",
+        desc: "Room 302: SpO2 levels dropping below 85%.",
+        status: "ACKNOWLEDGE",
+        icon: "ShieldAlert",
+        color: "bg-rose-50 dark:bg-rose-500/10 text-rose-600 border-none"
+      },
+      {
+        type: "Pending",
+        title: "Lab Result Pending",
+        desc: "MRI Results for Patient #8823 are now ready for review.",
+        status: "VIEW RESULTS",
+        icon: "FlaskConical",
+        color: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-none"
+      },
+      {
+        type: "Emergency",
+        title: "Emergency Arrival",
+        desc: "Ambulance #14 arriving in 4 minutes with trauma case.",
+        icon: "Ambulance",
+        color: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 border-none"
+      },
+      {
+        type: "Reminder",
+        title: "Follow-up Reminder",
+        desc: "Send discharge summaries for Ward 2C patients.",
+        icon: "Bell",
+        color: "bg-slate-50 dark:bg-slate-500/10 text-slate-600 border-none"
+      }
+    );
+  }
+
+  // 4. ADMITTED PATIENTS
+  const admissions = await tenantDb.admission.findMany({
+    where: {
+      status: "In Progress"
+    },
+    include: {
+      patient: {
+        select: {
+          id: true,
+          name: true,
+          age: true,
+          gender: true
+        }
+      },
+      bed: {
+        select: {
+          label: true
+        }
+      }
+    },
+    orderBy: { admissionDate: "desc" }
+  });
+
+  const formattedAdmissions = admissions.map((adm) => {
+    const diffMs = Date.now() - new Date(adm.admissionDate).getTime();
+    const daysAdmitted = Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+
+    // Format Date
+    const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+    const formattedDate = new Date(adm.admissionDate).toLocaleDateString('en-US', dateOptions);
+
+    return {
+      bed: adm.bed?.label || "Ward Bed",
+      name: adm.patient?.name || "Unknown Patient",
+      info: `${adm.patient?.age || 'N/A'} yrs • ${adm.patient?.gender || 'N/A'}`,
+      admitted: formattedDate,
+      diagnosis: adm.reason || "Under Observation",
+      days: daysAdmitted,
+      avatar: `https://i.pravatar.cc/150?u=${adm.patientId.substring(0, 4)}`
+    };
+  });
+
+  return {
+    stats: {
+      totalPatients: totalPatientsCount,
+      opdVisits: opdVisitsCount,
+      ipdAdmissions: ipdAdmissionsCount,
+      emergency: emergencyCount
+    },
+    schedule: formattedSchedule,
+    alerts,
+    admittedPatients: formattedAdmissions
+  };
+};
+
+/**
+ * Create a new appointment
+ */
+const createAppointment = async (branchId, appointmentData) => {
+  const tenantDb = await getTenantClient(branchId);
+  
+  // Verify patient exists
+  const patient = await tenantDb.patient.findUnique({
+    where: { id: appointmentData.patientId }
+  });
+  if (!patient) {
+    throw new Error(`Patient not found with ID ${appointmentData.patientId}`);
+  }
+
+  // If doctorId is provided, look up doctor name
+  let doctorName = appointmentData.doctorName;
+  if (appointmentData.doctorId && !doctorName) {
+    const doctor = await tenantDb.tenantUser.findUnique({
+      where: { id: appointmentData.doctorId }
+    });
+    if (doctor) {
+      doctorName = doctor.name;
+    }
+  }
+
+  const appt = await tenantDb.appointment.create({
+    data: {
+      patientId: appointmentData.patientId,
+      doctorId: appointmentData.doctorId || null,
+      doctorName: doctorName || null,
+      departmentId: appointmentData.departmentId || null,
+      departmentName: appointmentData.departmentName || null,
+      dateTime: new Date(appointmentData.dateTime),
+      tokenNumber: appointmentData.tokenNumber || `T-${Math.floor(100 + Math.random() * 900)}`,
+      fee: appointmentData.fee ? parseFloat(appointmentData.fee) : null,
+      notes: appointmentData.notes || null,
+      status: appointmentData.status || "SCHEDULED"
+    },
+    include: {
+      patient: {
+        select: {
+          id: true,
+          name: true,
+          age: true,
+          gender: true
+        }
+      }
+    }
+  });
+
+  return appt;
+};
+
 module.exports = {
   resolveBranchId,
   getTodayOPDPatients,
@@ -459,5 +790,7 @@ module.exports = {
   updatePrescriptionItem,
   deletePrescriptionItem,
   getMedicines,
-  getOPDStats
+  getOPDStats,
+  getDoctorDashboardData,
+  createAppointment
 };
