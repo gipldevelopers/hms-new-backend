@@ -171,6 +171,214 @@ const createBill = async (req, res) => {
   }
 };
 
+const collectInstallmentPayment = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { billId } = req.params;
+    const data = await svc.collectInstallmentPayment(branchId, billId, req.body, req.user?.name || "System");
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("collectInstallmentPayment error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const getBillPayments = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { billId } = req.params;
+    const data = await svc.getBillPayments(branchId, billId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getBillPayments error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const processRefund = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { billId } = req.params;
+    const data = await svc.processRefund(branchId, billId, req.body, req.user?.name || "System");
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("processRefund error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const listRefunds = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.listRefunds(branchId, req.query);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("listRefunds error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const submitClaim = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.submitClaim(branchId, req.body);
+    res.status(201).json({ success: true, data });
+  } catch (e) {
+    console.error("submitClaim error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const getClaim = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { id } = req.params;
+    const data = await svc.getClaim(branchId, id);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getClaim error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const updateClaim = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { id } = req.params;
+    const data = await svc.updateClaim(branchId, id, req.body);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("updateClaim error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const listClaims = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.listClaims(branchId, req.query);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("listClaims error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const submitDiscountRequest = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.submitDiscountRequest(branchId, req.body, req.user?.name || "System");
+    res.status(201).json({ success: true, data });
+  } catch (e) {
+    console.error("submitDiscountRequest error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const getDiscountRequest = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { id } = req.params;
+    const data = await svc.getDiscountRequest(branchId, id);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getDiscountRequest error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const updateDiscountRequest = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const { id } = req.params;
+    const data = await svc.updateDiscountRequest(branchId, id, req.body, req.user?.name || "System");
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("updateDiscountRequest error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const listDiscountRequests = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.listDiscountRequests(branchId, req.query);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("listDiscountRequests error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const listTariffs = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.listTariffs(branchId, req.query);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("listTariffs error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const upsertTariff = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.upsertTariff(branchId, req.body);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("upsertTariff error:", e);
+    const status = e.statusCode || 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+const getFinanceReports = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.getFinanceReports(branchId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getFinanceReports error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const getFinanceAlerts = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) return res.status(400).json({ success: false, message: "No initialized branch found." });
+    const data = await svc.getFinanceAlerts(branchId);
+    res.json({ success: true, data });
+  } catch (e) {
+    console.error("getFinanceAlerts error:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   getOPDBillingRecords,
   getOPDBillingDetails,
@@ -181,5 +389,21 @@ module.exports = {
   getIPDBillingRecords,
   getIPDBillingDetails,
   getServiceCatalog,
-  createBill
+  createBill,
+  collectInstallmentPayment,
+  getBillPayments,
+  processRefund,
+  listRefunds,
+  submitClaim,
+  getClaim,
+  updateClaim,
+  listClaims,
+  submitDiscountRequest,
+  getDiscountRequest,
+  updateDiscountRequest,
+  listDiscountRequests,
+  listTariffs,
+  upsertTariff,
+  getFinanceReports,
+  getFinanceAlerts
 };
