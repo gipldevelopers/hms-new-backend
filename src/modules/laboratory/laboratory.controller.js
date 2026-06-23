@@ -133,6 +133,64 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+const listCriticalValues = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const { status, department } = req.query;
+    const criticalValues = await svc.listCriticalValues(branchId, status, department);
+    res.json({ success: true, data: criticalValues });
+  } catch (e) {
+    console.error("Error listing critical values:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const createCriticalValue = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const criticalValue = await svc.createCriticalValue(branchId, req.body);
+    res.status(201).json({ success: true, data: criticalValue });
+  } catch (e) {
+    console.error("Error creating critical value:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const acknowledgeCriticalValue = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const { acknowledgedBy, acknowledgedTime } = req.body;
+    const updated = await svc.acknowledgeCriticalValue(branchId, req.params.id, acknowledgedBy, acknowledgedTime);
+    res.json({ success: true, data: updated, message: "Critical value acknowledged" });
+  } catch (e) {
+    console.error("Error acknowledging critical value:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+const updateCriticalValue = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const updated = await svc.updateCriticalValue(branchId, req.params.id, req.body);
+    res.json({ success: true, data: updated, message: "Critical value updated" });
+  } catch (e) {
+    console.error("Error updating critical value:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   searchPatients,
   listTests,
@@ -142,4 +200,10 @@ module.exports = {
   getOrder,
   updateTestStatus,
   updateOrderStatus,
+  listCriticalValues,
+  createCriticalValue,
+  acknowledgeCriticalValue,
+  updateCriticalValue
 };
+
+

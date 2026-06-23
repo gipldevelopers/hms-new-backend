@@ -17,5 +17,6 @@ router.post("/", controller.logConsumption);
 router.get("/items", controller.getSupplies);
 router.post("/items", controller.createSupplyItem);
 router.get("/stats", controller.getDashboardStats);
+router.delete("/:id", controller.deleteConsumption);
 
 module.exports = router;

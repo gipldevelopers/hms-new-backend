@@ -570,13 +570,17 @@ const getDashboardStats = async (branchId) => {
     const costNum = pr.items ? pr.items.reduce((sum, item) => sum + ((parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)), 0) : 0;
 
     return {
-      id: pr.prNumber || pr.id,
+      id: pr.id,
+      prNumber: pr.prNumber,
       dept: pr.department || "Central Store",
       item: itemDesc,
       cost: `₹${Math.round(costNum).toLocaleString("en-IN")}`,
       user: pr.requestedBy || "Purchasing Officer",
       time: pr.date || "Recently",
-      urgent: pr.priority === "Urgent" || pr.priority === "High"
+      urgent: pr.priority === "Urgent" || pr.priority === "High",
+      rawItems: pr.items || [],
+      priority: pr.priority || "Normal",
+      date: pr.date || new Date().toISOString().split('T')[0]
     };
   });
 

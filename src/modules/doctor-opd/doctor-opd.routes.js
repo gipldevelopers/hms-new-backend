@@ -12,6 +12,8 @@ router.use(auditLogger("DOCTOR_OPD"));
 // OPD Patient List
 router.get("/patients", ctrl.getOPDPatients);
 router.get("/stats", ctrl.getStats);
+router.get("/dashboard", ctrl.getDashboardData);
+router.post("/appointments", ctrl.createAppointment);
 
 // Patient Details & Consultation
 router.get("/patients/:appointmentId", ctrl.getPatientDetails);
@@ -26,4 +28,13 @@ router.delete("/prescription/items/:itemId", ctrl.deleteMedicine);
 // Medicines
 router.get("/medicines", ctrl.getMedicines);
 
+// Alerts
+router.get("/alerts", ctrl.getAlerts);
+router.get("/alerts/:id", ctrl.getAlertDetails);
+router.post("/alerts/:id/acknowledge", ctrl.acknowledgeAlert);
+
+// Reports
+router.get("/reports", ctrl.getReports);
+
 module.exports = router;
+

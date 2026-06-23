@@ -561,6 +561,71 @@ const updateOrderStatus = async (branchId, id, status) => {
   });
 };
 
+const listCriticalValues = async (branchId, status, department) => {
+  const tenantDb = await getTenantClient(branchId);
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+  if (department && department !== "all") {
+    where.department = department;
+  }
+  return tenantDb.labCriticalValue.findMany({
+    where,
+    orderBy: { createdAt: "desc" }
+  });
+};
+
+const createCriticalValue = async (branchId, data) => {
+  const tenantDb = await getTenantClient(branchId);
+  return tenantDb.labCriticalValue.create({
+    data: {
+      testName: data.testName,
+      value: data.value,
+      status: data.status || "unacknowledged",
+      wardNotified: !!data.wardNotified,
+      notifiedNurse: data.notifiedNurse || "",
+      notifiedTime: data.notifiedTime || "",
+      reportedBy: data.reportedBy || "",
+      refRange: data.refRange || "",
+      patientName: data.patientName || "",
+      uhid: data.uhid || "",
+      bedLabel: data.bedLabel || "",
+      attendingDoctor: data.attendingDoctor || "",
+      orderNo: data.orderNo || "",
+      department: data.department || ""
+    }
+  });
+};
+
+const acknowledgeCriticalValue = async (branchId, id, acknowledgedBy, acknowledgedTime) => {
+  const tenantDb = await getTenantClient(branchId);
+  return tenantDb.labCriticalValue.update({
+    where: { id },
+    data: {
+      status: "acknowledged",
+      acknowledgedBy: acknowledgedBy || "System",
+      acknowledgedTime: acknowledgedTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      wardNotified: true
+    }
+  });
+};
+
+const updateCriticalValue = async (branchId, id, data) => {
+  const tenantDb = await getTenantClient(branchId);
+  return tenantDb.labCriticalValue.update({
+    where: { id },
+    data: {
+      wardNotified: data.wardNotified !== undefined ? !!data.wardNotified : undefined,
+      notifiedNurse: data.notifiedNurse !== undefined ? data.notifiedNurse : undefined,
+      notifiedTime: data.notifiedTime !== undefined ? data.notifiedTime : undefined,
+      status: data.status !== undefined ? data.status : undefined,
+      acknowledgedBy: data.acknowledgedBy !== undefined ? data.acknowledgedBy : undefined,
+      acknowledgedTime: data.acknowledgedTime !== undefined ? data.acknowledgedTime : undefined
+    }
+  });
+};
+
 module.exports = {
   resolveBranchId,
   normalizePriority,
@@ -575,4 +640,10 @@ module.exports = {
   getOrder,
   updateTestStatus,
   updateOrderStatus,
+  listCriticalValues,
+  createCriticalValue,
+  acknowledgeCriticalValue,
+  updateCriticalValue
 };
+
+

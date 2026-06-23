@@ -57,7 +57,29 @@ const createTransfer = async (req, res) => {
   }
 };
 
+/**
+ * Delete a transfer
+ */
+const deleteTransfer = async (req, res) => {
+  try {
+    const branchId = await resolveBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, error: "No active or initialized branch found." });
+    }
+
+    const { id } = req.params;
+    const userName = req.user?.name || "System Admin";
+
+    await service.deleteTransfer(branchId, id, userName);
+    res.json({ success: true, message: "Stock transfer deleted and stock reverted successfully." });
+  } catch (error) {
+    console.error("Error in deleteTransfer controller:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getTransfers,
-  createTransfer
+  createTransfer,
+  deleteTransfer
 };
