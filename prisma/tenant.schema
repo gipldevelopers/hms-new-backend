@@ -701,4 +701,89 @@ model OTSupplyConsumption {
   @@map("ot_supply_consumptions")
 }
 
+model PaymentTransaction {
+  id            String   @id @default(uuid())
+  billId        String
+  bill          Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  amount        Float
+  paymentMethod String
+  status        String   @default("SUCCESS")
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  refunds       Refund[]
+
+  @@map("payment_transactions")
+}
+
+model Refund {
+  id                   String              @id @default(uuid())
+  billId               String
+  bill                 Bill                @relation(fields: [billId], references: [id], onDelete: Cascade)
+  paymentTransactionId String?
+  paymentTransaction   PaymentTransaction? @relation(fields: [paymentTransactionId], references: [id], onDelete: SetNull)
+  amount               Float
+  reason               String
+  status               String              @default("PENDING")
+  processedBy          String?
+  approvedBy           String?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  @@map("refunds")
+}
+
+model InsuranceClaim {
+  id                String    @id @default(uuid())
+  billId            String
+  bill              Bill      @relation(fields: [billId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  insuranceProvider String
+  policyNumber      String
+  cardNumber        String?
+  preAuthAmount     Float     @default(0)
+  claimAmount       Float     @default(0)
+  approvedAmount    Float     @default(0)
+  status            String    @default("PENDING")
+  notes             String?
+  settlementDate    DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@map("insurance_claims")
+}
+
+model DiscountRequest {
+  id             String   @id @default(uuid())
+  billId         String
+  bill           Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  discountAmount Float
+  discountType   String
+  discountValue  Float
+  reason         String
+  requestedBy    String
+  status         String   @default("PENDING")
+  approvedBy     String?
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("discount_requests")
+}
+
+model Tariff {
+  id            String   @id @default(uuid())
+  category      String
+  serviceCode   String   @unique
+  serviceName   String
+  standardPrice Float
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("tariffs")
+}
+
+
 

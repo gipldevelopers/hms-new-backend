@@ -4,7 +4,7 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
-const { execSync } = require("child_process");
+const { execSync, exec } = require("child_process");
 
 const schemaPath = path.resolve(__dirname, "../prisma/tenant.schema");
 const versionFilePath = path.resolve(__dirname, "./generated/tenant-client/schema-version.txt");
@@ -35,16 +35,15 @@ const runPrismaGenerateIfNeeded = () => {
       
       fs.appendFileSync(logFile, "Running npx --no-install prisma generate...\n", "utf8");
       
-      exec(`npx --no-install prisma generate --schema="${schemaPath}"`, (err, stdout, stderr) => {
-        if (err) {
-          console.error("❌ Failed to generate tenant client:", err.message);
-          fs.appendFileSync(logFile, `GENERATION ERROR:\n${err.message}\n${stderr}\n${stdout}\n`, "utf8");
-          return;
-        }
+      try {
+        const stdout = execSync(`npx --no-install prisma generate --schema="${schemaPath}"`, { encoding: "utf8" });
         fs.appendFileSync(logFile, "GENERATION SUCCESS:\n" + stdout + "\n", "utf8");
         fs.writeFileSync(versionFilePath, currentHash, "utf8");
         console.log("✅ Tenant Prisma client generated successfully.\n");
-      });
+      } catch (err) {
+        console.error("❌ Failed to generate tenant client:", err.message);
+        fs.appendFileSync(logFile, `GENERATION ERROR:\n${err.message}\n${err.stderr || ""}\n${err.stdout || ""}\n`, "utf8");
+      }
     } else {
       console.log("✅ Tenant Prisma client is up to date.");
       fs.appendFileSync(logFile, "Prisma client is up to date.\n", "utf8");
