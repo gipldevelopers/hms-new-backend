@@ -183,6 +183,11 @@ export type OTSupplyConsumption = $Result.DefaultSelection<Prisma.$OTSupplyConsu
  * 
  */
 export type PurchaseRequest = $Result.DefaultSelection<Prisma.$PurchaseRequestPayload>
+/**
+ * Model LabCriticalValue
+ * 
+ */
+export type LabCriticalValue = $Result.DefaultSelection<Prisma.$LabCriticalValuePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -644,6 +649,16 @@ export class PrismaClient<
     * ```
     */
   get purchaseRequest(): Prisma.PurchaseRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.labCriticalValue`: Exposes CRUD operations for the **LabCriticalValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LabCriticalValues
+    * const labCriticalValues = await prisma.labCriticalValue.findMany()
+    * ```
+    */
+  get labCriticalValue(): Prisma.LabCriticalValueDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1111,7 +1126,8 @@ export namespace Prisma {
     DepartmentInventoryHistory: 'DepartmentInventoryHistory',
     OTSupply: 'OTSupply',
     OTSupplyConsumption: 'OTSupplyConsumption',
-    PurchaseRequest: 'PurchaseRequest'
+    PurchaseRequest: 'PurchaseRequest',
+    LabCriticalValue: 'LabCriticalValue'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1127,7 +1143,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier" | "departmentInventory" | "departmentInventoryHistory" | "oTSupply" | "oTSupplyConsumption" | "purchaseRequest"
+      modelProps: "tenantUser" | "patient" | "admission" | "appointment" | "department" | "ward" | "bed" | "tenantShiftTemplate" | "tenantShiftRoster" | "tenantAttendance" | "token" | "vitals" | "task" | "pharmacyItem" | "consultation" | "prescription" | "prescriptionItem" | "bill" | "labTestOrder" | "patientNote" | "serviceRequest" | "inventoryItem" | "inventoryStockHistory" | "stockItem" | "stockHistory" | "stockTransfer" | "batchReturn" | "purchaseOrder" | "supplier" | "departmentInventory" | "departmentInventoryHistory" | "oTSupply" | "oTSupplyConsumption" | "purchaseRequest" | "labCriticalValue"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3647,6 +3663,80 @@ export namespace Prisma {
           }
         }
       }
+      LabCriticalValue: {
+        payload: Prisma.$LabCriticalValuePayload<ExtArgs>
+        fields: Prisma.LabCriticalValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LabCriticalValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LabCriticalValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          findFirst: {
+            args: Prisma.LabCriticalValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LabCriticalValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          findMany: {
+            args: Prisma.LabCriticalValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>[]
+          }
+          create: {
+            args: Prisma.LabCriticalValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          createMany: {
+            args: Prisma.LabCriticalValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LabCriticalValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>[]
+          }
+          delete: {
+            args: Prisma.LabCriticalValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          update: {
+            args: Prisma.LabCriticalValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.LabCriticalValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LabCriticalValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LabCriticalValueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>[]
+          }
+          upsert: {
+            args: Prisma.LabCriticalValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabCriticalValuePayload>
+          }
+          aggregate: {
+            args: Prisma.LabCriticalValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLabCriticalValue>
+          }
+          groupBy: {
+            args: Prisma.LabCriticalValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LabCriticalValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LabCriticalValueCountArgs<ExtArgs>
+            result: $Utils.Optional<LabCriticalValueCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3789,6 +3879,7 @@ export namespace Prisma {
     oTSupply?: OTSupplyOmit
     oTSupplyConsumption?: OTSupplyConsumptionOmit
     purchaseRequest?: PurchaseRequestOmit
+    labCriticalValue?: LabCriticalValueOmit
   }
 
   /* Types for Logging */
@@ -44984,6 +45075,1188 @@ export namespace Prisma {
 
 
   /**
+   * Model LabCriticalValue
+   */
+
+  export type AggregateLabCriticalValue = {
+    _count: LabCriticalValueCountAggregateOutputType | null
+    _min: LabCriticalValueMinAggregateOutputType | null
+    _max: LabCriticalValueMaxAggregateOutputType | null
+  }
+
+  export type LabCriticalValueMinAggregateOutputType = {
+    id: string | null
+    testName: string | null
+    value: string | null
+    status: string | null
+    wardNotified: boolean | null
+    notifiedNurse: string | null
+    notifiedTime: string | null
+    reportedBy: string | null
+    refRange: string | null
+    patientName: string | null
+    uhid: string | null
+    bedLabel: string | null
+    attendingDoctor: string | null
+    orderNo: string | null
+    department: string | null
+    acknowledgedBy: string | null
+    acknowledgedTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LabCriticalValueMaxAggregateOutputType = {
+    id: string | null
+    testName: string | null
+    value: string | null
+    status: string | null
+    wardNotified: boolean | null
+    notifiedNurse: string | null
+    notifiedTime: string | null
+    reportedBy: string | null
+    refRange: string | null
+    patientName: string | null
+    uhid: string | null
+    bedLabel: string | null
+    attendingDoctor: string | null
+    orderNo: string | null
+    department: string | null
+    acknowledgedBy: string | null
+    acknowledgedTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LabCriticalValueCountAggregateOutputType = {
+    id: number
+    testName: number
+    value: number
+    status: number
+    wardNotified: number
+    notifiedNurse: number
+    notifiedTime: number
+    reportedBy: number
+    refRange: number
+    patientName: number
+    uhid: number
+    bedLabel: number
+    attendingDoctor: number
+    orderNo: number
+    department: number
+    acknowledgedBy: number
+    acknowledgedTime: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LabCriticalValueMinAggregateInputType = {
+    id?: true
+    testName?: true
+    value?: true
+    status?: true
+    wardNotified?: true
+    notifiedNurse?: true
+    notifiedTime?: true
+    reportedBy?: true
+    refRange?: true
+    patientName?: true
+    uhid?: true
+    bedLabel?: true
+    attendingDoctor?: true
+    orderNo?: true
+    department?: true
+    acknowledgedBy?: true
+    acknowledgedTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LabCriticalValueMaxAggregateInputType = {
+    id?: true
+    testName?: true
+    value?: true
+    status?: true
+    wardNotified?: true
+    notifiedNurse?: true
+    notifiedTime?: true
+    reportedBy?: true
+    refRange?: true
+    patientName?: true
+    uhid?: true
+    bedLabel?: true
+    attendingDoctor?: true
+    orderNo?: true
+    department?: true
+    acknowledgedBy?: true
+    acknowledgedTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LabCriticalValueCountAggregateInputType = {
+    id?: true
+    testName?: true
+    value?: true
+    status?: true
+    wardNotified?: true
+    notifiedNurse?: true
+    notifiedTime?: true
+    reportedBy?: true
+    refRange?: true
+    patientName?: true
+    uhid?: true
+    bedLabel?: true
+    attendingDoctor?: true
+    orderNo?: true
+    department?: true
+    acknowledgedBy?: true
+    acknowledgedTime?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LabCriticalValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabCriticalValue to aggregate.
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabCriticalValues to fetch.
+     */
+    orderBy?: LabCriticalValueOrderByWithRelationInput | LabCriticalValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LabCriticalValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabCriticalValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabCriticalValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LabCriticalValues
+    **/
+    _count?: true | LabCriticalValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LabCriticalValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LabCriticalValueMaxAggregateInputType
+  }
+
+  export type GetLabCriticalValueAggregateType<T extends LabCriticalValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateLabCriticalValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLabCriticalValue[P]>
+      : GetScalarType<T[P], AggregateLabCriticalValue[P]>
+  }
+
+
+
+
+  export type LabCriticalValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LabCriticalValueWhereInput
+    orderBy?: LabCriticalValueOrderByWithAggregationInput | LabCriticalValueOrderByWithAggregationInput[]
+    by: LabCriticalValueScalarFieldEnum[] | LabCriticalValueScalarFieldEnum
+    having?: LabCriticalValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LabCriticalValueCountAggregateInputType | true
+    _min?: LabCriticalValueMinAggregateInputType
+    _max?: LabCriticalValueMaxAggregateInputType
+  }
+
+  export type LabCriticalValueGroupByOutputType = {
+    id: string
+    testName: string
+    value: string
+    status: string
+    wardNotified: boolean
+    notifiedNurse: string | null
+    notifiedTime: string | null
+    reportedBy: string | null
+    refRange: string | null
+    patientName: string | null
+    uhid: string | null
+    bedLabel: string | null
+    attendingDoctor: string | null
+    orderNo: string | null
+    department: string | null
+    acknowledgedBy: string | null
+    acknowledgedTime: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LabCriticalValueCountAggregateOutputType | null
+    _min: LabCriticalValueMinAggregateOutputType | null
+    _max: LabCriticalValueMaxAggregateOutputType | null
+  }
+
+  type GetLabCriticalValueGroupByPayload<T extends LabCriticalValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LabCriticalValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LabCriticalValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LabCriticalValueGroupByOutputType[P]>
+            : GetScalarType<T[P], LabCriticalValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LabCriticalValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    testName?: boolean
+    value?: boolean
+    status?: boolean
+    wardNotified?: boolean
+    notifiedNurse?: boolean
+    notifiedTime?: boolean
+    reportedBy?: boolean
+    refRange?: boolean
+    patientName?: boolean
+    uhid?: boolean
+    bedLabel?: boolean
+    attendingDoctor?: boolean
+    orderNo?: boolean
+    department?: boolean
+    acknowledgedBy?: boolean
+    acknowledgedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labCriticalValue"]>
+
+  export type LabCriticalValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    testName?: boolean
+    value?: boolean
+    status?: boolean
+    wardNotified?: boolean
+    notifiedNurse?: boolean
+    notifiedTime?: boolean
+    reportedBy?: boolean
+    refRange?: boolean
+    patientName?: boolean
+    uhid?: boolean
+    bedLabel?: boolean
+    attendingDoctor?: boolean
+    orderNo?: boolean
+    department?: boolean
+    acknowledgedBy?: boolean
+    acknowledgedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labCriticalValue"]>
+
+  export type LabCriticalValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    testName?: boolean
+    value?: boolean
+    status?: boolean
+    wardNotified?: boolean
+    notifiedNurse?: boolean
+    notifiedTime?: boolean
+    reportedBy?: boolean
+    refRange?: boolean
+    patientName?: boolean
+    uhid?: boolean
+    bedLabel?: boolean
+    attendingDoctor?: boolean
+    orderNo?: boolean
+    department?: boolean
+    acknowledgedBy?: boolean
+    acknowledgedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labCriticalValue"]>
+
+  export type LabCriticalValueSelectScalar = {
+    id?: boolean
+    testName?: boolean
+    value?: boolean
+    status?: boolean
+    wardNotified?: boolean
+    notifiedNurse?: boolean
+    notifiedTime?: boolean
+    reportedBy?: boolean
+    refRange?: boolean
+    patientName?: boolean
+    uhid?: boolean
+    bedLabel?: boolean
+    attendingDoctor?: boolean
+    orderNo?: boolean
+    department?: boolean
+    acknowledgedBy?: boolean
+    acknowledgedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LabCriticalValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "testName" | "value" | "status" | "wardNotified" | "notifiedNurse" | "notifiedTime" | "reportedBy" | "refRange" | "patientName" | "uhid" | "bedLabel" | "attendingDoctor" | "orderNo" | "department" | "acknowledgedBy" | "acknowledgedTime" | "createdAt" | "updatedAt", ExtArgs["result"]["labCriticalValue"]>
+
+  export type $LabCriticalValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LabCriticalValue"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      testName: string
+      value: string
+      status: string
+      wardNotified: boolean
+      notifiedNurse: string | null
+      notifiedTime: string | null
+      reportedBy: string | null
+      refRange: string | null
+      patientName: string | null
+      uhid: string | null
+      bedLabel: string | null
+      attendingDoctor: string | null
+      orderNo: string | null
+      department: string | null
+      acknowledgedBy: string | null
+      acknowledgedTime: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["labCriticalValue"]>
+    composites: {}
+  }
+
+  type LabCriticalValueGetPayload<S extends boolean | null | undefined | LabCriticalValueDefaultArgs> = $Result.GetResult<Prisma.$LabCriticalValuePayload, S>
+
+  type LabCriticalValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LabCriticalValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LabCriticalValueCountAggregateInputType | true
+    }
+
+  export interface LabCriticalValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LabCriticalValue'], meta: { name: 'LabCriticalValue' } }
+    /**
+     * Find zero or one LabCriticalValue that matches the filter.
+     * @param {LabCriticalValueFindUniqueArgs} args - Arguments to find a LabCriticalValue
+     * @example
+     * // Get one LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LabCriticalValueFindUniqueArgs>(args: SelectSubset<T, LabCriticalValueFindUniqueArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LabCriticalValue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LabCriticalValueFindUniqueOrThrowArgs} args - Arguments to find a LabCriticalValue
+     * @example
+     * // Get one LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LabCriticalValueFindUniqueOrThrowArgs>(args: SelectSubset<T, LabCriticalValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabCriticalValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueFindFirstArgs} args - Arguments to find a LabCriticalValue
+     * @example
+     * // Get one LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LabCriticalValueFindFirstArgs>(args?: SelectSubset<T, LabCriticalValueFindFirstArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabCriticalValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueFindFirstOrThrowArgs} args - Arguments to find a LabCriticalValue
+     * @example
+     * // Get one LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LabCriticalValueFindFirstOrThrowArgs>(args?: SelectSubset<T, LabCriticalValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LabCriticalValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LabCriticalValues
+     * const labCriticalValues = await prisma.labCriticalValue.findMany()
+     * 
+     * // Get first 10 LabCriticalValues
+     * const labCriticalValues = await prisma.labCriticalValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const labCriticalValueWithIdOnly = await prisma.labCriticalValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LabCriticalValueFindManyArgs>(args?: SelectSubset<T, LabCriticalValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LabCriticalValue.
+     * @param {LabCriticalValueCreateArgs} args - Arguments to create a LabCriticalValue.
+     * @example
+     * // Create one LabCriticalValue
+     * const LabCriticalValue = await prisma.labCriticalValue.create({
+     *   data: {
+     *     // ... data to create a LabCriticalValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends LabCriticalValueCreateArgs>(args: SelectSubset<T, LabCriticalValueCreateArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LabCriticalValues.
+     * @param {LabCriticalValueCreateManyArgs} args - Arguments to create many LabCriticalValues.
+     * @example
+     * // Create many LabCriticalValues
+     * const labCriticalValue = await prisma.labCriticalValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LabCriticalValueCreateManyArgs>(args?: SelectSubset<T, LabCriticalValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LabCriticalValues and returns the data saved in the database.
+     * @param {LabCriticalValueCreateManyAndReturnArgs} args - Arguments to create many LabCriticalValues.
+     * @example
+     * // Create many LabCriticalValues
+     * const labCriticalValue = await prisma.labCriticalValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LabCriticalValues and only return the `id`
+     * const labCriticalValueWithIdOnly = await prisma.labCriticalValue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LabCriticalValueCreateManyAndReturnArgs>(args?: SelectSubset<T, LabCriticalValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LabCriticalValue.
+     * @param {LabCriticalValueDeleteArgs} args - Arguments to delete one LabCriticalValue.
+     * @example
+     * // Delete one LabCriticalValue
+     * const LabCriticalValue = await prisma.labCriticalValue.delete({
+     *   where: {
+     *     // ... filter to delete one LabCriticalValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LabCriticalValueDeleteArgs>(args: SelectSubset<T, LabCriticalValueDeleteArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LabCriticalValue.
+     * @param {LabCriticalValueUpdateArgs} args - Arguments to update one LabCriticalValue.
+     * @example
+     * // Update one LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LabCriticalValueUpdateArgs>(args: SelectSubset<T, LabCriticalValueUpdateArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LabCriticalValues.
+     * @param {LabCriticalValueDeleteManyArgs} args - Arguments to filter LabCriticalValues to delete.
+     * @example
+     * // Delete a few LabCriticalValues
+     * const { count } = await prisma.labCriticalValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LabCriticalValueDeleteManyArgs>(args?: SelectSubset<T, LabCriticalValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabCriticalValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LabCriticalValues
+     * const labCriticalValue = await prisma.labCriticalValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LabCriticalValueUpdateManyArgs>(args: SelectSubset<T, LabCriticalValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabCriticalValues and returns the data updated in the database.
+     * @param {LabCriticalValueUpdateManyAndReturnArgs} args - Arguments to update many LabCriticalValues.
+     * @example
+     * // Update many LabCriticalValues
+     * const labCriticalValue = await prisma.labCriticalValue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LabCriticalValues and only return the `id`
+     * const labCriticalValueWithIdOnly = await prisma.labCriticalValue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LabCriticalValueUpdateManyAndReturnArgs>(args: SelectSubset<T, LabCriticalValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LabCriticalValue.
+     * @param {LabCriticalValueUpsertArgs} args - Arguments to update or create a LabCriticalValue.
+     * @example
+     * // Update or create a LabCriticalValue
+     * const labCriticalValue = await prisma.labCriticalValue.upsert({
+     *   create: {
+     *     // ... data to create a LabCriticalValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LabCriticalValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LabCriticalValueUpsertArgs>(args: SelectSubset<T, LabCriticalValueUpsertArgs<ExtArgs>>): Prisma__LabCriticalValueClient<$Result.GetResult<Prisma.$LabCriticalValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LabCriticalValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueCountArgs} args - Arguments to filter LabCriticalValues to count.
+     * @example
+     * // Count the number of LabCriticalValues
+     * const count = await prisma.labCriticalValue.count({
+     *   where: {
+     *     // ... the filter for the LabCriticalValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends LabCriticalValueCountArgs>(
+      args?: Subset<T, LabCriticalValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LabCriticalValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LabCriticalValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LabCriticalValueAggregateArgs>(args: Subset<T, LabCriticalValueAggregateArgs>): Prisma.PrismaPromise<GetLabCriticalValueAggregateType<T>>
+
+    /**
+     * Group by LabCriticalValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabCriticalValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LabCriticalValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LabCriticalValueGroupByArgs['orderBy'] }
+        : { orderBy?: LabCriticalValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LabCriticalValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLabCriticalValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LabCriticalValue model
+   */
+  readonly fields: LabCriticalValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LabCriticalValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LabCriticalValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LabCriticalValue model
+   */
+  interface LabCriticalValueFieldRefs {
+    readonly id: FieldRef<"LabCriticalValue", 'String'>
+    readonly testName: FieldRef<"LabCriticalValue", 'String'>
+    readonly value: FieldRef<"LabCriticalValue", 'String'>
+    readonly status: FieldRef<"LabCriticalValue", 'String'>
+    readonly wardNotified: FieldRef<"LabCriticalValue", 'Boolean'>
+    readonly notifiedNurse: FieldRef<"LabCriticalValue", 'String'>
+    readonly notifiedTime: FieldRef<"LabCriticalValue", 'String'>
+    readonly reportedBy: FieldRef<"LabCriticalValue", 'String'>
+    readonly refRange: FieldRef<"LabCriticalValue", 'String'>
+    readonly patientName: FieldRef<"LabCriticalValue", 'String'>
+    readonly uhid: FieldRef<"LabCriticalValue", 'String'>
+    readonly bedLabel: FieldRef<"LabCriticalValue", 'String'>
+    readonly attendingDoctor: FieldRef<"LabCriticalValue", 'String'>
+    readonly orderNo: FieldRef<"LabCriticalValue", 'String'>
+    readonly department: FieldRef<"LabCriticalValue", 'String'>
+    readonly acknowledgedBy: FieldRef<"LabCriticalValue", 'String'>
+    readonly acknowledgedTime: FieldRef<"LabCriticalValue", 'String'>
+    readonly createdAt: FieldRef<"LabCriticalValue", 'DateTime'>
+    readonly updatedAt: FieldRef<"LabCriticalValue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LabCriticalValue findUnique
+   */
+  export type LabCriticalValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter, which LabCriticalValue to fetch.
+     */
+    where: LabCriticalValueWhereUniqueInput
+  }
+
+  /**
+   * LabCriticalValue findUniqueOrThrow
+   */
+  export type LabCriticalValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter, which LabCriticalValue to fetch.
+     */
+    where: LabCriticalValueWhereUniqueInput
+  }
+
+  /**
+   * LabCriticalValue findFirst
+   */
+  export type LabCriticalValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter, which LabCriticalValue to fetch.
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabCriticalValues to fetch.
+     */
+    orderBy?: LabCriticalValueOrderByWithRelationInput | LabCriticalValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabCriticalValues.
+     */
+    cursor?: LabCriticalValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabCriticalValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabCriticalValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabCriticalValues.
+     */
+    distinct?: LabCriticalValueScalarFieldEnum | LabCriticalValueScalarFieldEnum[]
+  }
+
+  /**
+   * LabCriticalValue findFirstOrThrow
+   */
+  export type LabCriticalValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter, which LabCriticalValue to fetch.
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabCriticalValues to fetch.
+     */
+    orderBy?: LabCriticalValueOrderByWithRelationInput | LabCriticalValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabCriticalValues.
+     */
+    cursor?: LabCriticalValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabCriticalValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabCriticalValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabCriticalValues.
+     */
+    distinct?: LabCriticalValueScalarFieldEnum | LabCriticalValueScalarFieldEnum[]
+  }
+
+  /**
+   * LabCriticalValue findMany
+   */
+  export type LabCriticalValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter, which LabCriticalValues to fetch.
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabCriticalValues to fetch.
+     */
+    orderBy?: LabCriticalValueOrderByWithRelationInput | LabCriticalValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LabCriticalValues.
+     */
+    cursor?: LabCriticalValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabCriticalValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabCriticalValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabCriticalValues.
+     */
+    distinct?: LabCriticalValueScalarFieldEnum | LabCriticalValueScalarFieldEnum[]
+  }
+
+  /**
+   * LabCriticalValue create
+   */
+  export type LabCriticalValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * The data needed to create a LabCriticalValue.
+     */
+    data: XOR<LabCriticalValueCreateInput, LabCriticalValueUncheckedCreateInput>
+  }
+
+  /**
+   * LabCriticalValue createMany
+   */
+  export type LabCriticalValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LabCriticalValues.
+     */
+    data: LabCriticalValueCreateManyInput | LabCriticalValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabCriticalValue createManyAndReturn
+   */
+  export type LabCriticalValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * The data used to create many LabCriticalValues.
+     */
+    data: LabCriticalValueCreateManyInput | LabCriticalValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabCriticalValue update
+   */
+  export type LabCriticalValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * The data needed to update a LabCriticalValue.
+     */
+    data: XOR<LabCriticalValueUpdateInput, LabCriticalValueUncheckedUpdateInput>
+    /**
+     * Choose, which LabCriticalValue to update.
+     */
+    where: LabCriticalValueWhereUniqueInput
+  }
+
+  /**
+   * LabCriticalValue updateMany
+   */
+  export type LabCriticalValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LabCriticalValues.
+     */
+    data: XOR<LabCriticalValueUpdateManyMutationInput, LabCriticalValueUncheckedUpdateManyInput>
+    /**
+     * Filter which LabCriticalValues to update
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * Limit how many LabCriticalValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabCriticalValue updateManyAndReturn
+   */
+  export type LabCriticalValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * The data used to update LabCriticalValues.
+     */
+    data: XOR<LabCriticalValueUpdateManyMutationInput, LabCriticalValueUncheckedUpdateManyInput>
+    /**
+     * Filter which LabCriticalValues to update
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * Limit how many LabCriticalValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabCriticalValue upsert
+   */
+  export type LabCriticalValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * The filter to search for the LabCriticalValue to update in case it exists.
+     */
+    where: LabCriticalValueWhereUniqueInput
+    /**
+     * In case the LabCriticalValue found by the `where` argument doesn't exist, create a new LabCriticalValue with this data.
+     */
+    create: XOR<LabCriticalValueCreateInput, LabCriticalValueUncheckedCreateInput>
+    /**
+     * In case the LabCriticalValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LabCriticalValueUpdateInput, LabCriticalValueUncheckedUpdateInput>
+  }
+
+  /**
+   * LabCriticalValue delete
+   */
+  export type LabCriticalValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+    /**
+     * Filter which LabCriticalValue to delete.
+     */
+    where: LabCriticalValueWhereUniqueInput
+  }
+
+  /**
+   * LabCriticalValue deleteMany
+   */
+  export type LabCriticalValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabCriticalValues to delete
+     */
+    where?: LabCriticalValueWhereInput
+    /**
+     * Limit how many LabCriticalValues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabCriticalValue without action
+   */
+  export type LabCriticalValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabCriticalValue
+     */
+    select?: LabCriticalValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabCriticalValue
+     */
+    omit?: LabCriticalValueOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -45628,6 +46901,31 @@ export namespace Prisma {
   };
 
   export type PurchaseRequestScalarFieldEnum = (typeof PurchaseRequestScalarFieldEnum)[keyof typeof PurchaseRequestScalarFieldEnum]
+
+
+  export const LabCriticalValueScalarFieldEnum: {
+    id: 'id',
+    testName: 'testName',
+    value: 'value',
+    status: 'status',
+    wardNotified: 'wardNotified',
+    notifiedNurse: 'notifiedNurse',
+    notifiedTime: 'notifiedTime',
+    reportedBy: 'reportedBy',
+    refRange: 'refRange',
+    patientName: 'patientName',
+    uhid: 'uhid',
+    bedLabel: 'bedLabel',
+    attendingDoctor: 'attendingDoctor',
+    orderNo: 'orderNo',
+    department: 'department',
+    acknowledgedBy: 'acknowledgedBy',
+    acknowledgedTime: 'acknowledgedTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LabCriticalValueScalarFieldEnum = (typeof LabCriticalValueScalarFieldEnum)[keyof typeof LabCriticalValueScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -49030,6 +50328,128 @@ export namespace Prisma {
     poNumber?: StringNullableWithAggregatesFilter<"PurchaseRequest"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PurchaseRequest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PurchaseRequest"> | Date | string
+  }
+
+  export type LabCriticalValueWhereInput = {
+    AND?: LabCriticalValueWhereInput | LabCriticalValueWhereInput[]
+    OR?: LabCriticalValueWhereInput[]
+    NOT?: LabCriticalValueWhereInput | LabCriticalValueWhereInput[]
+    id?: StringFilter<"LabCriticalValue"> | string
+    testName?: StringFilter<"LabCriticalValue"> | string
+    value?: StringFilter<"LabCriticalValue"> | string
+    status?: StringFilter<"LabCriticalValue"> | string
+    wardNotified?: BoolFilter<"LabCriticalValue"> | boolean
+    notifiedNurse?: StringNullableFilter<"LabCriticalValue"> | string | null
+    notifiedTime?: StringNullableFilter<"LabCriticalValue"> | string | null
+    reportedBy?: StringNullableFilter<"LabCriticalValue"> | string | null
+    refRange?: StringNullableFilter<"LabCriticalValue"> | string | null
+    patientName?: StringNullableFilter<"LabCriticalValue"> | string | null
+    uhid?: StringNullableFilter<"LabCriticalValue"> | string | null
+    bedLabel?: StringNullableFilter<"LabCriticalValue"> | string | null
+    attendingDoctor?: StringNullableFilter<"LabCriticalValue"> | string | null
+    orderNo?: StringNullableFilter<"LabCriticalValue"> | string | null
+    department?: StringNullableFilter<"LabCriticalValue"> | string | null
+    acknowledgedBy?: StringNullableFilter<"LabCriticalValue"> | string | null
+    acknowledgedTime?: StringNullableFilter<"LabCriticalValue"> | string | null
+    createdAt?: DateTimeFilter<"LabCriticalValue"> | Date | string
+    updatedAt?: DateTimeFilter<"LabCriticalValue"> | Date | string
+  }
+
+  export type LabCriticalValueOrderByWithRelationInput = {
+    id?: SortOrder
+    testName?: SortOrder
+    value?: SortOrder
+    status?: SortOrder
+    wardNotified?: SortOrder
+    notifiedNurse?: SortOrderInput | SortOrder
+    notifiedTime?: SortOrderInput | SortOrder
+    reportedBy?: SortOrderInput | SortOrder
+    refRange?: SortOrderInput | SortOrder
+    patientName?: SortOrderInput | SortOrder
+    uhid?: SortOrderInput | SortOrder
+    bedLabel?: SortOrderInput | SortOrder
+    attendingDoctor?: SortOrderInput | SortOrder
+    orderNo?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    acknowledgedBy?: SortOrderInput | SortOrder
+    acknowledgedTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabCriticalValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LabCriticalValueWhereInput | LabCriticalValueWhereInput[]
+    OR?: LabCriticalValueWhereInput[]
+    NOT?: LabCriticalValueWhereInput | LabCriticalValueWhereInput[]
+    testName?: StringFilter<"LabCriticalValue"> | string
+    value?: StringFilter<"LabCriticalValue"> | string
+    status?: StringFilter<"LabCriticalValue"> | string
+    wardNotified?: BoolFilter<"LabCriticalValue"> | boolean
+    notifiedNurse?: StringNullableFilter<"LabCriticalValue"> | string | null
+    notifiedTime?: StringNullableFilter<"LabCriticalValue"> | string | null
+    reportedBy?: StringNullableFilter<"LabCriticalValue"> | string | null
+    refRange?: StringNullableFilter<"LabCriticalValue"> | string | null
+    patientName?: StringNullableFilter<"LabCriticalValue"> | string | null
+    uhid?: StringNullableFilter<"LabCriticalValue"> | string | null
+    bedLabel?: StringNullableFilter<"LabCriticalValue"> | string | null
+    attendingDoctor?: StringNullableFilter<"LabCriticalValue"> | string | null
+    orderNo?: StringNullableFilter<"LabCriticalValue"> | string | null
+    department?: StringNullableFilter<"LabCriticalValue"> | string | null
+    acknowledgedBy?: StringNullableFilter<"LabCriticalValue"> | string | null
+    acknowledgedTime?: StringNullableFilter<"LabCriticalValue"> | string | null
+    createdAt?: DateTimeFilter<"LabCriticalValue"> | Date | string
+    updatedAt?: DateTimeFilter<"LabCriticalValue"> | Date | string
+  }, "id">
+
+  export type LabCriticalValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    testName?: SortOrder
+    value?: SortOrder
+    status?: SortOrder
+    wardNotified?: SortOrder
+    notifiedNurse?: SortOrderInput | SortOrder
+    notifiedTime?: SortOrderInput | SortOrder
+    reportedBy?: SortOrderInput | SortOrder
+    refRange?: SortOrderInput | SortOrder
+    patientName?: SortOrderInput | SortOrder
+    uhid?: SortOrderInput | SortOrder
+    bedLabel?: SortOrderInput | SortOrder
+    attendingDoctor?: SortOrderInput | SortOrder
+    orderNo?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    acknowledgedBy?: SortOrderInput | SortOrder
+    acknowledgedTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LabCriticalValueCountOrderByAggregateInput
+    _max?: LabCriticalValueMaxOrderByAggregateInput
+    _min?: LabCriticalValueMinOrderByAggregateInput
+  }
+
+  export type LabCriticalValueScalarWhereWithAggregatesInput = {
+    AND?: LabCriticalValueScalarWhereWithAggregatesInput | LabCriticalValueScalarWhereWithAggregatesInput[]
+    OR?: LabCriticalValueScalarWhereWithAggregatesInput[]
+    NOT?: LabCriticalValueScalarWhereWithAggregatesInput | LabCriticalValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LabCriticalValue"> | string
+    testName?: StringWithAggregatesFilter<"LabCriticalValue"> | string
+    value?: StringWithAggregatesFilter<"LabCriticalValue"> | string
+    status?: StringWithAggregatesFilter<"LabCriticalValue"> | string
+    wardNotified?: BoolWithAggregatesFilter<"LabCriticalValue"> | boolean
+    notifiedNurse?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    notifiedTime?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    reportedBy?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    refRange?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    patientName?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    uhid?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    bedLabel?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    attendingDoctor?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    orderNo?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    department?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    acknowledgedBy?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    acknowledgedTime?: StringNullableWithAggregatesFilter<"LabCriticalValue"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LabCriticalValue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LabCriticalValue"> | Date | string
   }
 
   export type TenantUserCreateInput = {
@@ -52841,6 +54261,160 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LabCriticalValueCreateInput = {
+    id?: string
+    testName: string
+    value: string
+    status?: string
+    wardNotified?: boolean
+    notifiedNurse?: string | null
+    notifiedTime?: string | null
+    reportedBy?: string | null
+    refRange?: string | null
+    patientName?: string | null
+    uhid?: string | null
+    bedLabel?: string | null
+    attendingDoctor?: string | null
+    orderNo?: string | null
+    department?: string | null
+    acknowledgedBy?: string | null
+    acknowledgedTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabCriticalValueUncheckedCreateInput = {
+    id?: string
+    testName: string
+    value: string
+    status?: string
+    wardNotified?: boolean
+    notifiedNurse?: string | null
+    notifiedTime?: string | null
+    reportedBy?: string | null
+    refRange?: string | null
+    patientName?: string | null
+    uhid?: string | null
+    bedLabel?: string | null
+    attendingDoctor?: string | null
+    orderNo?: string | null
+    department?: string | null
+    acknowledgedBy?: string | null
+    acknowledgedTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabCriticalValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testName?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    wardNotified?: BoolFieldUpdateOperationsInput | boolean
+    notifiedNurse?: NullableStringFieldUpdateOperationsInput | string | null
+    notifiedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reportedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refRange?: NullableStringFieldUpdateOperationsInput | string | null
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
+    uhid?: NullableStringFieldUpdateOperationsInput | string | null
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    attendingDoctor?: NullableStringFieldUpdateOperationsInput | string | null
+    orderNo?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabCriticalValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testName?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    wardNotified?: BoolFieldUpdateOperationsInput | boolean
+    notifiedNurse?: NullableStringFieldUpdateOperationsInput | string | null
+    notifiedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reportedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refRange?: NullableStringFieldUpdateOperationsInput | string | null
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
+    uhid?: NullableStringFieldUpdateOperationsInput | string | null
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    attendingDoctor?: NullableStringFieldUpdateOperationsInput | string | null
+    orderNo?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabCriticalValueCreateManyInput = {
+    id?: string
+    testName: string
+    value: string
+    status?: string
+    wardNotified?: boolean
+    notifiedNurse?: string | null
+    notifiedTime?: string | null
+    reportedBy?: string | null
+    refRange?: string | null
+    patientName?: string | null
+    uhid?: string | null
+    bedLabel?: string | null
+    attendingDoctor?: string | null
+    orderNo?: string | null
+    department?: string | null
+    acknowledgedBy?: string | null
+    acknowledgedTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LabCriticalValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testName?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    wardNotified?: BoolFieldUpdateOperationsInput | boolean
+    notifiedNurse?: NullableStringFieldUpdateOperationsInput | string | null
+    notifiedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reportedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refRange?: NullableStringFieldUpdateOperationsInput | string | null
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
+    uhid?: NullableStringFieldUpdateOperationsInput | string | null
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    attendingDoctor?: NullableStringFieldUpdateOperationsInput | string | null
+    orderNo?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabCriticalValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    testName?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    wardNotified?: BoolFieldUpdateOperationsInput | boolean
+    notifiedNurse?: NullableStringFieldUpdateOperationsInput | string | null
+    notifiedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reportedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refRange?: NullableStringFieldUpdateOperationsInput | string | null
+    patientName?: NullableStringFieldUpdateOperationsInput | string | null
+    uhid?: NullableStringFieldUpdateOperationsInput | string | null
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    attendingDoctor?: NullableStringFieldUpdateOperationsInput | string | null
+    orderNo?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    acknowledgedTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -55208,6 +56782,72 @@ export namespace Prisma {
 
   export type PurchaseRequestSumOrderByAggregateInput = {
     totalItems?: SortOrder
+  }
+
+  export type LabCriticalValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    testName?: SortOrder
+    value?: SortOrder
+    status?: SortOrder
+    wardNotified?: SortOrder
+    notifiedNurse?: SortOrder
+    notifiedTime?: SortOrder
+    reportedBy?: SortOrder
+    refRange?: SortOrder
+    patientName?: SortOrder
+    uhid?: SortOrder
+    bedLabel?: SortOrder
+    attendingDoctor?: SortOrder
+    orderNo?: SortOrder
+    department?: SortOrder
+    acknowledgedBy?: SortOrder
+    acknowledgedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabCriticalValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    testName?: SortOrder
+    value?: SortOrder
+    status?: SortOrder
+    wardNotified?: SortOrder
+    notifiedNurse?: SortOrder
+    notifiedTime?: SortOrder
+    reportedBy?: SortOrder
+    refRange?: SortOrder
+    patientName?: SortOrder
+    uhid?: SortOrder
+    bedLabel?: SortOrder
+    attendingDoctor?: SortOrder
+    orderNo?: SortOrder
+    department?: SortOrder
+    acknowledgedBy?: SortOrder
+    acknowledgedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabCriticalValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    testName?: SortOrder
+    value?: SortOrder
+    status?: SortOrder
+    wardNotified?: SortOrder
+    notifiedNurse?: SortOrder
+    notifiedTime?: SortOrder
+    reportedBy?: SortOrder
+    refRange?: SortOrder
+    patientName?: SortOrder
+    uhid?: SortOrder
+    bedLabel?: SortOrder
+    attendingDoctor?: SortOrder
+    orderNo?: SortOrder
+    department?: SortOrder
+    acknowledgedBy?: SortOrder
+    acknowledgedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AdmissionCreateNestedManyWithoutDoctorInput = {

@@ -709,3 +709,27 @@ model PurchaseRequest {
 
   @@map("purchase_requests")
 }
+
+model LabCriticalValue {
+  id               String   @id @default(uuid())
+  testName         String
+  value            String
+  status           String   @default("unacknowledged") // unacknowledged, acknowledged
+  wardNotified     Boolean  @default(false)
+  notifiedNurse    String?  @default("")
+  notifiedTime     String?  @default("")
+  reportedBy       String?  @default("")
+  refRange         String?  @default("")
+  patientName      String?  @default("")
+  uhid             String?  @default("")
+  bedLabel         String?  @default("")
+  attendingDoctor  String?  @default("")
+  orderNo          String?  @default("")
+  department       String?  @default("")
+  acknowledgedBy   String?  @default("")
+  acknowledgedTime String?  @default("")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("lab_critical_values")
+}

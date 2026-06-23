@@ -385,6 +385,78 @@ const createAppointment = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/doctor-opd/alerts - Get critical patient alerts
+ */
+const getAlerts = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const doctorId = req.query.doctorId || req.user?.id;
+    const alerts = await svc.getAlerts(branchId, doctorId);
+    res.json({ success: true, data: alerts });
+  } catch (e) {
+    console.error("Error fetching alerts:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * GET /api/doctor-opd/alerts/:id - Get detail of single alert
+ */
+const getAlertDetails = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const { id } = req.params;
+    const details = await svc.getAlertDetails(branchId, id);
+    res.json({ success: true, data: details });
+  } catch (e) {
+    console.error("Error fetching alert details:", e);
+    const status = e.message.includes("not found") ? 404 : 500;
+    res.status(status).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * POST /api/doctor-opd/alerts/:id/acknowledge - Acknowledge a specific alert
+ */
+const acknowledgeAlert = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const { id } = req.params;
+    const result = await svc.acknowledgeAlert(branchId, id);
+    res.json({ success: true, message: result.message });
+  } catch (e) {
+    console.error("Error acknowledging alert:", e);
+    res.status(400).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * GET /api/doctor-opd/reports - Get report stats
+ */
+const getReports = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const reports = await svc.getReports(branchId);
+    res.json({ success: true, data: reports });
+  } catch (e) {
+    console.error("Error fetching reports:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   getOPDPatients,
   getPatientDetails,
@@ -396,5 +468,9 @@ module.exports = {
   getMedicines,
   getStats,
   getDashboardData,
-  createAppointment
+  createAppointment,
+  getAlerts,
+  getAlertDetails,
+  acknowledgeAlert,
+  getReports
 };

@@ -651,6 +651,28 @@ exports.Prisma.PurchaseRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LabCriticalValueScalarFieldEnum = {
+  id: 'id',
+  testName: 'testName',
+  value: 'value',
+  status: 'status',
+  wardNotified: 'wardNotified',
+  notifiedNurse: 'notifiedNurse',
+  notifiedTime: 'notifiedTime',
+  reportedBy: 'reportedBy',
+  refRange: 'refRange',
+  patientName: 'patientName',
+  uhid: 'uhid',
+  bedLabel: 'bedLabel',
+  attendingDoctor: 'attendingDoctor',
+  orderNo: 'orderNo',
+  department: 'department',
+  acknowledgedBy: 'acknowledgedBy',
+  acknowledgedTime: 'acknowledgedTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -716,7 +738,8 @@ exports.Prisma.ModelName = {
   DepartmentInventoryHistory: 'DepartmentInventoryHistory',
   OTSupply: 'OTSupply',
   OTSupplyConsumption: 'OTSupplyConsumption',
-  PurchaseRequest: 'PurchaseRequest'
+  PurchaseRequest: 'PurchaseRequest',
+  LabCriticalValue: 'LabCriticalValue'
 };
 
 /**

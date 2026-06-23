@@ -636,6 +636,27 @@ const getDoctorDashboardData = async (branchId, doctorId) => {
     });
   });
 
+  // Fetch unacknowledged critical lab values
+  const criticalLabs = await tenantDb.labCriticalValue.findMany({
+    where: {
+      status: "unacknowledged"
+    },
+    orderBy: { createdAt: "desc" },
+    take: 5
+  });
+
+  criticalLabs.forEach((lab) => {
+    alerts.push({
+      type: "Critical",
+      title: `Critical Lab - Patient: ${lab.patientName}`,
+      desc: `${lab.testName}: ${lab.value} (Ref: ${lab.refRange})`,
+      status: "VIEW DETAILS",
+      path: `/doctor/alerts/critical-${lab.id}`,
+      icon: "FlaskConical",
+      color: "bg-red-50 dark:bg-red-500/10 text-red-600 border-none"
+    });
+  });
+
   // If no actual database alerts exist, we add visual placeholders
   if (alerts.length === 0) {
     alerts.push(
@@ -780,6 +801,437 @@ const createAppointment = async (branchId, appointmentData) => {
   return appt;
 };
 
+/**
+ * Get critical patient alerts (abnormal vitals, pending tasks, and pending discharges)
+ */
+const getAlerts = async (branchId, doctorId) => {
+  const tenantDb = await getTenantClient(branchId);
+  const { start, end } = todayRange();
+
+  // 1. Fetch active tasks assigned to the current doctor where status is not Completed
+  const tasks = await tenantDb.task.findMany({
+    where: {
+      assignedToId: doctorId,
+      status: { not: "Completed" }
+    },
+    include: {
+      patient: true
+    }
+  });
+
+  // 2. Fetch vitals recorded today that have abnormal/critical parameters
+  const vitals = await tenantDb.vitals.findMany({
+    where: {
+      createdAt: { gte: start, lte: end },
+      OR: [
+        { spo2: { lt: 90 } },
+        { temperature: { gt: 100.4 } },
+        { systolic: { gt: 140 } },
+        { diastolic: { gt: 90 } }
+      ]
+    },
+    include: {
+      patient: true
+    }
+  });
+
+  // 3. Fetch admissions with status = "Pending"
+  const pendingDischarges = await tenantDb.admission.findMany({
+    where: {
+      status: "Pending",
+      doctorId: doctorId
+    },
+    include: {
+      patient: true
+    }
+  });
+
+  // 4. Fetch unacknowledged laboratory critical values
+  const criticalValues = await tenantDb.labCriticalValue.findMany({
+    where: {
+      status: "unacknowledged"
+    }
+  });
+
+  const alerts = [];
+
+  // Helper for relative time
+  const formatRelativeTime = (date) => {
+    const diffMs = Date.now() - new Date(date).getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins} minutes ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+  };
+
+  // Map vitals to alerts
+  vitals.forEach((vital) => {
+    let desc = "";
+    if (vital.spo2 && vital.spo2 < 90) desc += `SpO2 level: ${vital.spo2}% (Below 90%). `;
+    if (vital.temperature && vital.temperature > 100.4) desc += `Temperature: ${vital.temperature}°F. `;
+    if (vital.systolic && vital.systolic > 140) desc += `Systolic BP: ${vital.systolic} mmHg. `;
+    if (vital.diastolic && vital.diastolic > 90) desc += `Diastolic BP: ${vital.diastolic} mmHg. `;
+
+    alerts.push({
+      id: `vital-${vital.id}`,
+      type: "Critical Result",
+      time: formatRelativeTime(vital.createdAt),
+      patientName: vital.patient?.name || "Unknown Patient",
+      uhid: vital.patient?.id || "N/A",
+      description: desc || "Abnormal vital parameters recorded.",
+      variant: "destructive"
+    });
+  });
+
+  // Map tasks to alerts
+  tasks.forEach((task) => {
+    alerts.push({
+      id: `task-${task.id}`,
+      type: task.priority === "URGENT" || task.priority === "HIGH" ? "Critical Result" : "Follow-up",
+      time: formatRelativeTime(task.createdAt),
+      patientName: task.patient?.name || "Unknown Patient",
+      uhid: task.patient?.id || "N/A",
+      description: `${task.title}${task.description ? `: ${task.description}` : ""}`,
+      variant: task.priority === "URGENT" || task.priority === "HIGH" ? "destructive" : "info"
+    });
+  });
+
+  // Map pending discharges to alerts
+  pendingDischarges.forEach((adm) => {
+    alerts.push({
+      id: `admission-${adm.id}`,
+      type: "Pending Discharge",
+      time: formatRelativeTime(adm.updatedAt),
+      patientName: adm.patient?.name || "Unknown Patient",
+      uhid: adm.patient?.id || "N/A",
+      description: `Discharge summary pending. Admitted on ${new Date(adm.admissionDate).toLocaleDateString()}.`,
+      variant: "warning"
+    });
+  });
+
+  // Map critical laboratory values to alerts
+  criticalValues.forEach((cv) => {
+    alerts.push({
+      id: `critical-${cv.id}`,
+      type: "Critical Lab Value",
+      time: formatRelativeTime(cv.createdAt),
+      patientName: cv.patientName || "Unknown Patient",
+      uhid: cv.uhid || "N/A",
+      description: `${cv.testName}: ${cv.value} (Ref: ${cv.refRange})`,
+      variant: "destructive"
+    });
+  });
+
+  return alerts;
+};
+
+/**
+ * Get detailed patient info and context for a specific alert
+ */
+const getAlertDetails = async (branchId, id) => {
+  const tenantDb = await getTenantClient(branchId);
+  const parts = id.split("-");
+  const prefix = parts[0];
+  const actualId = id.substring(prefix.length + 1);
+
+  let alertDetails = {
+    id,
+    type: "",
+    title: "",
+    reportedAt: "",
+    patient: {
+      name: "Unknown",
+      uhid: "N/A",
+      location: "Unknown"
+    },
+    findings: []
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  };
+
+  const getPatientLocation = async (patientId) => {
+    const activeAdm = await tenantDb.admission.findFirst({
+      where: { patientId, status: "In Progress" },
+      include: { ward: true, bed: true }
+    });
+    if (activeAdm) {
+      return `${activeAdm.ward?.name || "Ward"} - Bed ${activeAdm.bed?.label || "Bed"}`;
+    }
+    return "Outpatient";
+  };
+
+  if (prefix === "vital") {
+    const vital = await tenantDb.vitals.findUnique({
+      where: { id: actualId },
+      include: { patient: true }
+    });
+    if (!vital) throw new Error("Alert not found");
+
+    alertDetails.type = "Critical Result";
+    
+    let titleParts = [];
+    if (vital.spo2 && vital.spo2 < 90) titleParts.push(`SpO2 ${vital.spo2}%`);
+    if (vital.temperature && vital.temperature > 100.4) titleParts.push(`Temp ${vital.temperature}°F`);
+    if (vital.systolic && vital.systolic > 140) titleParts.push(`BP ${vital.systolic}/${vital.diastolic} mmHg`);
+    alertDetails.title = titleParts.length > 0 ? `Critical Vitals: ${titleParts.join(", ")}` : "Critical Vitals Alert";
+    alertDetails.reportedAt = formatDate(vital.createdAt);
+    
+    if (vital.patient) {
+      alertDetails.patient.name = vital.patient.name || `${vital.patient.firstName || ""} ${vital.patient.lastName || ""}`.trim();
+      alertDetails.patient.uhid = vital.patient.id;
+      alertDetails.patient.location = await getPatientLocation(vital.patient.id);
+    }
+
+    if (vital.spo2) {
+      alertDetails.findings.push({
+        name: "SpO2",
+        value: `${vital.spo2}%`,
+        referenceRange: "95% - 100%",
+        status: vital.spo2 < 90 ? "Low" : "Normal"
+      });
+    }
+    if (vital.temperature) {
+      alertDetails.findings.push({
+        name: "Body Temperature",
+        value: `${vital.temperature}°F`,
+        referenceRange: "97.8°F - 99.1°F",
+        status: vital.temperature > 100.4 ? "High" : "Normal"
+      });
+    }
+    if (vital.systolic || vital.diastolic) {
+      alertDetails.findings.push({
+        name: "Blood Pressure",
+        value: `${vital.systolic || "N/A"}/${vital.diastolic || "N/A"} mmHg`,
+        referenceRange: "90/60 - 120/80 mmHg",
+        status: (vital.systolic > 140 || vital.diastolic > 90) ? "High" : "Normal"
+      });
+    }
+  } else if (prefix === "task") {
+    const task = await tenantDb.task.findUnique({
+      where: { id: actualId },
+      include: { patient: true }
+    });
+    if (!task) throw new Error("Alert not found");
+
+    alertDetails.type = "Task";
+    alertDetails.title = task.title;
+    alertDetails.reportedAt = formatDate(task.createdAt);
+
+    if (task.patient) {
+      alertDetails.patient.name = task.patient.name || `${task.patient.firstName || ""} ${task.patient.lastName || ""}`.trim();
+      alertDetails.patient.uhid = task.patient.id;
+      alertDetails.patient.location = await getPatientLocation(task.patient.id);
+    }
+
+    alertDetails.findings.push({
+      name: "Priority",
+      value: task.priority,
+      referenceRange: "MEDIUM",
+      status: task.priority
+    });
+    alertDetails.findings.push({
+      name: "Description",
+      value: task.description || "No description provided",
+      referenceRange: "N/A",
+      status: task.status
+    });
+  } else if (prefix === "admission") {
+    const admission = await tenantDb.admission.findUnique({
+      where: { id: actualId },
+      include: { patient: true, ward: true, bed: true, department: true }
+    });
+    if (!admission) throw new Error("Alert not found");
+
+    alertDetails.type = "Pending Discharge";
+    alertDetails.title = `Discharge Summary Pending for Patient`;
+    alertDetails.reportedAt = formatDate(admission.updatedAt);
+
+    if (admission.patient) {
+      alertDetails.patient.name = admission.patient.name || `${admission.patient.firstName || ""} ${admission.patient.lastName || ""}`.trim();
+      alertDetails.patient.uhid = admission.patient.id;
+      alertDetails.patient.location = `${admission.ward?.name || "Ward"} - Bed ${admission.bed?.label || "Bed"}`;
+    }
+
+    alertDetails.findings.push({
+      name: "Admission Date",
+      value: formatDate(admission.admissionDate),
+      referenceRange: "N/A",
+      status: "Admitted"
+    });
+    alertDetails.findings.push({
+      name: "Reason",
+      value: admission.reason || "Under Observation",
+      referenceRange: "N/A",
+      status: admission.status
+    });
+  } else if (prefix === "critical") {
+    const cv = await tenantDb.labCriticalValue.findUnique({
+      where: { id: actualId }
+    });
+    if (!cv) throw new Error("Alert not found");
+
+    alertDetails.type = "Critical Lab Value";
+    alertDetails.title = `${cv.testName}: ${cv.value}`;
+    alertDetails.reportedAt = formatDate(cv.createdAt);
+
+    alertDetails.patient.name = cv.patientName || "Unknown Patient";
+    alertDetails.patient.uhid = cv.uhid || "N/A";
+    alertDetails.patient.location = cv.bedLabel || "Outpatient";
+
+    alertDetails.findings.push({
+      name: "Test Name",
+      value: cv.testName,
+      referenceRange: cv.refRange || "N/A",
+      status: "Critical"
+    });
+    alertDetails.findings.push({
+      name: "Value",
+      value: cv.value,
+      referenceRange: cv.refRange || "N/A",
+      status: "Critical"
+    });
+    alertDetails.findings.push({
+      name: "Reported By",
+      value: cv.reportedBy || "N/A",
+      referenceRange: "N/A",
+      status: "N/A"
+    });
+  } else {
+    throw new Error("Invalid alert ID prefix");
+  }
+
+  return alertDetails;
+};
+
+/**
+ * Acknowledge/resolve a specific alert
+ */
+const acknowledgeAlert = async (branchId, id) => {
+  const tenantDb = await getTenantClient(branchId);
+  const parts = id.split("-");
+  const prefix = parts[0];
+  const actualId = id.substring(prefix.length + 1);
+
+  if (prefix === "task") {
+    await tenantDb.task.update({
+      where: { id: actualId },
+      data: { status: "Completed" }
+    });
+  } else if (prefix === "admission") {
+    const admissionsSvc = require("../admissions/admissions.service");
+    await admissionsSvc.updateAdmission(branchId, actualId, { status: "Completed" });
+  } else if (prefix === "vital") {
+    // Vitals don't have a status, acknowledging them just returns success
+  } else if (prefix === "critical") {
+    await tenantDb.labCriticalValue.update({
+      where: { id: actualId },
+      data: {
+        status: "acknowledged",
+        acknowledgedBy: "Doctor",
+        acknowledgedTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        wardNotified: true
+      }
+    });
+  } else {
+    throw new Error("Invalid alert ID prefix");
+  }
+  return { success: true, message: "Alert acknowledged successfully" };
+};
+
+/**
+ * Get OPD and IPD Reports summary statistics
+ */
+const getReports = async (branchId) => {
+  const tenantDb = await getTenantClient(branchId);
+
+  // 1. Totals
+  const totalOPD = await tenantDb.appointment.count();
+  const totalIPD = await tenantDb.admission.count({
+    where: { status: "In Progress" }
+  });
+  const pendingDischarges = await tenantDb.admission.count({
+    where: { status: "Pending" }
+  });
+
+  // 2. Recent OPD Summary (past 7 days)
+  const opdSummary = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(today.getDate() - i);
+    const startOfDay = new Date(d); startOfDay.setHours(0,0,0,0);
+    const endOfDay = new Date(d); endOfDay.setHours(23,59,59,999);
+
+    const seenCount = await tenantDb.appointment.count({
+      where: {
+        dateTime: { gte: startOfDay, lte: endOfDay },
+        status: "COMPLETED"
+      }
+    });
+
+    const ordersCount = await tenantDb.labTestOrder.count({
+      where: {
+        createdAt: { gte: startOfDay, lte: endOfDay }
+      }
+    });
+
+    const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    opdSummary.push({
+      date: dateStr,
+      seen: seenCount,
+      orders: ordersCount
+    });
+  }
+
+  // 3. Recent IPD Summary
+  const recentAdmissions = await tenantDb.admission.findMany({
+    take: 10,
+    orderBy: { admissionDate: "desc" },
+    include: {
+      patient: true
+    }
+  });
+
+  const ipdSummary = recentAdmissions.map((adm) => {
+    const formatDate = (date) => {
+      if (!date) return "-";
+      return new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    };
+
+    let status = "Admitted";
+    if (adm.status === "Completed") status = "Discharged";
+    else if (adm.status === "Pending") status = "Pending Discharge";
+
+    return {
+      name: adm.patient?.name || `${adm.patient?.firstName || ""} ${adm.patient?.lastName || ""}`.trim() || "Unknown Patient",
+      admitted: formatDate(adm.admissionDate),
+      discharged: formatDate(adm.dischargeDate),
+      status
+    };
+  });
+
+  return {
+    stats: {
+      totalOPD,
+      totalIPD,
+      pendingDischarges
+    },
+    opdSummary,
+    ipdSummary
+  };
+};
+
 module.exports = {
   resolveBranchId,
   getTodayOPDPatients,
@@ -792,5 +1244,9 @@ module.exports = {
   getMedicines,
   getOPDStats,
   getDoctorDashboardData,
-  createAppointment
+  createAppointment,
+  getAlerts,
+  getAlertDetails,
+  acknowledgeAlert,
+  getReports
 };

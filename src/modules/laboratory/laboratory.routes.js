@@ -17,4 +17,13 @@ router.get("/test-orders/:id", ctrl.getOrder);
 router.patch("/test-orders/:id/status", ctrl.updateOrderStatus);
 router.patch("/test-orders/:id/tests/:testId/status", ctrl.updateTestStatus);
 
+// Critical Values
+router.get("/critical-values", ctrl.listCriticalValues);
+router.post("/critical-values", ctrl.createCriticalValue);
+router.post("/critical-values/:id/acknowledge", ctrl.acknowledgeCriticalValue);
+router.put("/critical-values/:id", ctrl.updateCriticalValue);
+router.patch("/critical-values/:id", ctrl.updateCriticalValue);
+
 module.exports = router;
+
+
