@@ -457,6 +457,61 @@ const getReports = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/doctor-opd/schedule - Get schedule for authenticated doctor
+ */
+const getSchedule = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const doctorId = req.user?.id;
+    const schedule = await svc.getSchedule(branchId, doctorId);
+    res.json({ success: true, data: schedule });
+  } catch (e) {
+    console.error("Error fetching schedule:", e);
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+/**
+ * POST /api/doctor-opd/schedule/leave - Request/Add a new Leave entry
+ */
+const createLeave = async (req, res) => {
+  try {
+    const branchId = await getBranchId(req);
+    if (!branchId) {
+      return res.status(400).json({ success: false, message: "No initialized branch found." });
+    }
+    const doctorId = req.user?.id;
+    const doctorName = req.user?.name || "Doctor";
+    
+    const { date, startTime, endTime, notes, department } = req.body;
+    if (!date) {
+      return res.status(400).json({ success: false, message: "Date is required." });
+    }
+
+    const leave = await svc.createLeave(branchId, doctorId, {
+      date,
+      startTime,
+      endTime,
+      notes,
+      department,
+      doctorName
+    });
+
+    res.status(201).json({
+      success: true,
+      data: leave,
+      message: "Leave added successfully"
+    });
+  } catch (e) {
+    console.error("Error creating leave:", e);
+    res.status(400).json({ success: false, message: e.message });
+  }
+};
+
 module.exports = {
   getOPDPatients,
   getPatientDetails,
@@ -472,5 +527,7 @@ module.exports = {
   getAlerts,
   getAlertDetails,
   acknowledgeAlert,
-  getReports
+  getReports,
+  getSchedule,
+  createLeave
 };

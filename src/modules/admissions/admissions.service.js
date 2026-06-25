@@ -234,7 +234,7 @@ const updateAdmission = async (branchId, admissionId, data) => {
   
   const oldAdmission = await tenantDb.admission.findUnique({ 
     where: { id: admissionId },
-    include: { patient: true, department: true }
+    include: { patient: true, department: true, ward: true, bed: true }
   });
   if (!oldAdmission) throw new Error("Admission record not found");
 
@@ -384,6 +384,78 @@ const updateAdmission = async (branchId, admissionId, data) => {
           }
         });
       } else {
+        // Self-Healing: Ensure Patient, Department, Ward, and Bed exist in this DB first
+        if (oldAdmission.patient) {
+          const patientExists = await tx.patient.findUnique({
+            where: { id: oldAdmission.patientId }
+          });
+          if (!patientExists) {
+            await tx.patient.create({
+              data: {
+                id: oldAdmission.patientId,
+                name: oldAdmission.patient.name || "Unknown Patient",
+                age: oldAdmission.patient.age || null,
+                gender: oldAdmission.patient.gender || null,
+                contact: oldAdmission.patient.contact || null,
+                email: oldAdmission.patient.email || null,
+                emergencyContactName: oldAdmission.patient.emergencyContactName || null,
+                emergencyContactPhone: oldAdmission.patient.emergencyContactPhone || null,
+                ...(isMain ? { branchId } : {})
+              }
+            });
+          }
+        }
+
+        if (oldAdmission.departmentId && oldAdmission.department) {
+          const deptExists = await tx.department.findUnique({
+            where: { id: oldAdmission.departmentId }
+          });
+          if (!deptExists) {
+            await tx.department.create({
+              data: {
+                id: oldAdmission.departmentId,
+                name: oldAdmission.department.name,
+                code: oldAdmission.department.code,
+                ...(isMain ? { branchId } : {})
+              }
+            });
+          }
+        }
+
+        if (oldAdmission.wardId && oldAdmission.ward) {
+          const wardExists = await tx.ward.findUnique({
+            where: { id: oldAdmission.wardId }
+          });
+          if (!wardExists) {
+            await tx.ward.create({
+              data: {
+                id: oldAdmission.wardId,
+                name: oldAdmission.ward.name,
+                code: oldAdmission.ward.code,
+                departmentId: oldAdmission.departmentId,
+                ...(isMain ? { branchId } : {})
+              }
+            });
+          }
+        }
+
+        if (oldAdmission.bedId && oldAdmission.bed) {
+          const bedExists = await tx.bed.findUnique({
+            where: { id: oldAdmission.bedId }
+          });
+          if (!bedExists) {
+            await tx.bed.create({
+              data: {
+                id: oldAdmission.bedId,
+                label: oldAdmission.bed.label,
+                wardId: oldAdmission.wardId,
+                status: oldAdmission.bed.status || "AVAILABLE",
+                ...(isMain ? { branchId } : {})
+              }
+            });
+          }
+        }
+
         admission = await tx.admission.create({
           data: {
             id: admissionId,

@@ -36,5 +36,9 @@ router.post("/alerts/:id/acknowledge", ctrl.acknowledgeAlert);
 // Reports
 router.get("/reports", ctrl.getReports);
 
+// Schedule
+router.get("/schedule", ctrl.getSchedule);
+router.post("/schedule/leave", ctrl.createLeave);
+
 module.exports = router;
 

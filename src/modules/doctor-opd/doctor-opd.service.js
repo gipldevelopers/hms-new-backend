@@ -487,78 +487,40 @@ const getDoctorDashboardData = async (branchId, doctorId) => {
   });
 
   // 2. TODAY'S MEDICAL SCHEDULE
-  // Fetch today's appointments for this doctor
-  const appointments = await tenantDb.appointment.findMany({
-    where: {
-      doctorId,
-      dateTime: { gte: start, lte: end }
-    },
-    include: {
-      patient: {
-        select: {
-          id: true,
-          name: true,
-          age: true,
-          gender: true
-        }
-      }
-    },
-    orderBy: { dateTime: "asc" }
-  });
+  const scheduleItems = await getSchedule(branchId, doctorId);
+  const colorsMap = {
+    "OPD Slot": "bg-sky-500",
+    "Surgery": "bg-rose-500",
+    "Leave": "bg-amber-500"
+  };
 
-  const colors = ["bg-sky-500", "bg-violet-600", "bg-amber-500", "bg-emerald-500", "bg-rose-500"];
-  let formattedSchedule = appointments.map((appt, i) => {
-    const dateObj = new Date(appt.dateTime);
-    let hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
-    const period = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const timeStr = `${String(hours).padStart(2, '0')}:${formattedMinutes}`;
+  const formattedSchedule = scheduleItems.slice(0, 3).map((item) => {
+    const timeParts = (item.time || "").split(" ");
+    let time = timeParts[0] || "12:00";
+    const period = timeParts[1] || "AM";
+
+    if (time.split(":").length > 2) {
+      time = time.split(":").slice(0, 2).join(":");
+    }
+
+    let subtitle = "";
+    if (item.type === "Leave") {
+      subtitle = item.patient;
+    } else {
+      subtitle = `Patient: ${item.patient}`;
+      if (item.ward) subtitle += ` • ${item.ward}`;
+    }
 
     return {
-      id: appt.id,
-      time: timeStr,
+      id: item.id,
+      time,
       period,
-      title: appt.status === "COMPLETED" ? `Completed Consultation` : `Consultation`,
-      subtitle: `Token: ${appt.tokenNumber || "N/A"} • Patient: ${appt.patient?.name || "Unknown"}`,
-      color: colors[i % colors.length],
-      tag: appt.status
+      title: item.type === "OPD Slot" ? "OPD Consultation" : item.type === "Surgery" ? "Surgery / Round" : "Leave / Duty",
+      subtitle,
+      color: colorsMap[item.type] || "bg-sky-500",
+      tag: item.status
     };
   });
-
-  if (formattedSchedule.length === 0) {
-    formattedSchedule = [
-      {
-        id: "mock-sched-1",
-        time: "09:30",
-        period: "AM",
-        title: "Hip Replacement Surgery",
-        subtitle: "OR Room 4 • Patient: John Doe",
-        color: "bg-violet-600",
-        tag: "SURGERY"
-      },
-      {
-        id: "mock-sched-2",
-        time: "11:15",
-        period: "AM",
-        title: "Pediatric Ward Rounds",
-        subtitle: "Level 3 • Team B",
-        color: "bg-sky-500",
-        tag: "RECURRING"
-      },
-      {
-        id: "mock-sched-3",
-        time: "02:00",
-        period: "PM",
-        title: "Inter-Departmental Meeting",
-        subtitle: "Conference Hall A • Budgeting",
-        color: "bg-amber-500",
-        tag: "AGENDA"
-      }
-    ];
-  }
 
   // 3. CRITICAL ALERTS
   // Vitals recorded today with critical values:
@@ -1232,6 +1194,173 @@ const getReports = async (branchId) => {
   };
 };
 
+/**
+ * Get schedule for a specific doctor (appointments, surgeries/admissions, leaves)
+ */
+const getSchedule = async (branchId, doctorId) => {
+  const tenantDb = await getTenantClient(branchId);
+  const { start, end } = todayRange();
+
+  // 1. Fetch appointments (OPD slots)
+  const appts = await tenantDb.appointment.findMany({
+    where: {
+      doctorId,
+      dateTime: { gte: start, lte: end }
+    },
+    include: {
+      patient: true
+    },
+    orderBy: { dateTime: "asc" }
+  });
+
+  // 2. Fetch admissions (surgeries/IPD rounds)
+  const adms = await tenantDb.admission.findMany({
+    where: {
+      doctorId,
+      status: { not: "Completed" } // active admissions
+    },
+    include: {
+      patient: true,
+      ward: true,
+      bed: true
+    },
+    orderBy: { admissionDate: "desc" }
+  });
+
+  // 3. Fetch leaves from TenantShiftRoster for this doctor
+  const leaves = await tenantDb.tenantShiftRoster.findMany({
+    where: {
+      staffId: doctorId,
+      status: "LEAVE",
+      date: { gte: start, lte: end }
+    },
+    orderBy: { date: "asc" }
+  });
+
+  const scheduleList = [];
+
+  // Mappers
+  appts.forEach((appt) => {
+    const timeStr = new Date(appt.dateTime).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+    
+    let statusMapped = "Available";
+    if (appt.status === "SCHEDULED") statusMapped = "Booked";
+    else if (appt.status === "CHECKED_IN") statusMapped = "Checked In";
+    else if (appt.status === "WAITING") statusMapped = "Waiting";
+    else if (appt.status === "COMPLETED") statusMapped = "Completed";
+    else if (appt.status === "CANCELLED") statusMapped = "Cancelled";
+    
+    scheduleList.push({
+      id: appt.id,
+      time: timeStr,
+      type: "OPD Slot",
+      patient: appt.patient?.name || `${appt.patient?.firstName || ""} ${appt.patient?.lastName || ""}`.trim() || "No Patient Name",
+      status: statusMapped,
+      typeVariant: "info",
+      dateTime: appt.dateTime,
+      rawAppointment: appt
+    });
+  });
+
+  adms.forEach((adm) => {
+    const timeStr = new Date(adm.admissionDate).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    let statusMapped = "Confirmed";
+    if (adm.status === "Pending") statusMapped = "Discharge Pending";
+    else if (adm.status === "Completed") statusMapped = "Discharged";
+
+    scheduleList.push({
+      id: adm.id,
+      time: timeStr,
+      type: "Surgery",
+      patient: adm.patient?.name || `${adm.patient?.firstName || ""} ${adm.patient?.lastName || ""}`.trim() || "No Patient Name",
+      status: statusMapped,
+      typeVariant: "destructive",
+      dateTime: adm.admissionDate,
+      diagnosis: adm.reason || "N/A",
+      ward: `${adm.ward?.name || "General Ward"} - ${adm.bed?.label || "Bed"}`,
+      rawAdmission: adm
+    });
+  });
+
+  leaves.forEach((l) => {
+    const timeStr = l.startTime && l.endTime ? `${l.startTime} - ${l.endTime}` : "All Day";
+    scheduleList.push({
+      id: l.id,
+      time: timeStr,
+      type: "Leave",
+      patient: l.notes || "Approved Leave",
+      status: "Approved",
+      typeVariant: "secondary",
+      dateTime: l.date
+    });
+  });
+
+  // Seed mocked default items only if the entire schedule is empty
+  if (scheduleList.length === 0) {
+    scheduleList.push(
+      { id: "mock-1", time: "08:00 AM", type: "OPD Slot", patient: "Michael Ross", status: "Available", typeVariant: "info", dateTime: new Date() },
+      { id: "mock-2", time: "09:00 AM", type: "OPD Slot", patient: "John Doe", status: "Booked", typeVariant: "info", dateTime: new Date() },
+      { id: "mock-3", time: "10:00 AM", type: "Surgery", patient: "Alice Smith", status: "Confirmed", typeVariant: "destructive", dateTime: new Date() },
+      { id: "mock-4", time: "12:00 PM", type: "Surgery", patient: "Bob Johnson", status: "Confirmed", typeVariant: "destructive", dateTime: new Date() },
+      { id: "mock-5", time: "02:00 PM", type: "OPD Slot", patient: "Mary Williams", status: "Checked In", typeVariant: "info", dateTime: new Date() },
+      { id: "mock-6", time: "03:00 PM", type: "Leave", patient: "Staff Meeting", status: "Approved", typeVariant: "secondary", dateTime: new Date() }
+    );
+  }
+
+  // Sort schedule items by dateTime
+  scheduleList.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+
+  return scheduleList;
+};
+
+const createLeave = async (branchId, doctorId, data) => {
+  const tenantDb = await getTenantClient(branchId);
+  const dateVal = new Date(data.date);
+
+  // 1. Create on tenant DB
+  const leave = await tenantDb.tenantShiftRoster.create({
+    data: {
+      staffId: doctorId,
+      date: dateVal,
+      startTime: data.startTime || "All Day",
+      endTime: data.endTime || "All Day",
+      department: data.department || "OPD",
+      status: "LEAVE",
+      notes: data.notes || "Approved Leave"
+    }
+  });
+
+  // 2. Dual Persistence: Sync to Main DB
+  try {
+    await prisma.shiftRoster.create({
+      data: {
+        id: leave.id,
+        staffId: doctorId,
+        staffName: data.doctorName || "Doctor",
+        templateId: null,
+        date: dateVal,
+        startTime: leave.startTime,
+        endTime: leave.endTime,
+        department: leave.department,
+        status: "LEAVE",
+        notes: leave.notes,
+        branchId
+      }
+    });
+  } catch (err) {
+    console.error("Main DB roster sync failed inside doctor-opd service:", err.message);
+  }
+
+  return leave;
+};
+
 module.exports = {
   resolveBranchId,
   getTodayOPDPatients,
@@ -1248,5 +1377,7 @@ module.exports = {
   getAlerts,
   getAlertDetails,
   acknowledgeAlert,
-  getReports
+  getReports,
+  getSchedule,
+  createLeave
 };
