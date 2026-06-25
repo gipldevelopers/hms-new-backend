@@ -17,8 +17,29 @@ const fileUploadValidation = Joi.object({
   title: Joi.string().min(1).max(100).optional(),
 });
 
+const getDemoById = {
+  params: Joi.object({
+    id: Joi.string().required()
+  })
+};
+
+const deleteDemo = {
+  params: Joi.object({
+    id: Joi.string().required()
+  })
+};
+
+const deleteFile = {
+  params: Joi.object({
+    fileId: Joi.string().required()
+  })
+};
+
 module.exports = {
   createDemoValidation,
   updateDemoValidation,
   fileUploadValidation,
+  getDemoById,
+  deleteDemo,
+  deleteFile
 };

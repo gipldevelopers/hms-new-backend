@@ -9,13 +9,13 @@ const upload = require('../../middleware/upload');
 // Demo CRUD routes
 router.post('/', validate(demoValidation.createDemoValidation), demoController.createDemo);
 router.get('/', demoController.getAllDemos);
-router.get('/:id', demoController.getDemoById);
+router.get('/:id', validate(demoValidation.getDemoById), demoController.getDemoById);
 router.put('/:id', validate(demoValidation.updateDemoValidation), demoController.updateDemo);
-router.delete('/:id', demoController.deleteDemo);
+router.delete('/:id', validate(demoValidation.deleteDemo), demoController.deleteDemo);
 
 // File upload routes
 router.post('/upload', upload.single('file'), demoController.uploadFile);
 router.get('/files/all', demoController.getUserFiles);
-router.delete('/files/:fileId', demoController.deleteFile);
+router.delete('/files/:fileId', validate(demoValidation.deleteFile), demoController.deleteFile);
 
 module.exports = router;
