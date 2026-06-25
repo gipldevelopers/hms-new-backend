@@ -180,7 +180,7 @@ const submitDiscountRequest = {
   body: Joi.object({
     billId: Joi.string().uuid().required(),
     discountAmount: Joi.number().positive().required(),
-    discountType: Joi.string().valid('percentage', 'flat').required(),
+    discountType: Joi.string().valid('percentage', 'flat', 'PERCENTAGE', 'FLAT').required(),
     discountValue: Joi.number().min(0).required(),
     reason: Joi.string().max(500).required(),
     branchId: Joi.string().uuid().optional()

@@ -636,6 +636,21 @@ exports.Prisma.OTSupplyConsumptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PurchaseRequestScalarFieldEnum = {
+  id: 'id',
+  prNumber: 'prNumber',
+  department: 'department',
+  requestedBy: 'requestedBy',
+  date: 'date',
+  priority: 'priority',
+  totalItems: 'totalItems',
+  status: 'status',
+  items: 'items',
+  poNumber: 'poNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PaymentTransactionScalarFieldEnum = {
   id: 'id',
   billId: 'billId',
@@ -790,7 +805,13 @@ exports.Prisma.ModelName = {
   DepartmentInventoryHistory: 'DepartmentInventoryHistory',
   OTSupply: 'OTSupply',
   OTSupplyConsumption: 'OTSupplyConsumption',
-  PurchaseRequest: 'PurchaseRequest'
+  PurchaseRequest: 'PurchaseRequest',
+  PaymentTransaction: 'PaymentTransaction',
+  Refund: 'Refund',
+  InsuranceClaim: 'InsuranceClaim',
+  DiscountRequest: 'DiscountRequest',
+  Tariff: 'Tariff',
+  LabCriticalValue: 'LabCriticalValue'
 };
 
 /**

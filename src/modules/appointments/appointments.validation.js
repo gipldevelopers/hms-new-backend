@@ -4,6 +4,50 @@ const commonBranchQuery = Joi.object({
   branchId: Joi.string().uuid().optional()
 });
 
+const getStats = {
+  query: commonBranchQuery
+};
+
+const getList = {
+  query: Joi.object({
+    branchId: Joi.string().uuid().optional(),
+    search: Joi.string().allow('', null).optional(),
+    status: Joi.string().optional(),
+    departmentId: Joi.string().uuid().optional(),
+    doctorId: Joi.string().uuid().optional()
+  })
+};
+
+const searchPatients = {
+  query: Joi.object({
+    branchId: Joi.string().uuid().optional(),
+    q: Joi.string().allow('', null).optional()
+  })
+};
+
+const getDoctors = {
+  query: commonBranchQuery
+};
+
+const getDepartments = {
+  query: commonBranchQuery
+};
+
+const getBookedSlots = {
+  query: Joi.object({
+    branchId: Joi.string().uuid().optional(),
+    doctorId: Joi.string().uuid().required(),
+    date: Joi.string().isoDate().required()
+  })
+};
+
+const getPatientSummary = {
+  params: Joi.object({
+    patientId: Joi.string().uuid().required()
+  }),
+  query: commonBranchQuery
+};
+
 const book = {
   query: commonBranchQuery,
   body: Joi.object({
@@ -45,6 +89,13 @@ const reschedule = {
 };
 
 module.exports = {
+  getStats,
+  getList,
+  searchPatients,
+  getDoctors,
+  getDepartments,
+  getBookedSlots,
+  getPatientSummary,
   book,
   updateStatus,
   reschedule

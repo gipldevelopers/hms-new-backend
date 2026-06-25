@@ -11,13 +11,13 @@ router.use(authorize("SUPERADMIN", "BRANCH_ADMIN", "RECEPTION", "STAFF", "DOCTOR
 router.use(auditLogger("OPD_APPOINTMENTS"));
 
 // Read
-router.get("/stats",                ctrl.getStats);
-router.get("/",                     ctrl.getList);
-router.get("/patients",             ctrl.searchPatients);
-router.get("/doctors",              ctrl.getDoctors);
-router.get("/departments",          ctrl.getDepartments);
-router.get("/slots",                ctrl.getBookedSlots);
-router.get("/patient/:patientId",   ctrl.getPatientSummary);
+router.get("/stats",                validate(val.getStats), ctrl.getStats);
+router.get("/",                     validate(val.getList), ctrl.getList);
+router.get("/patients",             validate(val.searchPatients), ctrl.searchPatients);
+router.get("/doctors",              validate(val.getDoctors), ctrl.getDoctors);
+router.get("/departments",          validate(val.getDepartments), ctrl.getDepartments);
+router.get("/slots",                validate(val.getBookedSlots), ctrl.getBookedSlots);
+router.get("/patient/:patientId",   validate(val.getPatientSummary), ctrl.getPatientSummary);
 
 // Write
 router.post("/",                  validate(val.book), ctrl.book);
