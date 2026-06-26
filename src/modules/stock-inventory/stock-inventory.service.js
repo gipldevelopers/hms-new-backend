@@ -68,11 +68,11 @@ const createItem = async (branchId, data, userName) => {
     name: data.name,
     sku: data.sku,
     category: data.category,
-    qty: data.qty,
+    qty: data.qty !== undefined && data.qty !== null ? String(data.qty) : "",
     expiry: data.expiry,
     status: data.status || "In Stock",
     supplier: data.supplier || "",
-    minThreshold: data.minThreshold || "5",
+    minThreshold: data.minThreshold !== undefined && data.minThreshold !== null ? String(data.minThreshold) : "5",
     notes: data.notes || "",
     unitPrice: parseFloat(data.unitPrice) || 0.0
   };
@@ -137,8 +137,11 @@ const updateItem = async (branchId, itemId, data, userName) => {
   const currentQtyVal = parseFloat(currentItem.qty) || 0;
   const currentUnit = currentItem.qty.replace(/^[0-9.\s]+/, "") || "Units";
 
-  const newQtyVal = parseFloat(data.qty) || 0;
-  const newUnit = data.qty.replace(/^[0-9.\s]+/, "") || currentUnit;
+  const normalizedQty = data.qty !== undefined && data.qty !== null ? String(data.qty) : currentItem.qty;
+  const normalizedMinThreshold = data.minThreshold !== undefined && data.minThreshold !== null ? String(data.minThreshold) : currentItem.minThreshold || "500";
+
+  const newQtyVal = parseFloat(normalizedQty) || 0;
+  const newUnit = normalizedQty.replace(/^[0-9.\s]+/, "") || currentUnit;
 
   // Determine status based on quantity value
   let computedStatus = "In Stock";
@@ -155,11 +158,11 @@ const updateItem = async (branchId, itemId, data, userName) => {
       name: data.name,
       sku: data.sku,
       category: data.category,
-      qty: data.qty,
+      qty: normalizedQty,
       expiry: data.expiry,
       status: computedStatus,
       supplier: data.supplier,
-      minThreshold: data.minThreshold || "500",
+      minThreshold: normalizedMinThreshold,
       notes: data.notes,
       unitPrice: parseFloat(data.unitPrice) || 0.0
     }
@@ -170,11 +173,11 @@ const updateItem = async (branchId, itemId, data, userName) => {
     name: data.name,
     sku: data.sku,
     category: data.category,
-    qty: data.qty,
+    qty: normalizedQty,
     expiry: data.expiry,
     status: computedStatus,
     supplier: data.supplier,
-    minThreshold: data.minThreshold || "500",
+    minThreshold: normalizedMinThreshold,
     notes: data.notes,
     unitPrice: parseFloat(data.unitPrice) || 0.0
   };

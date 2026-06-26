@@ -3,6 +3,8 @@ const router = express.Router();
 const ctrl = require("./stock-inventory.controller");
 const { auth, authorize } = require("../../middleware/auth");
 const auditLogger = require("../../middleware/audit-logger");
+const validate = require("../../middleware/validate");
+const validation = require("./stock-inventory.validation");
 
 // Apply authentication & authorization middlewares matching patient & pharmacy layouts
 router.use(auth);
@@ -15,11 +17,11 @@ router.get("/dashboard/stats", ctrl.getDashboardStats);
 // Core CRUD Endpoints
 router.get("/", ctrl.getItems);
 router.get("/:id", ctrl.getItemDetails);
-router.post("/", ctrl.createItem);
-router.put("/:id", ctrl.updateItem);
+router.post("/", validate(validation.createItemValidation), ctrl.createItem);
+router.put("/:id", validate(validation.updateItemValidation), ctrl.updateItem);
 router.delete("/:id", ctrl.deleteItem);
 
 // Stock Adjustments (Log transactional addition/usage changes)
-router.post("/:id/stock", ctrl.adjustStock);
+router.post("/:id/stock", validate(validation.adjustStockValidation), ctrl.adjustStock);
 
 module.exports = router;

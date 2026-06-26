@@ -16,7 +16,8 @@ const resolveBranchId = async (req) => {
   const firstBranch = await prisma.branch.findFirst({
     where: { isDbInitialized: true }
   });
-  
+
+
   return firstBranch?.id || null;
 };
 
