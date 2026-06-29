@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const billingValidation = require('./src/modules/billing/billing.validation');
 const financeValidation = require('./src/modules/finance/finance.validation');
+const labValidation = require('./src/modules/lab-inventory/lab-inventory.validation');
+const batchExpiryValidation = require('./src/modules/batch-expiry/batch-expiry.validation');
 
 console.log('Testing Billing Validation Schemas...');
 
@@ -55,5 +57,79 @@ assertPass(billingValidation.updateClaim.body, {
 assertFail(billingValidation.updateClaim.body, {
   status: 'INVALID_STATUS'
 }, 'invalid status enum');
+
+console.log('\nTesting Lab Inventory Validation Schemas...');
+
+// Lab createItemValidation
+assertPass(labValidation.createItemValidation, {
+  name: 'Lab Test Tube',
+  sku: 'TT-500',
+  category: 'Glassware',
+  qty: '500 Pcs',
+  expiry: '2028-12-31',
+  unitPrice: 1.5
+}, 'valid lab item creation');
+
+assertFail(labValidation.createItemValidation, {
+  name: 'Lab Test Tube',
+  sku: 'TT-500',
+  category: 'Glassware'
+}, 'invalid lab item creation (missing qty & expiry)');
+
+// Lab updateItemValidation
+assertPass(labValidation.updateItemValidation, {
+  name: 'Updated Tube Name',
+  unitPrice: 2.0
+}, 'valid lab item update');
+
+// Lab adjustStockValidation
+assertPass(labValidation.adjustStockValidation, {
+  type: 'Addition',
+  qtyChanged: 10,
+  notes: 'Received shipment'
+}, 'valid lab stock addition');
+
+assertPass(labValidation.adjustStockValidation, {
+  type: 'Usage',
+  qtyChanged: 5.5,
+  notes: 'Used in blood lab'
+}, 'valid lab stock usage');
+
+assertFail(labValidation.adjustStockValidation, {
+  type: 'Addition',
+  qtyChanged: -10
+}, 'invalid lab stock adjust (negative qtyChanged)');
+
+assertFail(labValidation.adjustStockValidation, {
+  type: 'InvalidType',
+  qtyChanged: 10
+}, 'invalid lab stock adjust (invalid type enum)');
+
+console.log('\nTesting Batch Expiry Validation Schemas...');
+
+assertPass(batchExpiryValidation.processReturnValidation, {
+  itemId: 'item-uuid-1234',
+  returnQty: 25,
+  vendor: 'Pfizer Inc.',
+  reason: 'Near Expiry',
+  settlementMode: 'Credit Note',
+  returnNote: 'Near expiry batch return'
+}, 'valid batch return with number quantity');
+
+assertPass(batchExpiryValidation.processReturnValidation, {
+  itemId: 'item-uuid-1234',
+  returnQty: '10.5',
+  vendor: 'Roche Diagnostics'
+}, 'valid batch return with string decimal quantity');
+
+assertFail(batchExpiryValidation.processReturnValidation, {
+  itemId: 'item-uuid-1234',
+  returnQty: -5
+}, 'invalid batch return (negative returnQty)');
+
+assertFail(batchExpiryValidation.processReturnValidation, {
+  returnQty: 25,
+  vendor: 'Pfizer Inc.'
+}, 'invalid batch return (missing itemId)');
 
 console.log('\n🎉 Programmatic validation check successful!');
